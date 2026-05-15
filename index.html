@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>AgendaFácil — O jeito simples de organizar agendamentos no seu salão</title>
+  <title>Agendixx — O jeito simples de organizar agendamentos no seu salão</title>
   <style>
     body { margin: 0; }
     .hidden { display: none !important; }
@@ -15,8 +15,8 @@
       justify-content: center;
       flex-direction: column;
       gap: 14px;
-      background: #f8f7ff;
-      color: #1e1b4b;
+      background: #f4fbfb;
+      color: #0f3d46;
       z-index: 99999;
       font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
     }
@@ -35,8 +35,8 @@
       justify-content: center;
       border-radius: 18px;
       background: #ffffff;
-      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.12);
-      border: 1px solid rgba(199, 219, 255, 0.9);
+      box-shadow: 0 14px 28px rgba(17, 94, 89, 0.12);
+      border: 1px solid rgba(153, 246, 228, 0.7);
     }
     #bootSplash .boot-mark svg {
       width: 52px;
@@ -56,7 +56,7 @@
       color: #0f172a;
     }
     #bootSplash strong span {
-      background: linear-gradient(135deg,#7c3aed 0%,#38bdf8 100%);
+      background: linear-gradient(135deg,#0f766e 0%,#f59e0b 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -92,23 +92,23 @@
       <span class="boot-mark" aria-hidden="true">
         <svg viewBox="0 0 64 64" role="img" focusable="false">
           <defs>
-            <linearGradient id="bootAgendaFacilMark" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#7c3aed"></stop>
-              <stop offset="100%" stop-color="#38bdf8"></stop>
+            <linearGradient id="bootAgendixxMark" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0f766e"></stop>
+              <stop offset="100%" stop-color="#f59e0b"></stop>
             </linearGradient>
           </defs>
-          <rect x="6" y="8" width="52" height="50" rx="16" fill="url(#bootAgendaFacilMark)"></rect>
+          <rect x="6" y="8" width="52" height="50" rx="16" fill="url(#bootAgendixxMark)"></rect>
           <rect x="16" y="18" width="32" height="24" rx="8" fill="#ffffff" opacity="0.96"></rect>
-          <rect x="16" y="18" width="32" height="8" rx="8" fill="#dbeafe"></rect>
-          <circle cx="24" cy="22" r="2.4" fill="#7c3aed"></circle>
-          <circle cx="40" cy="22" r="2.4" fill="#7c3aed"></circle>
-          <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#14b8a6" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          <rect x="16" y="18" width="32" height="8" rx="8" fill="#ccfbf1"></rect>
+          <circle cx="24" cy="22" r="2.4" fill="#0f766e"></circle>
+          <circle cx="40" cy="22" r="2.4" fill="#0f766e"></circle>
+          <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#f59e0b" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
           <path d="M47 11l1.5 3.4L52 16l-3.5 1.6L47 21l-1.6-3.4L42 16l3.4-1.6z" fill="#f8fafc" opacity="0.95"></path>
         </svg>
       </span>
       <span class="boot-copy">
-        <strong>Agenda<span>Fácil</span></strong>
-        <small>Agendamentos simples para pequenos salões</small>
+        <strong>Agendi<span>xx</span></strong>
+        <small>Agenda inteligente para pequenos salões</small>
       </span>
     </div>
     <span class="boot-status">Carregando...</span>
@@ -117,27 +117,27 @@
 
   <section id="landingPage" class="hidden landing-page">
     <header class="landing-topbar">
-      <a href="#landingPage" class="landing-brand" aria-label="AgendaFácil">
+      <a href="#landingPage" class="landing-brand" aria-label="Agendixx">
         <span class="landing-brand-mark" aria-hidden="true">
           <svg viewBox="0 0 64 64" role="img" focusable="false">
             <defs>
-              <linearGradient id="agendaFacilMark" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#7c3aed"></stop>
-                <stop offset="100%" stop-color="#38bdf8"></stop>
+              <linearGradient id="agendixxMark" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0f766e"></stop>
+                <stop offset="100%" stop-color="#f59e0b"></stop>
               </linearGradient>
             </defs>
-            <rect x="6" y="8" width="52" height="50" rx="16" fill="url(#agendaFacilMark)"></rect>
+            <rect x="6" y="8" width="52" height="50" rx="16" fill="url(#agendixxMark)"></rect>
             <rect x="16" y="18" width="32" height="24" rx="8" fill="#ffffff" opacity="0.96"></rect>
-            <rect x="16" y="18" width="32" height="8" rx="8" fill="#dbeafe"></rect>
-            <circle cx="24" cy="22" r="2.4" fill="#7c3aed"></circle>
-            <circle cx="40" cy="22" r="2.4" fill="#7c3aed"></circle>
-            <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#14b8a6" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            <rect x="16" y="18" width="32" height="8" rx="8" fill="#ccfbf1"></rect>
+            <circle cx="24" cy="22" r="2.4" fill="#0f766e"></circle>
+            <circle cx="40" cy="22" r="2.4" fill="#0f766e"></circle>
+            <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#f59e0b" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
             <path d="M47 11l1.5 3.4L52 16l-3.5 1.6L47 21l-1.6-3.4L42 16l3.4-1.6z" fill="#f8fafc" opacity="0.95"></path>
           </svg>
         </span>
         <span class="landing-brand-copy">
-          <strong>Agenda<span>Fácil</span></strong>
-          <small>Agendamentos simples para pequenos salões</small>
+          <strong>Agendi<span>xx</span></strong>
+          <small>Agenda inteligente para pequenos salões</small>
         </span>
       </a>
       <nav class="landing-nav" aria-label="Navegação principal">
@@ -145,14 +145,17 @@
         <a href="#landingPricing">Planos</a>
         <a href="#landingTestimonials">Depoimentos</a>
       </nav>
-      <button class="btn btn-brand btn-sm landing-topbar-cta" type="button" onclick="openAppEntry('signup', 'starter')">Testar grátis</button>
+      <div class="landing-topbar-actions">
+        <button class="btn btn-ghost btn-sm" type="button" onclick="openAppEntry('login')">Entrar</button>
+        <button class="btn btn-brand btn-sm landing-topbar-cta" type="button" onclick="openAppEntry('signup', 'starter')">Testar grátis</button>
+      </div>
     </header>
     <div class="landing-shell">
       <div class="landing-hero">
         <div class="landing-badge">Feito para pequenos negócios de beleza</div>
         <h1>Pare de perder clientes na bagunça do WhatsApp.</h1>
         <p>
-          Com a AgendaFácil, seus clientes agendam online pelo celular, você organiza horários, serviços e profissionais em um só lugar, e o WhatsApp deixa de ser uma bagunça.
+          Com a Agendixx, seus clientes agendam online pelo celular, você organiza horários, serviços e profissionais em um só lugar, e o WhatsApp deixa de ser uma bagunça.
         </p>
         <div class="landing-cta">
           <button class="btn btn-brand" type="button" onclick="openAppEntry('signup', 'starter')">Testar grátis por 7 dias</button>
@@ -315,7 +318,7 @@
         <h2>Feito para pequenos negócios. Não para complicar sua rotina.</h2>
         <p class="landing-section-copy">
           Muitos sistemas de agenda são caros, cheios de telas e difíceis de usar no dia a dia.
-          A AgendaFácil foi criada para ser simples, prática e fácil de usar pelo celular.
+          A Agendixx foi criada para ser simples, prática e fácil de usar pelo celular.
         </p>
       </div>
       <div class="landing-simple-grid">
@@ -419,7 +422,7 @@
           <span>Barbearia de bairro · zona norte</span>
         </div>
         <div class="landing-testimonial-card">
-          <p>“Eu achava que sistema de agenda era complicado, mas consegui configurar a AgendaFácil pelo celular.”</p>
+          <p>“Eu achava que sistema de agenda era complicado, mas consegui configurar a Agendixx pelo celular.”</p>
           <strong>Camila, nail designer</strong>
           <span>Atendimento com hora marcada</span>
         </div>
@@ -435,7 +438,7 @@
       <div class="landing-final-cta">
         <span class="landing-section-kicker">Comece hoje</span>
         <h2>Comece hoje a organizar sua agenda sem complicação.</h2>
-        <p>Teste grátis por 7 dias e veja na prática como a AgendaFácil pode deixar sua rotina mais simples.</p>
+        <p>Teste grátis por 7 dias e veja na prática como a Agendixx pode deixar sua rotina mais simples.</p>
         <button class="btn btn-brand" type="button" onclick="openAppEntry('signup', 'starter')">Testar grátis por 7 dias</button>
       </div>
     </div>
@@ -468,7 +471,7 @@
             <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#14b8a6" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </div>
-        <div class="brand-name">AgendaFácil</div>
+        <div class="brand-name">Agendixx</div>
         <div class="brand-sub">Acesse sua conta ou cadastre o seu salão</div>
         <div class="connection-badge">Conexão segura · seus dados protegidos</div>
 
@@ -523,7 +526,7 @@
             </div>
           </div>
           <div class="support-signup-note hidden" id="supportSignupNote">
-            Você está usando o e-mail interno de suporte da AgendaFácil. Essa conta será criada sem abrir uma loja nova.
+            Você está usando o e-mail interno de suporte da Agendixx. Essa conta será criada sem abrir uma loja nova.
           </div>
           <div class="input-group">
             <label for="signupEmail">E-mail</label>
@@ -592,7 +595,7 @@
     <div id="pageDashboard" class="page">
       <div class="top-bar">
         <div class="app-header-stack">
-          <div class="app-brand-inline" aria-label="AgendaFácil">
+          <div class="app-brand-inline" aria-label="Agendixx">
             <span class="app-brand-mark" aria-hidden="true">
               <svg viewBox="0 0 64 64" role="img" focusable="false">
                 <defs>
@@ -665,7 +668,7 @@
     <div id="pageAtendimento" class="page">
       <div class="top-bar">
         <div class="app-page-title">
-          <div class="app-page-kicker">AgendaFácil</div>
+          <div class="app-page-kicker">Agendixx</div>
           <h2>Atendimento</h2>
         </div>
       </div>
@@ -691,7 +694,7 @@
     <div id="pageClientes" class="page">
       <div class="top-bar">
         <div class="app-page-title">
-          <div class="app-page-kicker">AgendaFácil</div>
+          <div class="app-page-kicker">Agendixx</div>
           <h2>Clientes</h2>
         </div>
       </div>
@@ -703,7 +706,7 @@
     <div id="pageRelatorios" class="page">
       <div class="top-bar">
         <div class="app-page-title">
-          <div class="app-page-kicker">AgendaFácil</div>
+          <div class="app-page-kicker">Agendixx</div>
           <h2>Relatórios</h2>
         </div>
       </div>
@@ -735,7 +738,7 @@
     <div id="pageMeuNegocio" class="page">
       <div class="top-bar">
         <div class="app-page-title">
-          <div class="app-page-kicker">AgendaFácil</div>
+          <div class="app-page-kicker">Agendixx</div>
           <h2>Meu Negócio</h2>
         </div>
       </div>
@@ -804,13 +807,13 @@
           <summary class="biz-accordion-summary">
             <div>
               <div class="biz-accordion-kicker">Ajuda</div>
-              <div class="biz-accordion-title">Suporte AgendaFácil</div>
+              <div class="biz-accordion-title">Suporte Agendixx</div>
             </div>
             <span class="biz-accordion-icon" aria-hidden="true">⌄</span>
           </summary>
           <div class="biz-accordion-body">
             <div class="support-footer-card">
-              <div class="support-footer-kicker">Suporte AgendaFácil</div>
+              <div class="support-footer-kicker">Suporte Agendixx</div>
               <div class="support-footer-title">Precisa de ajuda com seu painel?</div>
               <p class="support-footer-copy">Fale com nosso suporte pelo WhatsApp para tirar dúvidas, pedir ajuda na configuração ou resolver qualquer questão do seu salão.</p>
               <button class="support-footer-action" type="button" onclick="openSupportWhatsApp()">
@@ -826,7 +829,7 @@
     <div id="pageLinkAgendamento" class="page">
       <div class="top-bar">
         <div class="app-page-title">
-          <div class="app-page-kicker">AgendaFácil</div>
+          <div class="app-page-kicker">Agendixx</div>
           <h2>Link de Agendamento</h2>
         </div>
       </div>
@@ -880,7 +883,7 @@
     <div id="pageSupport" class="page">
       <div class="top-bar support-top-bar">
         <div>
-          <div class="text-sm text-sub">Painel interno AgendaFácil</div>
+          <div class="text-sm text-sub">Painel interno Agendixx</div>
           <h2>Gestão de Clientes</h2>
         </div>
         <div class="flex items-center gap-2">
@@ -977,7 +980,7 @@
     <div id="publicClientPortal" class="page page-nopad hidden">
       <div class="pub-hero pub-hero-portal">
         <div class="biz-logo" id="clientPortalHeroEmoji">👋</div>
-        <h1 id="clientPortalHeroName">AgendaFácil</h1>
+        <h1 id="clientPortalHeroName">Agendixx</h1>
         <p class="portal-welcome" id="clientPortalHeroWelcome">Seja bem-vindo</p>
         <div class="portal-kicker portal-kicker-soft" id="clientPortalHeroKicker">(área do cliente)</div>
         <div class="meta">
@@ -1021,7 +1024,7 @@
     <div id="pubStep0" class="page page-nopad active">
       <div class="pub-hero">
         <div class="biz-logo" id="publicHeroEmoji">✂️</div>
-        <h1 id="publicHeroName">AgendaFácil</h1>
+        <h1 id="publicHeroName">Agendixx</h1>
         <p id="publicHeroDescription">Escolha um serviço e reserve seu horário.</p>
         <div class="meta">
           <span id="publicHeroAddress">📍 Seu endereço</span>

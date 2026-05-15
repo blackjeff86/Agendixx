@@ -61,7 +61,7 @@ function buildCustomerWhatsAppMessage(name: string): string {
 }
 
 function buildSupportWhatsAppMessage(): string {
-  return "Olá! Preciso de ajuda com a AgendaFácil.";
+  return "Olá! Preciso de ajuda com a Agendixx.";
 }
 
 function formatAvailabilitySummary(professionalId: string): string {

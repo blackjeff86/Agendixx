@@ -55,7 +55,7 @@ async function postWhatsAppEdgePayload(payload: unknown): Promise<boolean> {
     const sbKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || "").trim();
     if (!sbKey) return false;
     headers.Authorization = `Bearer ${sbKey}`;
-    if (proxySecret) headers["x-agenda-facil-proxy-secret"] = proxySecret;
+    if (proxySecret) headers["x-agendixx-proxy-secret"] = proxySecret;
   } else if (proxySecret) {
     headers.Authorization = `Bearer ${proxySecret}`;
   }

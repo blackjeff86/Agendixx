@@ -1,0 +1,21 @@
+<svg width="620" height="140" viewBox="0 0 620 140" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="agendixxDarkTitle agendixxDarkDesc">
+  <title id="agendixxDarkTitle">Logo Agendixx em fundo escuro</title>
+  <desc id="agendixxDarkDesc">Logo da Agendixx sobre fundo escuro, com icone vibrante e nome claro.</desc>
+  <rect width="620" height="140" rx="28" fill="#062B30"/>
+  <defs>
+    <linearGradient id="agendixxDarkGradient" x1="18" y1="18" x2="102" y2="102" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#14B8A6"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+  <rect x="18" y="18" width="84" height="84" rx="24" fill="url(#agendixxDarkGradient)"/>
+  <rect x="31" y="33" width="58" height="44" rx="14" fill="#F8FAFC" fill-opacity="0.98"/>
+  <rect x="31" y="33" width="58" height="12" rx="12" fill="#CCFBF1"/>
+  <circle cx="45" cy="39" r="3.5" fill="#0F766E"/>
+  <circle cx="75" cy="39" r="3.5" fill="#0F766E"/>
+  <path d="M44 61L54 70L76 49" stroke="#F59E0B" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M87 18L89 22.4L93.2 24.4L89 26.4L87 30.8L85 26.4L80.8 24.4L85 22.4L87 18Z" fill="#FEF3C7"/>
+  <text x="124" y="67" font-family="Segoe UI, Arial, sans-serif" font-size="48" font-weight="800" letter-spacing="-0.04em" fill="#F8FAFC">Agendi</text>
+  <text x="286" y="67" font-family="Segoe UI, Arial, sans-serif" font-size="48" font-weight="800" letter-spacing="-0.04em" fill="#FCD34D">xx</text>
+  <text x="126" y="95" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="500" fill="#99F6E4">Agenda inteligente para pequenos saloes</text>
+</svg>

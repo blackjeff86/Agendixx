@@ -11,7 +11,7 @@ export async function createSupportEvent(payload: {
   const { error } = await supportService.insertSupportEvent({
     business_id: payload.businessId,
     actor_user_id: state.user?.id || null,
-    actor_email: state.user?.email || "suporte@agendafacil",
+    actor_email: state.user?.email || "suporte@agendixx",
     event_type: payload.eventType,
     title: payload.title,
     details: payload.details,

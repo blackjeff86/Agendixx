@@ -4,6 +4,7 @@ interface ImportMetaEnv {
   readonly VITE_SUPABASE_URL: string;
   readonly VITE_SUPABASE_ANON_KEY: string;
   readonly VITE_APP_BASE_URL: string;
+  readonly VITE_AGENDIXX_PIX_KEY: string;
   readonly VITE_WHATSAPP_EDGE_URL: string;
   readonly VITE_WHATSAPP_EDGE_TOKEN: string;
   readonly VITE_WHATSAPP_TEMPLATE_LANG: string;

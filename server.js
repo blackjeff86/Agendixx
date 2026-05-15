@@ -44,5 +44,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`AgendaFacil rodando em http://localhost:${PORT}`);
+  console.log(`Agendixx rodando em http://localhost:${PORT}`);
 });

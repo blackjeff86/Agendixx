@@ -1,6 +1,6 @@
 # Configuração mínima para Edge Functions.
 # Ajuste project_id após `supabase link` ou deixe como está para desenvolvimento local.
-project_id = "agendafacil"
+project_id = "wgbgvmayfhvldprawpwi"
 
 # Chamadas vêm do app Vite e do cron Vercel com Bearer próprio — não exigir JWT do Supabase.
 [functions.whatsapp-send]

@@ -15,7 +15,7 @@ Checklist do que ainda falta **fora do código** (deploy, credenciais, SQL) para
 - [ ] **Front (obrigatório em produção):** `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (Settings → API no Supabase).
 - [ ] **Já comuns:** `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`.
 - [ ] **URL do app (opcional):** `VITE_APP_BASE_URL` = URL de produção na Vercel.
-- [ ] **PIX / suporte:** `VITE_AGENDAFACIL_PIX_KEY` (chave PIX da plataforma nas mensagens de renovação).
+- [ ] **PIX / suporte:** `VITE_AGENDIXX_PIX_KEY` (chave PIX da plataforma nas mensagens de renovação).
 - [ ] **Cron lembretes D-1:** `CRON_SECRET` (string forte, ex. `openssl rand -hex 32`) — a Vercel envia no header do cron.
 - [ ] **WhatsApp automático:** após deploy da Edge Function (abaixo), configurar:
   - `VITE_WHATSAPP_EDGE_URL` e `WHATSAPP_EDGE_URL` = URL da função `whatsapp-send`

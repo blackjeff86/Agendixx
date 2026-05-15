@@ -19,7 +19,7 @@ type WhatsAppRequestPayload =
  * Envio de texto WhatsApp.
  * - Se `VITE_WHATSAPP_EDGE_URL` estiver definido: POST com `{ phone, text }`.
  * - Supabase Edge (`…supabase.co/functions/…`): use `Authorization: Bearer <anon>` (gateway) +
- *   `x-agenda-facil-proxy-secret` quando `VITE_WHATSAPP_EDGE_TOKEN` estiver definido (igual ao secret da função).
+ *   `x-agendixx-proxy-secret` quando `VITE_WHATSAPP_EDGE_TOKEN` estiver definido (igual ao secret da função).
  * - Outro backend: `Authorization: Bearer VITE_WHATSAPP_EDGE_TOKEN` se houver token.
  * - Sem URL: abre `wa.me` (uma aba por envio).
  */
@@ -37,7 +37,7 @@ async function postWhatsAppPayload(payload: WhatsAppRequestPayload): Promise<{ o
         const anon = String(SUPABASE_ANON_KEY || "").trim();
         if (!anon) return { ok: false, usedApi: true };
         headers.Authorization = `Bearer ${anon}`;
-        if (proxySecret) headers["x-agenda-facil-proxy-secret"] = proxySecret;
+        if (proxySecret) headers["x-agendixx-proxy-secret"] = proxySecret;
       } else if (proxySecret) {
         headers.Authorization = `Bearer ${proxySecret}`;
       }

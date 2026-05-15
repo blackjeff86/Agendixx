@@ -1,6 +1,6 @@
 import type { Business } from "../types";
 import { formatCurrency } from "../utils/formatters";
-import { AGENDAFACIL_PIX_KEY, RENEWAL_REMINDER_WINDOW_DAYS } from "./env";
+import { AGENDIXX_PIX_KEY, RENEWAL_REMINDER_WINDOW_DAYS } from "./env";
 import { resolvePlanTier, trialDaysRemaining } from "./plans";
 
 export const PLAN_STARTER_MONTHLY_BRL = 39.9;
@@ -83,8 +83,8 @@ export function buildRenewalReminderMessage(business: Business): string {
   const price = formatCurrency(getMonthlyPriceForBusiness(business));
   const due = getPaymentDueDate(business);
   const dueLine = due && !Number.isNaN(due.getTime()) ? `Vencimento: ${due.toLocaleDateString("pt-BR")}` : "";
-  const pixLine = AGENDAFACIL_PIX_KEY
-    ? `Chave PIX: ${AGENDAFACIL_PIX_KEY}`
+  const pixLine = AGENDIXX_PIX_KEY
+    ? `Chave PIX: ${AGENDIXX_PIX_KEY}`
     : "Chave PIX: ainda não configurada no sistema.";
   const pendenteLines =
     business.billing_status === "pendente"
@@ -95,7 +95,7 @@ export function buildRenewalReminderMessage(business: Business): string {
       : [];
 
   return [
-    `Olá! Aqui é da *AgendaFácil* 👋`,
+    `Olá! Aqui é da *Agendixx* 👋`,
     "",
     `Passando para lembrar da renovação mensal da loja *${name}*.`,
     "",
@@ -108,7 +108,7 @@ export function buildRenewalReminderMessage(business: Business): string {
     `*Pagamento via PIX*`,
     pixLine,
     "",
-    AGENDAFACIL_PIX_KEY
+    AGENDIXX_PIX_KEY
       ? `Assim que fizer o pagamento, envie o comprovante por aqui para regularizarmos seu acesso sem atraso.`
       : `Assim que a chave PIX for configurada, esta mensagem já sairá pronta para envio manual.`
     ,

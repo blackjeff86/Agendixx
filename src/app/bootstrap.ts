@@ -15,7 +15,7 @@ import { navTo } from "./navigation";
 
 function getPendingSetup(): Record<string, string> | null {
   try {
-    const raw = localStorage.getItem("agendafacil_pending_setup");
+    const raw = localStorage.getItem("agendixx_pending_setup");
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
@@ -45,7 +45,7 @@ function isInternalSupportAccount(): boolean {
 
 export async function ensureBusinessExists(): Promise<void> {
   if (isInternalSupportAccount()) {
-    localStorage.removeItem("agendafacil_pending_setup");
+    localStorage.removeItem("agendixx_pending_setup");
     state.business = null;
     return;
   }
@@ -54,14 +54,14 @@ export async function ensureBusinessExists(): Promise<void> {
 
   if (data) {
     state.business = data;
-    localStorage.removeItem("agendafacil_pending_setup");
+    localStorage.removeItem("agendixx_pending_setup");
     return;
   }
 
   const pending = getPendingSetup() || getPendingSetupFromMetadata();
   if (pending) {
     await createBusinessAndSeed(pending as import("../types").PendingBusinessDraft);
-    localStorage.removeItem("agendafacil_pending_setup");
+    localStorage.removeItem("agendixx_pending_setup");
     return;
   }
 

@@ -2,7 +2,7 @@ import { state } from "../state/store";
 import { showScreen } from "../ui/dom";
 import { isSupportAccountEmail } from "../ui/render/supportPanel";
 
-const SIGNUP_PLAN_STORAGE_KEY = "agendafacil_signup_plan";
+const SIGNUP_PLAN_STORAGE_KEY = "agendixx_signup_plan";
 const PUBLIC_PRO_SIGNUPS_ENABLED = false;
 
 export function normalizeSignupPlan(plan: string | null | undefined): "starter" | "pro" {

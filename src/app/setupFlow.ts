@@ -3,7 +3,7 @@ import { showScreen } from "../ui/dom";
 
 function getPendingSetup(): { name?: string; slug?: string; category?: string } | null {
   try {
-    const raw = localStorage.getItem("agendafacil_pending_setup");
+    const raw = localStorage.getItem("agendixx_pending_setup");
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;

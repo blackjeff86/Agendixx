@@ -1,5 +1,5 @@
 -- ============================================================
--- AgendaFácil — Schema Supabase (PostgreSQL)
+-- Agendixx — Schema Supabase (PostgreSQL)
 -- Execute no SQL Editor do seu projeto Supabase
 -- ============================================================
 

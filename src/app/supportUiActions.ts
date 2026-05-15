@@ -8,7 +8,7 @@ import {
   planDisplayLabel,
   type SupportPlanTierKey,
 } from "../config/billing";
-import { AGENDAFACIL_PIX_KEY, DEFAULT_BILLING_CYCLE_DAYS, getAppBaseUrl, SUPPORT_PAGE_SIZE } from "../config/env";
+import { AGENDIXX_PIX_KEY, DEFAULT_BILLING_CYCLE_DAYS, getAppBaseUrl, SUPPORT_PAGE_SIZE } from "../config/env";
 import * as authService from "../services/authService";
 import * as businessService from "../services/businessService";
 import * as supportService from "../services/supportService";
@@ -100,7 +100,7 @@ export async function supportBatchRenewalWhatsapp(): Promise<void> {
   try {
     for (const b of targets) {
       const msg = buildRenewalReminderMessage(b);
-      const template = buildRenewalReminderTemplate(b, AGENDAFACIL_PIX_KEY);
+      const template = buildRenewalReminderTemplate(b, AGENDIXX_PIX_KEY);
       const r = template ? await sendWhatsAppTemplate(b.whatsapp || "", template) : await sendWhatsAppText(b.whatsapp || "", msg);
       if (r.ok) ok += 1;
       await new Promise((res) => setTimeout(res, 450));

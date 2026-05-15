@@ -7,7 +7,7 @@ import {
   planDisplayLabel,
   sumEstimatedMonthlyRevenue,
 } from "../../config/billing";
-import { AGENDAFACIL_PIX_KEY, RENEWAL_REMINDER_WINDOW_DAYS, SUPPORT_PAGE_SIZE } from "../../config/env";
+import { AGENDIXX_PIX_KEY, RENEWAL_REMINDER_WINDOW_DAYS, SUPPORT_PAGE_SIZE } from "../../config/env";
 import { escapeHtml } from "../../utils/strings";
 import {
   formatBillingLabel,
@@ -203,7 +203,7 @@ export function renderSupportRenewalList(): void {
   const daysEl = document.getElementById("supportRenewalWindowDays");
   if (daysEl) daysEl.textContent = String(RENEWAL_REMINDER_WINDOW_DAYS);
   if (pixEl) {
-    pixEl.textContent = AGENDAFACIL_PIX_KEY || "Chave PIX não configurada";
+    pixEl.textContent = AGENDIXX_PIX_KEY || "Chave PIX não configurada";
   }
   if (!container) return;
 

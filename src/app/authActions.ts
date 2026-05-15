@@ -73,9 +73,9 @@ export async function doSignup(): Promise<void> {
   showLoading(true);
   try {
     if (isSupportSignup) {
-      localStorage.removeItem("agendafacil_pending_setup");
+      localStorage.removeItem("agendixx_pending_setup");
     } else {
-      localStorage.setItem("agendafacil_pending_setup", JSON.stringify(businessDraft));
+      localStorage.setItem("agendixx_pending_setup", JSON.stringify(businessDraft));
     }
     const { data, error } = await authService.signUp(draft.email, draft.password, {
       data: isSupportSignup

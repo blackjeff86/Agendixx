@@ -6,7 +6,7 @@
  * - { "phone": "5511999999999 ou (11) 99999-9999", "template": { "name": "template_name", "languageCode": "pt_BR", "bodyParams": ["..."] } }
  * Headers:
  *   Authorization: Bearer <SUPABASE_ANON_KEY ou SERVICE_ROLE>  (exigido pelo gateway Supabase)
- *   x-agenda-facil-proxy-secret: <WHATSAPP_EDGE_AUTH_TOKEN>      (opcional; recomendado em produção)
+ *   x-agendixx-proxy-secret: <WHATSAPP_EDGE_AUTH_TOKEN>      (opcional; recomendado em produção)
  *
  * Secrets (Supabase Dashboard → Edge Functions → Secrets, ou `supabase secrets set`):
  *   WHATSAPP_ACCESS_TOKEN      — token permanente ou de longa duração da Meta
@@ -25,7 +25,7 @@ const META_API_VERSION = "v21.0";
 
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-agenda-facil-proxy-secret",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-agendixx-proxy-secret",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
@@ -56,7 +56,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const shared = Deno.env.get("WHATSAPP_EDGE_AUTH_TOKEN")?.trim();
   if (shared) {
-    const proxy = req.headers.get("x-agenda-facil-proxy-secret")?.trim();
+    const proxy = req.headers.get("x-agendixx-proxy-secret")?.trim();
     if (proxy !== shared) {
       return jsonResponse({ error: "Unauthorized" }, 401);
     }
