@@ -55,7 +55,7 @@ export function formatBillingLabel(status: string | null | undefined): string {
     blocked: "Bloqueado",
     past_due: "Em atraso",
     canceled: "Cancelado",
-    trial: "Trial",
+    trial: "Promocional",
     pendente: "Pendente (pagamento)",
   };
   return map[status || ""] || "Não definido";

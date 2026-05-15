@@ -1,6 +1,6 @@
 import {
   formatSupportDueLine,
-  formatSupportTrialSummary,
+  formatSupportPromotionalSummary,
   getMonthlyPriceForBusiness,
   getPaymentDueDate,
   isInRenewalWindow,
@@ -159,8 +159,8 @@ export function renderSupportBusinesses(): void {
                   <strong>${planDisplayLabel(business)} · ${formatCurrency(getMonthlyPriceForBusiness(business))}</strong>
                 </div>
                 <div class="support-business-info support-business-info-wide">
-                  <span class="support-business-label">Trial / vencimento</span>
-                  <strong>${escapeHtml(formatSupportTrialSummary(business))}</strong>
+                  <span class="support-business-label">Promoção / vencimento</span>
+                  <strong>${escapeHtml(formatSupportPromotionalSummary(business))}</strong>
                   <div class="text-xs text-sub" style="margin-top:4px;font-weight:500;">${escapeHtml(formatSupportDueLine(business))}</div>
                 </div>
               </div>
@@ -254,7 +254,7 @@ export function renderSupportRenewalList(): void {
               <div><span class="text-sub">Valor</span><strong>${formatCurrency(getMonthlyPriceForBusiness(b))}</strong></div>
               <div><span class="text-sub">Cobrança</span><strong>${status.label}</strong></div>
             </div>
-            <div class="text-sm text-sub mb-2">${escapeHtml(formatSupportTrialSummary(b))}</div>
+            <div class="text-sm text-sub mb-2">${escapeHtml(formatSupportPromotionalSummary(b))}</div>
             <div class="card-actions">
               <button class="btn btn-wa btn-sm" type="button" onclick="openRenewalReminderWhatsApp('${b.id}')" ${canCharge ? "" : "disabled"}>Realizar cobrança</button>
               <button class="btn btn-link btn-sm" type="button" onclick="openSupportBusinessModal('${b.id}')">Gerenciar</button>

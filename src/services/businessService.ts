@@ -1,4 +1,4 @@
-import { TRIAL_DAYS } from "../config/plans";
+import { PROMOTIONAL_MONTH_DAYS } from "../config/plans";
 import { DEFAULT_HOURS, DEFAULT_PROFESSIONALS, DEFAULT_SERVICES } from "../constants/defaults";
 import { getSupabase } from "../lib/supabase";
 import type { Business, PendingBusinessDraft } from "../types";
@@ -82,8 +82,8 @@ export async function seedBusinessDefaults(businessId: string): Promise<void> {
 }
 
 export function buildNewBusinessPayload(userId: string, userEmail: string | undefined, draft: PendingBusinessDraft): Record<string, unknown> {
-  const trialEnds = new Date();
-  trialEnds.setDate(trialEnds.getDate() + TRIAL_DAYS);
+  const promotionalEndsAt = new Date();
+  promotionalEndsAt.setDate(promotionalEndsAt.getDate() + PROMOTIONAL_MONTH_DAYS);
   const planTier = draft.plan_tier === "pro" ? "pro" : "starter";
   const planName = draft.plan_name || (planTier === "pro" ? "Plano Pro" : "Plano Starter");
   return {
@@ -101,9 +101,9 @@ export function buildNewBusinessPayload(userId: string, userEmail: string | unde
     cover_image_url: draft.cover_image_url || "",
     plan_name: planName,
     plan_tier: planTier,
-    billing_status: draft.billing_status || "trial",
-    trial_ends_at: trialEnds.toISOString(),
-    next_billing_at: trialEnds.toISOString(),
+    billing_status: draft.billing_status || "active",
+    promotional_ends_at: promotionalEndsAt.toISOString(),
+    next_billing_at: promotionalEndsAt.toISOString(),
     active: true,
   };
 }

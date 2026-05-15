@@ -5,7 +5,7 @@ import {
   WHATSAPP_RESCHEDULE_TEMPLATE_NAME,
   WHATSAPP_RENEWAL_TEMPLATE_NAME,
   WHATSAPP_TEMPLATE_LANG,
-  WHATSAPP_TRIAL_END_TEMPLATE_NAME,
+  WHATSAPP_FIRST_MONTH_END_TEMPLATE_NAME,
 } from "../config/env";
 import { getMonthlyPriceForBusiness, getPaymentDueDate, planDisplayLabel } from "../config/billing";
 import type { AppointmentRow, Business } from "../types";
@@ -279,11 +279,14 @@ export function buildRenewalReminderTemplate(business: Business, pixKey: string)
   ]);
 }
 
-export function buildTrialEndingPlanChoiceTemplate(business: Business, daysRemainingLabel: string): WhatsAppTemplatePayload | null {
-  return buildTemplate(WHATSAPP_TRIAL_END_TEMPLATE_NAME, [
+export function buildFirstMonthEndingPlanChoiceTemplate(
+  business: Business,
+  daysRemainingLabel: string
+): WhatsAppTemplatePayload | null {
+  return buildTemplate(WHATSAPP_FIRST_MONTH_END_TEMPLATE_NAME, [
     business.name || "sua loja",
     daysRemainingLabel,
-    "R$ 39,90/mês",
-    "R$ 59,90/mês",
+    "R$ 29,90 no 1o mes",
+    "R$ 59,90/mês depois",
   ]);
 }

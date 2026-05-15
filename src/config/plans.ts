@@ -2,7 +2,7 @@ import type { Business } from "../types";
 
 export type PlanTier = "starter" | "pro";
 
-export const TRIAL_DAYS = 7;
+export const PROMOTIONAL_MONTH_DAYS = 30;
 export const STARTER_ACTIVE_PROFESSIONAL_LIMIT = 2;
 export const STARTER_CUSTOMER_LIMIT = 50;
 
@@ -20,22 +20,22 @@ export function isStarterPlan(business: Business | null | undefined): boolean {
   return resolvePlanTier(business) === "starter";
 }
 
-/** Dias completos restantes no trial (1 = último dia). Null se não há trial ativo. */
-export function trialDaysRemaining(business: Business | null | undefined): number | null {
-  if (!business?.trial_ends_at || business.billing_status !== "trial") return null;
-  const end = new Date(business.trial_ends_at).getTime();
+/** Dias completos restantes no primeiro mes promocional (1 = ultimo dia). */
+export function promotionalDaysRemaining(business: Business | null | undefined): number | null {
+  if (!business?.promotional_ends_at) return null;
+  const end = new Date(business.promotional_ends_at).getTime();
   const now = Date.now();
   if (Number.isNaN(end) || end <= now) return null;
   return Math.ceil((end - now) / 86400000);
 }
 
-export function isTrialActive(business: Business | null | undefined): boolean {
-  return trialDaysRemaining(business) !== null;
+export function isPromotionalPeriodActive(business: Business | null | undefined): boolean {
+  return promotionalDaysRemaining(business) !== null;
 }
 
-export function isTrialExpired(business: Business | null | undefined): boolean {
-  if (!business?.trial_ends_at || business.billing_status !== "trial") return false;
-  return new Date(business.trial_ends_at).getTime() <= Date.now();
+export function isPromotionalPeriodExpired(business: Business | null | undefined): boolean {
+  if (!business?.promotional_ends_at) return false;
+  return new Date(business.promotional_ends_at).getTime() <= Date.now();
 }
 
 export function maxActiveProfessionals(business: Business | null | undefined): number {

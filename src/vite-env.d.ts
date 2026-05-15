@@ -14,7 +14,7 @@ interface ImportMetaEnv {
   readonly VITE_WHATSAPP_RESCHEDULE_TEMPLATE_NAME: string;
   readonly VITE_WHATSAPP_DAYBEFORE_TEMPLATE_NAME: string;
   readonly VITE_WHATSAPP_RENEWAL_TEMPLATE_NAME: string;
-  readonly VITE_WHATSAPP_TRIAL_END_TEMPLATE_NAME: string;
+  readonly VITE_WHATSAPP_FIRST_MONTH_END_TEMPLATE_NAME: string;
 }
 
 interface ImportMeta {

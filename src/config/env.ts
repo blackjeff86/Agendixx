@@ -16,7 +16,9 @@ export const WHATSAPP_CANCEL_TEMPLATE_NAME = String(import.meta.env.VITE_WHATSAP
 export const WHATSAPP_RESCHEDULE_TEMPLATE_NAME = String(import.meta.env.VITE_WHATSAPP_RESCHEDULE_TEMPLATE_NAME || "").trim();
 export const WHATSAPP_DAYBEFORE_TEMPLATE_NAME = String(import.meta.env.VITE_WHATSAPP_DAYBEFORE_TEMPLATE_NAME || "").trim();
 export const WHATSAPP_RENEWAL_TEMPLATE_NAME = String(import.meta.env.VITE_WHATSAPP_RENEWAL_TEMPLATE_NAME || "").trim();
-export const WHATSAPP_TRIAL_END_TEMPLATE_NAME = String(import.meta.env.VITE_WHATSAPP_TRIAL_END_TEMPLATE_NAME || "").trim();
+export const WHATSAPP_FIRST_MONTH_END_TEMPLATE_NAME = String(
+  import.meta.env.VITE_WHATSAPP_FIRST_MONTH_END_TEMPLATE_NAME || ""
+).trim();
 
 export function getAppBaseUrl(): string {
   const fromEnv = import.meta.env.VITE_APP_BASE_URL?.replace(/\/$/, "");

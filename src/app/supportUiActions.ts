@@ -2,7 +2,7 @@ import {
   buildRenewalReminderMessage,
   defaultPlanNameForTierKey,
   formatSupportDueLine,
-  formatSupportTrialSummary,
+  formatSupportPromotionalSummary,
   getMonthlyPriceForBusiness,
   isInRenewalWindow,
   planDisplayLabel,
@@ -204,7 +204,9 @@ export async function openSupportBusinessModal(businessId: string): Promise<void
   (document.getElementById("supportBusinessWhatsapp") as HTMLInputElement).value = business.whatsapp || "";
   const tierSel = document.getElementById("supportBusinessPlanTier") as HTMLSelectElement | null;
   if (tierSel) tierSel.value = !business.plan_tier ? "legado" : business.plan_tier;
-  (document.getElementById("supportBusinessTrialEnds") as HTMLInputElement).value = isoToDateInput(business.trial_ends_at);
+  (document.getElementById("supportBusinessPromotionEnds") as HTMLInputElement).value = isoToDateInput(
+    business.promotional_ends_at
+  );
   (document.getElementById("supportBusinessNextBilling") as HTMLInputElement).value = isoToDateInput(business.next_billing_at);
   (document.getElementById("supportBusinessPlan") as HTMLInputElement).value = normalizePlanName(business.plan_name);
   (document.getElementById("supportBusinessBilling") as HTMLSelectElement).value = business.billing_status || "active";
@@ -215,7 +217,7 @@ export async function openSupportBusinessModal(businessId: string): Promise<void
   setText("supportBusinessMiniEmail", business.owner_email || "Sem e-mail");
   setText("supportBusinessMiniBilling", formatBillingLabel(business.billing_status));
   setText("supportBusinessReadPlan", `${planDisplayLabel(business)} · ${formatCurrency(getMonthlyPriceForBusiness(business))}/mês`);
-  setText("supportBusinessReadTrial", formatSupportTrialSummary(business));
+  setText("supportBusinessReadPromotion", formatSupportPromotionalSummary(business));
   setText("supportBusinessReadDue", formatSupportDueLine(business));
   const pr = document.getElementById("supportPaymentReceived") as HTMLInputElement | null;
   if (pr) pr.checked = false;
@@ -229,7 +231,7 @@ export async function saveSupportBusiness(): Promise<void> {
   if (!state.supportSelectedBusinessId) return;
   const billingStatus = (document.getElementById("supportBusinessBilling") as HTMLSelectElement).value;
   const planTierRaw = (document.getElementById("supportBusinessPlanTier") as HTMLSelectElement).value as SupportPlanTierKey;
-  const trialEndsVal = (document.getElementById("supportBusinessTrialEnds") as HTMLInputElement).value;
+  const promotionEndsVal = (document.getElementById("supportBusinessPromotionEnds") as HTMLInputElement).value;
   const nextBillingVal = (document.getElementById("supportBusinessNextBilling") as HTMLInputElement).value;
   const markPaid = (document.getElementById("supportPaymentReceived") as HTMLInputElement)?.checked ?? false;
   const toIsoOrNull = (d: string) => (d ? new Date(`${d}T12:00:00.000Z`).toISOString() : null);
@@ -252,7 +254,7 @@ export async function saveSupportBusiness(): Promise<void> {
     owner_email: (document.getElementById("supportBusinessOwnerEmail") as HTMLInputElement).value.trim(),
     whatsapp: (document.getElementById("supportBusinessWhatsapp") as HTMLInputElement).value.trim(),
     plan_tier: planTierRaw === "legado" ? null : planTierRaw,
-    trial_ends_at: toIsoOrNull(trialEndsVal),
+    promotional_ends_at: toIsoOrNull(promotionEndsVal),
     next_billing_at,
     plan_name,
     billing_status: finalBilling,

@@ -4,11 +4,11 @@ import {
   countActiveProfessionals,
   isProPlan,
   isStarterPlan,
-  STARTER_ACTIVE_PROFESSIONAL_LIMIT,
-  isTrialActive,
-  isTrialExpired,
+  isPromotionalPeriodActive,
+  isPromotionalPeriodExpired,
+  promotionalDaysRemaining,
   resolvePlanTier,
-  trialDaysRemaining,
+  STARTER_ACTIVE_PROFESSIONAL_LIMIT,
 } from "../../config/plans";
 import { state } from "../../state/store";
 import { formatCurrency, getLocalIsoDate } from "../../utils/formatters";
@@ -32,17 +32,17 @@ export function renderPlanStatusStrip(): void {
 
   const b = state.business;
   const tier = resolvePlanTier(b);
-  const days = trialDaysRemaining(b);
-  const trialOn = isTrialActive(b);
-  const expired = isTrialExpired(b);
+  const days = promotionalDaysRemaining(b);
+  const promoOn = isPromotionalPeriodActive(b);
+  const expired = isPromotionalPeriodExpired(b);
 
   const parts: string[] = [];
 
-  if (trialOn && days !== null) {
+  if (promoOn && days !== null) {
     const label = days === 1 ? "1 dia restante" : `${days} dias restantes`;
-    parts.push(`<span class="plan-status-pill plan-status-trial">Teste grátis · ${label}</span>`);
+    parts.push(`<span class="plan-status-pill plan-status-promo">1º mês promocional · ${label}</span>`);
   } else if (expired) {
-    parts.push(`<span class="plan-status-pill plan-status-warn">Teste encerrado · escolha um plano</span>`);
+    parts.push(`<span class="plan-status-pill plan-status-warn">Promoção inicial encerrada · acompanhe a renovação</span>`);
   }
 
   if (tier === "starter") {

@@ -5,7 +5,7 @@ Checklist do que ainda falta **fora do código** (deploy, credenciais, SQL) para
 ## Banco (Supabase)
 
 - [ ] Rodar no **SQL Editor** do Supabase o `schema.sql` completo **ou** só os trechos que ainda não existem no seu projeto:
-  - `plan_tier`, `trial_ends_at`, `next_billing_at`, `reminder_sent_at` em `businesses` / `appointments`
+  - `plan_tier`, `promotional_ends_at`, `next_billing_at`, `reminder_sent_at` em `businesses` / `appointments`
   - Constraint de `billing_status` incluindo `pendente`
   - Índice de lembrete D-1 (`idx_appointments_reminder_day`)
 - [ ] (Opcional) Promover uma loja existente ao **Pro R$ 59,90**: no final do `schema.sql` há `UPDATE` comentado — ajuste `slug` ou nome e execute.

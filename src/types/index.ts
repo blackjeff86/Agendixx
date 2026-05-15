@@ -17,9 +17,9 @@ export interface Business {
   plan_name?: string | null;
   /** starter | pro — null = conta legada (app trata como Pro). */
   plan_tier?: "starter" | "pro" | null;
-  /** Fim do período de testes (7 dias), usado com billing_status trial. */
-  trial_ends_at?: string | null;
-  /** Próxima data de renovação (mensalidade) após o trial; editável pelo suporte. */
+  /** Data de encerramento do 1o mes promocional. */
+  promotional_ends_at?: string | null;
+  /** Próxima data de renovação mensal; editável pelo suporte. */
   next_billing_at?: string | null;
   billing_status?: string | null;
   blocked_reason?: string | null;

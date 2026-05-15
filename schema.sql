@@ -40,10 +40,10 @@ alter table public.businesses add column if not exists blocked_reason text;
 alter table public.businesses drop constraint if exists businesses_billing_status_check;
 alter table public.businesses
   add constraint businesses_billing_status_check
-  check (billing_status in ('active','past_due','blocked','canceled','trial','pendente'));
+  check (billing_status in ('active','past_due','blocked','canceled','pendente'));
 
 alter table public.businesses add column if not exists plan_tier text;
-alter table public.businesses add column if not exists trial_ends_at timestamptz;
+alter table public.businesses add column if not exists promotional_ends_at timestamptz;
 
 alter table public.businesses drop constraint if exists businesses_plan_tier_check;
 alter table public.businesses
@@ -51,10 +51,10 @@ alter table public.businesses
   check (plan_tier is null or plan_tier in ('starter','pro'));
 
 comment on column public.businesses.plan_tier is 'starter | pro. NULL = legado (app trata como Pro).';
-comment on column public.businesses.trial_ends_at is 'Fim do trial (ex.: 7 dias após cadastro), com billing_status trial.';
+comment on column public.businesses.promotional_ends_at is 'Fim do 1o mes promocional.';
 
 alter table public.businesses add column if not exists next_billing_at timestamptz;
-comment on column public.businesses.next_billing_at is 'Próxima renovação mensal (PIX); trial usa trial_ends_at até migrar para active.';
+comment on column public.businesses.next_billing_at is 'Proxima renovacao mensal (PIX); em contas novas coincide com o fim do 1o mes promocional.';
 
 create table if not exists public.platform_admins (
   user_id uuid primary key references auth.users(id) on delete cascade,

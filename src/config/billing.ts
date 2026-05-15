@@ -1,7 +1,7 @@
 import type { Business } from "../types";
 import { formatCurrency } from "../utils/formatters";
 import { AGENDIXX_PIX_KEY, RENEWAL_REMINDER_WINDOW_DAYS } from "./env";
-import { resolvePlanTier, trialDaysRemaining } from "./plans";
+import { promotionalDaysRemaining, resolvePlanTier } from "./plans";
 
 export const PLAN_STARTER_MONTHLY_BRL = 39.9;
 export const PLAN_PRO_MONTHLY_BRL = 59.9;
@@ -27,18 +27,14 @@ export function planDisplayLabel(business: Business | null | undefined): string 
   return resolvePlanTier(business) === "pro" ? "Plano Pro" : "Plano Starter";
 }
 
-/** Data relevante para cobrança: fim do trial ou próxima mensalidade. */
+/** Data relevante para cobrança: proxima mensalidade ou, em cadastros legados, fim do periodo promocional. */
 export function getPaymentDueDate(business: Business): Date | null {
   if (["canceled", "blocked"].includes(business.billing_status || "")) return null;
-  if (business.billing_status === "trial" && business.trial_ends_at) {
-    return new Date(business.trial_ends_at);
-  }
   if (business.next_billing_at && ["active", "past_due", "pendente"].includes(business.billing_status || "")) {
     return new Date(business.next_billing_at);
   }
-  /** Pendente sem próxima data: ainda usa fim do trial como referência de cobrança. */
-  if (business.billing_status === "pendente" && business.trial_ends_at) {
-    return new Date(business.trial_ends_at);
+  if (business.promotional_ends_at) {
+    return new Date(business.promotional_ends_at);
   }
   return null;
 }
@@ -60,17 +56,16 @@ export function formatSupportDueLine(business: Business): string {
   return `${d} — atrasado ${Math.abs(diff)} dia(s)`;
 }
 
-export function formatSupportTrialSummary(business: Business): string {
+export function formatSupportPromotionalSummary(business: Business): string {
   if (business.billing_status === "pendente") {
     return "Pagamento da mensalidade pendente de confirmação — entra nos lembretes automáticos de renovação (PIX).";
   }
-  if (business.billing_status !== "trial") return "Fora do período de testes.";
-  if (!business.trial_ends_at) return "Trial sem data de término.";
-  const end = new Date(business.trial_ends_at).toLocaleDateString("pt-BR");
-  const left = trialDaysRemaining(business);
-  if (left !== null) return `Período até ${end} (${left} dia(s) restante(s)).`;
-  if (new Date(business.trial_ends_at).getTime() <= Date.now()) return `Trial encerrado em ${end}.`;
-  return `Período até ${end}.`;
+  if (!business.promotional_ends_at) return "Sem período promocional cadastrado.";
+  const end = new Date(business.promotional_ends_at).toLocaleDateString("pt-BR");
+  const left = promotionalDaysRemaining(business);
+  if (left !== null) return `1º mês promocional até ${end} (${left} dia(s) restante(s)).`;
+  if (new Date(business.promotional_ends_at).getTime() <= Date.now()) return `1º mês promocional encerrado em ${end}.`;
+  return `1º mês promocional até ${end}.`;
 }
 
 export function sumEstimatedMonthlyRevenue(businesses: Business[]): number {

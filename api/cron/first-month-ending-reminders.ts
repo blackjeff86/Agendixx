@@ -1,5 +1,5 @@
 /**
- * Cron diário (Vercel): avisa o lojista quando o trial termina em 2 dias.
+ * Cron diario (Vercel): avisa o lojista quando o 1o mes promocional termina em 2 dias.
  *
  * Env no Vercel:
  * - SUPABASE_URL
@@ -7,7 +7,7 @@
  * - CRON_SECRET
  * - WHATSAPP_EDGE_URL
  * - WHATSAPP_EDGE_TOKEN
- * - WHATSAPP_TRIAL_END_TEMPLATE_NAME ou VITE_WHATSAPP_TRIAL_END_TEMPLATE_NAME
+ * - WHATSAPP_FIRST_MONTH_END_TEMPLATE_NAME ou VITE_WHATSAPP_FIRST_MONTH_END_TEMPLATE_NAME
  * - WHATSAPP_TEMPLATE_LANG ou VITE_WHATSAPP_TEMPLATE_LANG
  */
 
@@ -35,7 +35,9 @@ function addCalendarDays(isoDate: string, days: number): string {
 }
 
 function getTemplateNameFromEnv(): string {
-  return (process.env.WHATSAPP_TRIAL_END_TEMPLATE_NAME || process.env.VITE_WHATSAPP_TRIAL_END_TEMPLATE_NAME || "").trim();
+  return (
+    process.env.WHATSAPP_FIRST_MONTH_END_TEMPLATE_NAME || process.env.VITE_WHATSAPP_FIRST_MONTH_END_TEMPLATE_NAME || ""
+  ).trim();
 }
 
 function getTemplateLangFromEnv(): string {
@@ -95,18 +97,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
     res.status(200).json({
       ok: true,
       skipped: true,
-      reason: "WHATSAPP_EDGE_URL ou template do fim do trial não configurados.",
+      reason: "WHATSAPP_EDGE_URL ou template do fim do 1o mes promocional nao configurados.",
     });
     return;
   }
 
-  const targetTrialEndDate = addCalendarDays(todayIsoSaoPaulo(), 2);
+  const targetPromotionEndDate = addCalendarDays(todayIsoSaoPaulo(), 2);
   const supabase = createClient(supabaseUrl, serviceKey);
 
   const { data: businesses, error } = await supabase
     .from("businesses")
-    .select("id, name, whatsapp, billing_status, trial_ends_at, active")
-    .eq("billing_status", "trial")
+    .select("id, name, whatsapp, billing_status, promotional_ends_at, active")
     .eq("active", true);
 
   if (error) {
@@ -115,8 +116,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   }
 
   const candidates = (businesses ?? []).filter((business) => {
-    if (!business.whatsapp || !business.trial_ends_at) return false;
-    return String(business.trial_ends_at).slice(0, 10) === targetTrialEndDate;
+    if (!business.whatsapp || !business.promotional_ends_at) return false;
+    if (["blocked", "canceled"].includes(String(business.billing_status || ""))) return false;
+    return String(business.promotional_ends_at).slice(0, 10) === targetPromotionEndDate;
   });
 
   let sent = 0;
@@ -128,7 +130,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
         .from("support_events")
         .select("id")
         .eq("business_id", business.id)
-        .eq("event_type", "trial_ending_whatsapp")
+        .eq("event_type", "first_month_promo_ending_whatsapp")
         .gte("created_at", `${todayIsoSaoPaulo()}T00:00:00.000Z`)
         .limit(1)
         .maybeSingle();
@@ -140,7 +142,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
         template: {
           name: templateName,
           languageCode: getTemplateLangFromEnv(),
-          bodyParams: [business.name || "sua loja", "2 dias", "R$ 39,90/mês", "R$ 59,90/mês"],
+          bodyParams: [business.name || "sua loja", "2 dias", "R$ 29,90 no 1o mes", "R$ 59,90/mês depois"],
         },
       });
 
@@ -151,9 +153,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 
       await supabase.from("support_events").insert({
         business_id: business.id,
-        event_type: "trial_ending_whatsapp",
-        title: "Lembrete de trial acabando",
-        details: `Mensagem automática enviada no D-2 do trial. Término previsto em ${targetTrialEndDate}.`,
+        event_type: "first_month_promo_ending_whatsapp",
+        title: "Lembrete de 1o mes promocional acabando",
+        details: `Mensagem automatica enviada no D-2 do 1o mes promocional. Termino previsto em ${targetPromotionEndDate}.`,
       });
       sent += 1;
     } catch {
@@ -163,7 +165,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 
   res.status(200).json({
     ok: true,
-    targetTrialEndDate,
+    targetPromotionEndDate,
     candidates: candidates.length,
     sent,
     failed,

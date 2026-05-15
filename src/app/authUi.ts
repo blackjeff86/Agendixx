@@ -35,15 +35,15 @@ export function syncSignupPlanChoice(rawPlan?: string | null, shouldSyncUrl = tr
   }
 
   const badge = document.getElementById("signupPlanBadge");
-  if (badge) badge.textContent = `${planLabel(plan)} · 7 dias grátis`;
+  if (badge) badge.textContent = `${planLabel(plan)} · 1º mês por R$ 29,90`;
 
   const hint = document.getElementById("signupPlanHint");
   if (hint) {
     hint.textContent = PUBLIC_PRO_SIGNUPS_ENABLED
       ? plan === "pro"
-        ? "Você vai começar no trial do Plano Pro e, se continuar, segue com os recursos avançados."
-        : "Você vai começar no trial do Plano Starter e pode fazer upgrade para Pro quando quiser."
-      : "No momento, novas lojas começam pelo trial do Plano Starter. O Plano Pro será liberado em breve.";
+        ? "Você vai entrar pela oferta promocional do Plano Pro no primeiro mês e, depois, segue com os recursos avançados."
+        : "Você vai começar com valor promocional de R$ 29,90 no primeiro mês e pode fazer upgrade para Pro quando quiser."
+      : "No momento, novas lojas entram pela oferta de R$ 29,90 no primeiro mês no Plano Starter. O Plano Pro será liberado em breve.";
   }
 
   if (shouldSyncUrl) {

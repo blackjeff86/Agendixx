@@ -9,7 +9,7 @@
       "schedule": "0 13 * * *"
     },
     {
-      "path": "/api/cron/trial-ending-reminders",
+      "path": "/api/cron/first-month-ending-reminders",
       "schedule": "15 13 * * *"
     }
   ],

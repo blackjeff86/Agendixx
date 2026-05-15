@@ -15,8 +15,8 @@
       justify-content: center;
       flex-direction: column;
       gap: 14px;
-      background: #f4fbfb;
-      color: #0f3d46;
+      background: #f6f9ff;
+      color: #1e3a8a;
       z-index: 99999;
       font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
     }
@@ -35,8 +35,8 @@
       justify-content: center;
       border-radius: 18px;
       background: #ffffff;
-      box-shadow: 0 14px 28px rgba(17, 94, 89, 0.12);
-      border: 1px solid rgba(153, 246, 228, 0.7);
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.12);
+      border: 1px solid rgba(191, 219, 254, 0.85);
     }
     #bootSplash .boot-mark svg {
       width: 52px;
@@ -56,7 +56,7 @@
       color: #0f172a;
     }
     #bootSplash strong span {
-      background: linear-gradient(135deg,#0f766e 0%,#f59e0b 100%);
+      background: linear-gradient(135deg,#2563eb 0%,#60a5fa 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -93,22 +93,22 @@
         <svg viewBox="0 0 64 64" role="img" focusable="false">
           <defs>
             <linearGradient id="bootAgendixxMark" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#0f766e"></stop>
-              <stop offset="100%" stop-color="#f59e0b"></stop>
+              <stop offset="0%" stop-color="#1d4ed8"></stop>
+              <stop offset="100%" stop-color="#60a5fa"></stop>
             </linearGradient>
           </defs>
           <rect x="6" y="8" width="52" height="50" rx="16" fill="url(#bootAgendixxMark)"></rect>
           <rect x="16" y="18" width="32" height="24" rx="8" fill="#ffffff" opacity="0.96"></rect>
-          <rect x="16" y="18" width="32" height="8" rx="8" fill="#ccfbf1"></rect>
-          <circle cx="24" cy="22" r="2.4" fill="#0f766e"></circle>
-          <circle cx="40" cy="22" r="2.4" fill="#0f766e"></circle>
-          <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#f59e0b" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          <rect x="16" y="18" width="32" height="8" rx="8" fill="#dbeafe"></rect>
+          <circle cx="24" cy="22" r="2.4" fill="#1d4ed8"></circle>
+          <circle cx="40" cy="22" r="2.4" fill="#1d4ed8"></circle>
+          <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#22c55e" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
           <path d="M47 11l1.5 3.4L52 16l-3.5 1.6L47 21l-1.6-3.4L42 16l3.4-1.6z" fill="#f8fafc" opacity="0.95"></path>
         </svg>
       </span>
       <span class="boot-copy">
         <strong>Agendi<span>xx</span></strong>
-        <small>Agenda inteligente para pequenos salões</small>
+        <small>Agenda prática para pequenos salões</small>
       </span>
     </div>
     <span class="boot-status">Carregando...</span>
@@ -122,22 +122,22 @@
           <svg viewBox="0 0 64 64" role="img" focusable="false">
             <defs>
               <linearGradient id="agendixxMark" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#0f766e"></stop>
-                <stop offset="100%" stop-color="#f59e0b"></stop>
+                <stop offset="0%" stop-color="#1d4ed8"></stop>
+                <stop offset="100%" stop-color="#60a5fa"></stop>
               </linearGradient>
             </defs>
             <rect x="6" y="8" width="52" height="50" rx="16" fill="url(#agendixxMark)"></rect>
             <rect x="16" y="18" width="32" height="24" rx="8" fill="#ffffff" opacity="0.96"></rect>
-            <rect x="16" y="18" width="32" height="8" rx="8" fill="#ccfbf1"></rect>
-            <circle cx="24" cy="22" r="2.4" fill="#0f766e"></circle>
-            <circle cx="40" cy="22" r="2.4" fill="#0f766e"></circle>
-            <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#f59e0b" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            <rect x="16" y="18" width="32" height="8" rx="8" fill="#dbeafe"></rect>
+            <circle cx="24" cy="22" r="2.4" fill="#1d4ed8"></circle>
+            <circle cx="40" cy="22" r="2.4" fill="#1d4ed8"></circle>
+            <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#22c55e" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
             <path d="M47 11l1.5 3.4L52 16l-3.5 1.6L47 21l-1.6-3.4L42 16l3.4-1.6z" fill="#f8fafc" opacity="0.95"></path>
           </svg>
         </span>
         <span class="landing-brand-copy">
           <strong>Agendi<span>xx</span></strong>
-          <small>Agenda inteligente para pequenos salões</small>
+          <small>Agenda prática para pequenos salões</small>
         </span>
       </a>
       <nav class="landing-nav" aria-label="Navegação principal">
@@ -147,7 +147,7 @@
       </nav>
       <div class="landing-topbar-actions">
         <button class="btn btn-ghost btn-sm" type="button" onclick="openAppEntry('login')">Entrar</button>
-        <button class="btn btn-brand btn-sm landing-topbar-cta" type="button" onclick="openAppEntry('signup', 'starter')">Testar grátis</button>
+        <button class="btn btn-brand btn-sm landing-topbar-cta" type="button" onclick="openAppEntry('signup', 'starter')">1º mês por R$ 29,90</button>
       </div>
     </header>
     <div class="landing-shell">
@@ -158,11 +158,11 @@
           Com a Agendixx, seus clientes agendam online pelo celular, você organiza horários, serviços e profissionais em um só lugar, e o WhatsApp deixa de ser uma bagunça.
         </p>
         <div class="landing-cta">
-          <button class="btn btn-brand" type="button" onclick="openAppEntry('signup', 'starter')">Testar grátis por 7 dias</button>
+          <button class="btn btn-brand" type="button" onclick="openAppEntry('signup', 'starter')">Começar por R$ 29,90</button>
           <a class="btn btn-ghost landing-link-btn" href="#landingHow">Ver como funciona</a>
         </div>
         <div class="landing-proof-strip">
-          <span>7 dias grátis</span>
+          <span>1º mês por R$ 29,90</span>
           <span>Sem fidelidade</span>
           <span>Feito para usar no celular</span>
         </div>
@@ -378,11 +378,11 @@
             <li>Relatórios resumidos</li>
           </ul>
           <div class="landing-pricing-foot">
-            <span>7 dias grátis</span>
+            <span>1º mês por R$ 29,90</span>
             <span>Sem fidelidade</span>
             <span>Cancele quando quiser</span>
           </div>
-          <button class="btn btn-brand" type="button" onclick="openAppEntry('signup', 'starter')">Testar grátis por 7 dias</button>
+          <button class="btn btn-brand" type="button" onclick="openAppEntry('signup', 'starter')">Garantir R$ 29,90</button>
         </div>
 
         <div class="landing-pricing-card featured">
@@ -438,8 +438,8 @@
       <div class="landing-final-cta">
         <span class="landing-section-kicker">Comece hoje</span>
         <h2>Comece hoje a organizar sua agenda sem complicação.</h2>
-        <p>Teste grátis por 7 dias e veja na prática como a Agendixx pode deixar sua rotina mais simples.</p>
-        <button class="btn btn-brand" type="button" onclick="openAppEntry('signup', 'starter')">Testar grátis por 7 dias</button>
+        <p>Comece com valor promocional de R$ 29,90 no primeiro mês e veja na prática como a Agendixx pode deixar sua rotina mais simples.</p>
+        <button class="btn btn-brand" type="button" onclick="openAppEntry('signup', 'starter')">Quero pagar R$ 29,90</button>
       </div>
     </div>
   </section>
@@ -495,8 +495,8 @@
         <form id="signupForm" class="stack hidden" onsubmit="event.preventDefault(); doSignup();">
           <div class="signup-business-fields" id="signupBusinessFields">
             <div class="card card-sm" id="signupPlanWrap" style="margin-bottom:12px;">
-              <div class="font-semibold" style="margin-bottom:6px;">Plano para iniciar o teste</div>
-              <div class="chip" id="signupPlanBadge" style="margin:0 0 8px 0;">Plano Starter · 7 dias grátis</div>
+              <div class="font-semibold" style="margin-bottom:6px;">Plano para começar com oferta promocional</div>
+              <div class="chip" id="signupPlanBadge" style="margin:0 0 8px 0;">Plano Starter · 1º mês por R$ 29,90</div>
               <div class="input-group" style="margin-bottom:6px;">
                 <label for="signupPlanTier">Escolha do plano</label>
                 <select id="signupPlanTier" onchange="syncSignupPlanChoice(this.value)">
@@ -504,7 +504,7 @@
                   <option value="pro" disabled>Plano Pro · Em breve</option>
                 </select>
               </div>
-              <div class="helper-text" id="signupPlanHint">Você vai começar no trial do Plano Starter e pode fazer upgrade para Pro quando quiser.</div>
+              <div class="helper-text" id="signupPlanHint">Você vai começar com R$ 29,90 no primeiro mês no Plano Starter e pode fazer upgrade para Pro quando quiser.</div>
             </div>
             <div class="input-group">
               <label for="signupBusinessName">Nome do negócio</label>
@@ -600,21 +600,21 @@
               <svg viewBox="0 0 64 64" role="img" focusable="false">
                 <defs>
                   <linearGradient id="appBrandMark" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#7c3aed"></stop>
-                    <stop offset="100%" stop-color="#38bdf8"></stop>
+                    <stop offset="0%" stop-color="#1d4ed8"></stop>
+                    <stop offset="100%" stop-color="#60a5fa"></stop>
                   </linearGradient>
                 </defs>
                 <rect x="6" y="8" width="52" height="50" rx="16" fill="url(#appBrandMark)"></rect>
                 <rect x="16" y="18" width="32" height="24" rx="8" fill="#ffffff" opacity="0.96"></rect>
                 <rect x="16" y="18" width="32" height="8" rx="8" fill="#dbeafe"></rect>
-                <circle cx="24" cy="22" r="2.4" fill="#7c3aed"></circle>
-                <circle cx="40" cy="22" r="2.4" fill="#7c3aed"></circle>
-                <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#14b8a6" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                <circle cx="24" cy="22" r="2.4" fill="#1d4ed8"></circle>
+                <circle cx="40" cy="22" r="2.4" fill="#1d4ed8"></circle>
+                <path d="M24 35.5l5.2 5.2L40.5 29.5" fill="none" stroke="#22c55e" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </span>
             <span class="app-brand-copy">
-              <strong>Agenda<span>Fácil</span></strong>
-              <small>Painel simples para pequenos salões</small>
+              <strong>Agendi<span>xx</span></strong>
+              <small>Agenda prática para pequenos salões</small>
             </span>
           </div>
           <div class="app-greeting-copy">
@@ -1478,7 +1478,7 @@
           <div class="card support-readonly-card" style="margin-bottom:12px;">
             <div class="font-semibold text-sm mb-2">Plano e período (visão rápida)</div>
             <div class="text-sm"><span class="text-sub">Plano · preço:</span> <span id="supportBusinessReadPlan">—</span></div>
-            <div class="text-sm mt-1"><span class="text-sub">Trial:</span> <span id="supportBusinessReadTrial">—</span></div>
+            <div class="text-sm mt-1"><span class="text-sub">1º mês promocional:</span> <span id="supportBusinessReadPromotion">—</span></div>
             <div class="text-sm mt-1"><span class="text-sub">Próximo vencimento:</span> <span id="supportBusinessReadDue">—</span></div>
           </div>
 
@@ -1489,11 +1489,11 @@
             <div class="input-group"><label for="supportBusinessPlanTier">Nível do plano (Starter / Pro)</label>
               <select id="supportBusinessPlanTier" onchange="syncSupportPlanNameFromTier()">
                 <option value="legado">Legado (Pro — preço R$ 49,90)</option>
-                <option value="starter">Starter (R$ 39,90)</option>
+                <option value="starter">Starter (R$ 59,90)</option>
                 <option value="pro">Pro (R$ 59,90)</option>
               </select>
             </div>
-            <div class="input-group"><label for="supportBusinessTrialEnds">Fim do trial (data)</label><input type="date" id="supportBusinessTrialEnds" /></div>
+            <div class="input-group"><label for="supportBusinessPromotionEnds">Fim do 1º mês promocional</label><input type="date" id="supportBusinessPromotionEnds" /></div>
             <div class="input-group"><label for="supportBusinessNextBilling">Próxima renovação mensal (PIX)</label><input type="date" id="supportBusinessNextBilling" /></div>
             <div class="input-group"><label for="supportBusinessPlan">Nome exibido do plano</label><input type="text" id="supportBusinessPlan" placeholder="Ex.: Plano Pro" /></div>
             <div class="input-group"><label for="supportBusinessBilling">Status de cobrança</label>
@@ -1503,7 +1503,6 @@
                 <option value="past_due">Atrasado</option>
                 <option value="blocked">Bloqueado</option>
                 <option value="canceled">Cancelado</option>
-                <option value="trial">Trial</option>
               </select>
             </div>
             <div class="input-group">
