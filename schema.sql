@@ -5,6 +5,7 @@
 
 -- ── Habilitar extensão UUID ──
 create extension if not exists "uuid-ossp";
+create extension if not exists "pgcrypto";
 
 -- ── BUSINESSES ──────────────────────────────────────────────
 create table if not exists public.businesses (
@@ -36,6 +37,7 @@ alter table public.businesses add column if not exists plan_name text default 'P
 alter table public.businesses add column if not exists billing_status text default 'active';
 alter table public.businesses add column if not exists support_notes text;
 alter table public.businesses add column if not exists blocked_reason text;
+alter table public.businesses add column if not exists active boolean default true;
 
 alter table public.businesses drop constraint if exists businesses_billing_status_check;
 alter table public.businesses
@@ -63,6 +65,8 @@ create table if not exists public.platform_admins (
   created_at timestamptz default now()
 );
 
+alter table public.platform_admins add column if not exists active boolean default true;
+
 create table if not exists public.user_directory (
   user_id uuid primary key references auth.users(id) on delete cascade,
   email text,
@@ -85,34 +89,26 @@ create table if not exists public.customers (
   unique (business_id, name, phone)
 );
 
+alter table public.user_directory add column if not exists email text;
+alter table public.user_directory add column if not exists phone text;
+alter table public.user_directory add column if not exists updated_at timestamptz default now();
+
 alter table public.customers drop constraint if exists customers_business_id_phone_key;
 alter table public.customers drop constraint if exists customers_business_id_name_phone_key;
 alter table public.customers
   add constraint customers_business_id_name_phone_key
   unique (business_id, name, phone);
 
+alter table public.customers add column if not exists email text;
 alter table public.customers add column if not exists portal_token text;
+alter table public.customers add column if not exists notes text;
+alter table public.customers add column if not exists last_booking_at timestamptz;
+alter table public.customers add column if not exists updated_at timestamptz default now();
 update public.customers
    set portal_token = replace(gen_random_uuid()::text, '-', '')
  where coalesce(portal_token, '') = '';
 alter table public.customers alter column portal_token set default replace(gen_random_uuid()::text, '-', '');
 create unique index if not exists idx_customers_portal_token on public.customers(portal_token);
-
-create table if not exists public.appointment_series (
-  id uuid primary key default uuid_generate_v4(),
-  business_id uuid not null references public.businesses(id) on delete cascade,
-  customer_id uuid references public.customers(id) on delete set null,
-  service_id uuid not null references public.services(id) on delete cascade,
-  professional_id uuid references public.professionals(id) on delete set null,
-  start_date date not null,
-  appointment_time time not null,
-  recurrence_type text not null
-    check (recurrence_type in ('weekly','twice_weekly','monthly')),
-  occurrences int not null default 4 check (occurrences >= 2 and occurrences <= 52),
-  notes text,
-  active boolean default true,
-  created_at timestamptz default now()
-);
 
 create table if not exists public.support_events (
   id uuid primary key default uuid_generate_v4(),
@@ -139,6 +135,11 @@ create table if not exists public.services (
   created_at  timestamptz default now()
 );
 
+alter table public.services add column if not exists description text;
+alter table public.services add column if not exists category text;
+alter table public.services add column if not exists icon text default '✂️';
+alter table public.services add column if not exists active boolean default true;
+
 -- ── PROFESSIONALS ───────────────────────────────────────────
 create table if not exists public.professionals (
   id          uuid primary key default uuid_generate_v4(),
@@ -155,6 +156,9 @@ create table if not exists public.professionals (
   created_at  timestamptz default now()
 );
 
+alter table public.professionals add column if not exists role text;
+alter table public.professionals add column if not exists emoji text default '👤';
+alter table public.professionals add column if not exists active boolean default true;
 alter table public.professionals add column if not exists day_off_weekday int;
 alter table public.professionals add column if not exists vacation_start date;
 alter table public.professionals add column if not exists vacation_end date;
@@ -180,6 +184,35 @@ create table if not exists public.business_hours (
   unique (business_id, day_of_week)
 );
 
+alter table public.business_hours add column if not exists open_time time;
+alter table public.business_hours add column if not exists close_time time;
+alter table public.business_hours add column if not exists active boolean default true;
+
+create table if not exists public.appointment_series (
+  id uuid primary key default uuid_generate_v4(),
+  business_id uuid not null references public.businesses(id) on delete cascade,
+  customer_id uuid references public.customers(id) on delete set null,
+  service_id uuid not null references public.services(id) on delete cascade,
+  professional_id uuid references public.professionals(id) on delete set null,
+  start_date date not null,
+  appointment_time time not null,
+  recurrence_type text not null
+    check (recurrence_type in ('weekly','twice_weekly','monthly')),
+  occurrences int not null default 4 check (occurrences >= 2 and occurrences <= 52),
+  notes text,
+  active boolean default true,
+  created_at timestamptz default now()
+);
+
+alter table public.support_events add column if not exists actor_user_id uuid references auth.users(id) on delete set null;
+alter table public.support_events add column if not exists actor_email text;
+alter table public.support_events add column if not exists details text;
+
+alter table public.appointment_series add column if not exists customer_id uuid references public.customers(id) on delete set null;
+alter table public.appointment_series add column if not exists professional_id uuid references public.professionals(id) on delete set null;
+alter table public.appointment_series add column if not exists notes text;
+alter table public.appointment_series add column if not exists active boolean default true;
+
 -- ── APPOINTMENTS ────────────────────────────────────────────
 create table if not exists public.appointments (
   id               uuid primary key default uuid_generate_v4(),
@@ -204,6 +237,7 @@ create table if not exists public.appointments (
 alter table public.appointments add column if not exists customer_id uuid references public.customers(id) on delete set null;
 alter table public.appointments add column if not exists series_id uuid references public.appointment_series(id) on delete set null;
 alter table public.appointments add column if not exists client_email text;
+alter table public.appointments add column if not exists client_notes text;
 alter table public.appointments add column if not exists occurrence_index int not null default 1;
 alter table public.appointments add column if not exists client_reapproval_required boolean default false;
 
