@@ -335,6 +335,7 @@ export async function saveBusinessProfile(): Promise<void> {
     state.business = { ...state.business, ...payload };
     showToast("Dados do negocio salvos.");
     await refreshAllBusinessData();
+    document.dispatchEvent(new CustomEvent("agendixx:business-profile-saved"));
   } catch (error) {
     console.error(error);
     showToast(getErrorMessage(error));
@@ -556,10 +557,12 @@ export function resetProfessionalModal(): void {
 export function openServiceModal(): void {
   resetServiceModal();
   openModal("modalNovoServico");
+  document.dispatchEvent(new CustomEvent("agendixx:service-modal-opened"));
 }
 
 export function closeServiceModal(): void {
   closeModal("modalNovoServico");
+  document.dispatchEvent(new CustomEvent("agendixx:service-modal-closed"));
   state.supportContextBusinessId = null;
   resetServiceModal();
 }
@@ -582,6 +585,7 @@ export function editService(serviceId: string): void {
   renderServiceCategoryOptions(service.category || "");
   renderServiceIconPicker(service.icon || "");
   openModal("modalNovoServico");
+  document.dispatchEvent(new CustomEvent("agendixx:service-modal-opened"));
 }
 
 export function openServiceCategoryManager(): void {
@@ -696,10 +700,12 @@ export async function toggleServiceActive(serviceId: string): Promise<void> {
 export function openProfessionalModal(): void {
   resetProfessionalModal();
   openModal("modalNovoProf");
+  document.dispatchEvent(new CustomEvent("agendixx:professional-modal-opened"));
 }
 
 export function closeProfessionalModal(): void {
   closeModal("modalNovoProf");
+  document.dispatchEvent(new CustomEvent("agendixx:professional-modal-closed"));
   state.supportContextBusinessId = null;
   resetProfessionalModal();
 }
@@ -728,6 +734,7 @@ export function editProfessional(professionalId: string): void {
     option.selected = assignedServiceIds.has(option.value);
   });
   openModal("modalNovoProf");
+  document.dispatchEvent(new CustomEvent("agendixx:professional-modal-opened"));
 }
 
 export async function toggleProfessionalActive(professionalId: string): Promise<void> {

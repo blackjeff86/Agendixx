@@ -7,6 +7,8 @@ type OnboardingStep = {
   title: string;
   description: string;
   accordionId?: string;
+  modalId?: string;
+  modalSelector?: string;
 };
 
 const PENDING_PREFIX = "agendixx_onboarding_pending_";
@@ -42,21 +44,32 @@ const steps: OnboardingStep[] = [
     description: "Nesta seção você define os dias de funcionamento, horários de abertura e fechamento e também pode pausar a agenda em datas específicas.",
   },
   {
-    pageId: "pageAtendimento",
-    selector: "#servicosList",
-    title: "Cadastre os serviços oferecidos",
-    description: "Aqui você organiza os serviços do salão, valores, duração e o que vai aparecer para o cliente na hora de agendar.",
+    pageId: "pageMeuNegocio",
+    selector: "#saveBusinessProfileBtn",
+    title: "Salve as informações do negócio",
+    description: "Depois de preencher Instagram, endereço, logo e horários, clique em Salvar Alterações para guardar tudo de verdade antes de continuar.",
   },
   {
     pageId: "pageAtendimento",
-    selector: "#profissionaisList",
+    selector: "#btnAddService",
+    modalId: "modalNovoServico",
+    modalSelector: "#modalNovoServico .modal-sheet",
+    title: "Cadastre os serviços oferecidos",
+    description: "Clique em + Serviço para abrir o cadastro. É aqui que você organiza nome, valor, duração e o que vai aparecer para o cliente na hora de agendar.",
+  },
+  {
+    pageId: "pageAtendimento",
+    selector: "#btnAddProfessional",
+    modalId: "modalNovoProf",
+    modalSelector: "#modalNovoProf .modal-sheet",
     title: "Monte sua equipe disponível",
-    description: "Por fim, cadastre os profissionais que atendem no salão para distribuir melhor os horários e mostrar a equipe no sistema.",
+    description: "Depois, clique em + Profissional para cadastrar quem atende no salão e distribuir melhor os horários da equipe.",
   },
 ];
 
 let currentStepIndex = 0;
 let manualMode = false;
+let listenersBound = false;
 
 function getPendingKey(businessId: string): string {
   return `${PENDING_PREFIX}${businessId}`;
@@ -86,6 +99,16 @@ function setAccordionOpen(accordionId?: string): void {
 
 function getCurrentStep(): OnboardingStep {
   return steps[currentStepIndex];
+}
+
+function resolveStepTarget(step: OnboardingStep): HTMLElement | null {
+  if (step.modalId && step.modalSelector) {
+    const modal = document.getElementById(step.modalId);
+    if (modal?.classList.contains("open")) {
+      return document.querySelector(step.modalSelector) as HTMLElement | null;
+    }
+  }
+  return document.querySelector(step.selector) as HTMLElement | null;
 }
 
 function syncOverlayCopy(): void {
@@ -132,7 +155,7 @@ async function focusCurrentStep(): Promise<void> {
   setAccordionOpen(step.accordionId);
   await new Promise((resolve) => window.setTimeout(resolve, 180));
   clearHighlight();
-  const target = document.querySelector(step.selector) as HTMLElement | null;
+  const target = resolveStepTarget(step);
   if (target) {
     target.classList.add("onboarding-target");
     target.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
@@ -140,6 +163,63 @@ async function focusCurrentStep(): Promise<void> {
   syncOverlayCopy();
   await new Promise((resolve) => window.setTimeout(resolve, 220));
   positionCardNearTarget(target);
+}
+
+async function refreshCurrentStepTarget(scrollIntoView = false): Promise<void> {
+  const target = resolveStepTarget(getCurrentStep());
+  clearHighlight();
+  if (target) {
+    target.classList.add("onboarding-target");
+    if (scrollIntoView) {
+      target.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    }
+  }
+  syncOverlayCopy();
+  await new Promise((resolve) => window.setTimeout(resolve, 120));
+  positionCardNearTarget(target);
+}
+
+function bindLifecycleListeners(): void {
+  if (listenersBound) return;
+  listenersBound = true;
+
+  document.addEventListener("agendixx:business-profile-saved", () => {
+    if (!getOverlay()?.classList.contains("open")) return;
+    if (getCurrentStep().selector !== "#saveBusinessProfileBtn") return;
+    void nextOnboardingStep();
+  });
+
+  document.addEventListener("agendixx:service-modal-opened", () => {
+    if (!getOverlay()?.classList.contains("open")) return;
+    if (getCurrentStep().modalId !== "modalNovoServico") return;
+    window.setTimeout(() => {
+      void refreshCurrentStepTarget(true);
+    }, 120);
+  });
+
+  document.addEventListener("agendixx:service-modal-closed", () => {
+    if (!getOverlay()?.classList.contains("open")) return;
+    if (getCurrentStep().selector !== "#btnAddService") return;
+    window.setTimeout(() => {
+      void refreshCurrentStepTarget(false);
+    }, 120);
+  });
+
+  document.addEventListener("agendixx:professional-modal-opened", () => {
+    if (!getOverlay()?.classList.contains("open")) return;
+    if (getCurrentStep().modalId !== "modalNovoProf") return;
+    window.setTimeout(() => {
+      void refreshCurrentStepTarget(true);
+    }, 120);
+  });
+
+  document.addEventListener("agendixx:professional-modal-closed", () => {
+    if (!getOverlay()?.classList.contains("open")) return;
+    if (getCurrentStep().selector !== "#btnAddProfessional") return;
+    window.setTimeout(() => {
+      void refreshCurrentStepTarget(false);
+    }, 120);
+  });
 }
 
 function finishOnboarding(markDone: boolean): void {
@@ -175,6 +255,7 @@ export function shouldAutoStartBusinessOnboarding(): boolean {
 export async function startBusinessOnboarding(force = false): Promise<void> {
   if (!state.business) return;
   if (!force && !shouldAutoStartBusinessOnboarding()) return;
+  bindLifecycleListeners();
   manualMode = force;
   currentStepIndex = 0;
   getOverlay()?.classList.add("open");

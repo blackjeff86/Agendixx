@@ -702,7 +702,7 @@
             <div class="section-title" style="margin:0;">Serviços oferecidos</div>
             <div class="text-sm text-sub">Organize o que seu negócio entrega e quem executa cada atendimento.</div>
           </div>
-          <button class="btn btn-sm btn-brand" style="width:auto" type="button" onclick="openServiceModal()">+ Serviço</button>
+          <button class="btn btn-sm btn-brand" id="btnAddService" style="width:auto" type="button" onclick="openServiceModal()">+ Serviço</button>
         </div>
         <div id="servicosList"></div>
 
@@ -823,7 +823,7 @@
             </div>
           </div>
         </details>
-        <button class="btn btn-brand" type="button" onclick="saveBusinessProfile()">Salvar Alterações</button>
+        <button class="btn btn-brand" id="saveBusinessProfileBtn" type="button" onclick="saveBusinessProfile()">Salvar Alterações</button>
         <button class="btn btn-ghost mt-2" type="button" onclick="cancelBusinessProfileEdits()">Cancelar</button>
         <details class="biz-accordion mt-3">
           <summary class="biz-accordion-summary">
