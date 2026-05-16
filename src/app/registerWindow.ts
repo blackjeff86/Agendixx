@@ -17,6 +17,7 @@ export function registerWindowActions(): void {
     switchAuthMode,
     syncSignupPlanChoice,
     openAppEntry: auth.openAppEntry,
+    openStarterCheckout: auth.openStarterCheckout,
     showPublicBooking: pub.showPublicBooking,
     completeInitialSetup: auth.completeInitialSetup,
     logout: auth.logout,

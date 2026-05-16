@@ -5,6 +5,14 @@ export const SUPABASE_URL =
 export const SUPABASE_ANON_KEY =
   import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
+export function hasSupabaseBrowserConfig(): boolean {
+  return Boolean(String(SUPABASE_URL).trim() && String(SUPABASE_ANON_KEY).trim());
+}
+
+export const KIWIFY_STARTER_CHECKOUT_URL = String(
+  import.meta.env.VITE_KIWIFY_STARTER_CHECKOUT_URL || "https://pay.kiwify.com.br/4YLBhOe"
+).trim();
+
 export const WHATSAPP_EDGE_URL = String(import.meta.env.VITE_WHATSAPP_EDGE_URL || "").trim();
 export const WHATSAPP_EDGE_TOKEN = String(import.meta.env.VITE_WHATSAPP_EDGE_TOKEN || "").trim();
 export const WHATSAPP_TEMPLATE_LANG = String(

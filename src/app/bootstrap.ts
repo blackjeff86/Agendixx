@@ -5,6 +5,7 @@ import * as supportService from "../services/supportService";
 import { state } from "../state/store";
 import { isSupportAccountEmail, isSupportInternalBusiness, renderSupportBusinesses } from "../ui/render/supportPanel";
 import { applyBodyMode, finishInitialBoot, showLoading, showScreen, showToast } from "../ui/dom";
+import { hasSupabaseBrowserConfig } from "../config/env";
 import { getErrorMessage } from "../utils/errors";
 import { slugify } from "../utils/strings";
 import { createBusinessAndSeed } from "./businessLifecycle";
@@ -140,11 +141,21 @@ export async function loadAdminExperience(): Promise<void> {
 }
 
 export async function bootstrapApp(): Promise<void> {
-    showLoading(true);
+  showLoading(true);
   try {
     const params = new URLSearchParams(window.location.search);
     const slug = params.get("slug");
     const clientPortalToken = params.get("client");
+    const appMode = params.get("app");
+
+    if (!hasSupabaseBrowserConfig()) {
+      if (!slug && !clientPortalToken && !appMode) {
+        syncEntryViewFromUrl();
+        return;
+      }
+      throw new Error("Supabase nao configurado. Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY para o projeto Agendixx.");
+    }
+
     const { session, error } = await authService.getSession();
     if (error) throw error;
 

@@ -1,4 +1,4 @@
-import { getAppBaseUrl } from "../config/env";
+import { getAppBaseUrl, KIWIFY_STARTER_CHECKOUT_URL } from "../config/env";
 import * as authService from "../services/authService";
 import { isSupportAccountEmail } from "../ui/render/supportPanel";
 import { normalizeSignupPlan, syncEntryViewFromUrl, switchAuthMode } from "./authUi";
@@ -25,6 +25,14 @@ export function openAppEntry(mode: "signup" | "login", plan?: "starter" | "pro")
   }
   window.history.pushState({ app: mode }, "", url);
   syncEntryViewFromUrl();
+}
+
+export function openStarterCheckout(): void {
+  if (!KIWIFY_STARTER_CHECKOUT_URL) {
+    showToast("Checkout da Kiwify não configurado.");
+    return;
+  }
+  window.location.href = KIWIFY_STARTER_CHECKOUT_URL;
 }
 
 export async function doLogin(): Promise<void> {
