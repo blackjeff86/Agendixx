@@ -1137,7 +1137,11 @@
       <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
       <div class="scroll-area p-4">
         <div class="section-title">Selecione a data</div>
-        <div class="date-scroll" id="dateScroll"></div>
+        <div class="date-scroll-wrap">
+          <button class="date-scroll-arrow" type="button" aria-label="Ver datas anteriores" onclick="scrollDateStrip('dateScroll', -1)">←</button>
+          <div class="date-scroll" id="dateScroll"></div>
+          <button class="date-scroll-arrow" type="button" aria-label="Ver próximas datas" onclick="scrollDateStrip('dateScroll', 1)">→</button>
+        </div>
         <div class="section-title">Horários disponíveis</div>
         <div class="time-grid" id="timeGrid"></div>
       </div>
@@ -1184,7 +1188,11 @@
           <div class="card mt-3 hidden" id="clientSecondWeeklyGroup" style="padding:16px 14px;">
             <div class="section-title" style="margin-bottom:10px;">2º horário da semana</div>
             <div class="helper-text" style="margin-bottom:14px;">Escolha a segunda data e o segundo horário para completar o agendamento 2x por semana.</div>
-            <div class="date-scroll" id="secondDateScroll"></div>
+            <div class="date-scroll-wrap date-scroll-wrap-compact">
+              <button class="date-scroll-arrow" type="button" aria-label="Ver datas anteriores" onclick="scrollDateStrip('secondDateScroll', -1)">←</button>
+              <div class="date-scroll" id="secondDateScroll"></div>
+              <button class="date-scroll-arrow" type="button" aria-label="Ver próximas datas" onclick="scrollDateStrip('secondDateScroll', 1)">→</button>
+            </div>
             <div class="time-grid" id="secondTimeGrid"></div>
           </div>
           <div class="input-group"><label for="clientNotes">Observações (opcional)</label><textarea id="clientNotes" placeholder="Ex: corte mais baixo nas laterais."></textarea></div>

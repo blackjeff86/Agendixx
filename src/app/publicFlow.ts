@@ -133,11 +133,10 @@ export function goNextFromProf(): void {
 
 export function selectDate(iso: string): void {
   setBookingState({ ...bookingState, date: iso, time: null });
-  document.querySelectorAll(".date-btn").forEach((button) => button.classList.remove("selected"));
-  const target = Array.from(document.querySelectorAll(".date-btn")).find(
-    (button) => button.getAttribute("onclick") === `selectDate('${iso}')`
-  );
+  document.querySelectorAll("#dateScroll .date-btn").forEach((button) => button.classList.remove("selected"));
+  const target = document.querySelector(`#dateScroll .date-btn[data-iso="${iso}"]`) as HTMLElement | null;
   target?.classList.add("selected");
+  target?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   const btn = document.getElementById("btnNextFromDateTime") as HTMLButtonElement | null;
   if (btn) btn.disabled = true;
   void renderTimeGrid();
@@ -196,11 +195,18 @@ export function selectTime(slot: string): void {
 export function selectSecondDate(iso: string): void {
   setBookingState({ ...bookingState, secondDate: iso, secondTime: null });
   document.querySelectorAll("#secondDateScroll .date-btn").forEach((button) => button.classList.remove("selected"));
-  const target = Array.from(document.querySelectorAll("#secondDateScroll .date-btn")).find(
-    (button) => button.getAttribute("onclick") === `selectSecondDate('${iso}')`
-  );
+  const target = document.querySelector(`#secondDateScroll .date-btn[data-iso="${iso}"]`) as HTMLElement | null;
   target?.classList.add("selected");
+  target?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   void renderSecondTimeGrid();
+}
+
+export function scrollDateStrip(stripId: string, direction: number): void {
+  const container = document.getElementById(stripId);
+  if (!container) return;
+
+  const offset = Math.max(container.clientWidth * 0.72, 180) * direction;
+  container.scrollBy({ left: offset, behavior: "smooth" });
 }
 
 export async function renderSecondTimeGrid(): Promise<void> {

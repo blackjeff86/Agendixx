@@ -167,7 +167,7 @@ export function renderDateScroll(): void {
     date.setDate(base.getDate() + index);
     const iso = date.toISOString().slice(0, 10);
     list.push(`
-      <button class="date-btn ${index === 0 ? "today" : ""}" type="button" onclick="selectDate('${iso}')">
+      <button class="date-btn ${index === 0 ? "today" : ""}" type="button" data-iso="${iso}" onclick="selectDate('${iso}')">
         <span style="font-size:10px;">${labels[date.getDay()]}</span>
         <span class="day-num">${date.getDate()}</span>
       </button>
@@ -189,7 +189,7 @@ export function renderSecondDateScroll(): void {
     date.setDate(base.getDate() + index);
     const iso = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
     list.push(`
-      <button class="date-btn date-btn-sm" type="button" onclick="selectSecondDate('${iso}')">
+      <button class="date-btn date-btn-sm" type="button" data-iso="${iso}" onclick="selectSecondDate('${iso}')">
         <span style="font-size:10px;">${labels[date.getDay()]}</span>
         <span class="day-num">${date.getDate()}</span>
       </button>

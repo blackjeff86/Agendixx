@@ -76,6 +76,7 @@ export function registerWindowActions(): void {
     selectService: pub.selectService,
     selectProf: pub.selectProf,
     selectDate: pub.selectDate,
+    scrollDateStrip: pub.scrollDateStrip,
     selectTime: pub.selectTime,
     selectCustomerPortalDate: pub.selectCustomerPortalDate,
     clearCustomerPortalDateFilter: pub.clearCustomerPortalDateFilter,
