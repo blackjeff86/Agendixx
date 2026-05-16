@@ -147,6 +147,7 @@ export async function bootstrapApp(): Promise<void> {
     const slug = params.get("slug");
     const clientPortalToken = params.get("client");
     const appMode = params.get("app");
+    let handledAuthRedirect = false;
 
     if (!hasSupabaseBrowserConfig()) {
       if (!slug && !clientPortalToken && !appMode) {
@@ -165,6 +166,20 @@ export async function bootstrapApp(): Promise<void> {
     authService.onAuthStateChange(async (_event, nextSession) => {
       state.session = nextSession;
       state.user = nextSession?.user ?? null;
+      if (handledAuthRedirect) return;
+      if (slug || clientPortalToken) return;
+      if (!nextSession?.user) return;
+      handledAuthRedirect = true;
+      showLoading(true);
+      try {
+        await loadAdminExperience();
+      } catch (error) {
+        console.error(error);
+        showToast(getErrorMessage(error));
+        showScreen("landingPage");
+      } finally {
+        showLoading(false);
+      }
     });
 
     if (clientPortalToken) {
