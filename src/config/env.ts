@@ -35,7 +35,7 @@ export function getAppBaseUrl(): string {
   return "https://agendixx.vercel.app";
 }
 
-export const SUPPORT_ACCOUNT_EMAIL = "agendixx26@gmail.com";
+export const SUPPORT_ACCOUNT_EMAIL = "agendafacil26@gmail.com";
 export const STANDARD_MONTHLY_PRICE = 49.9;
 export const SUPPORT_PAGE_SIZE = 6;
 
