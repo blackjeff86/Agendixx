@@ -36,6 +36,22 @@ type BillingAccessRecord = {
   invite_sent_at?: string | null;
 };
 
+function getUnknownErrorMessage(error: unknown): string {
+  if (error instanceof Error && error.message) return error.message;
+  if (error && typeof error === "object") {
+    const record = error as Record<string, unknown>;
+    const parts = [
+      typeof record.message === "string" ? record.message : "",
+      typeof record.error_description === "string" ? record.error_description : "",
+      typeof record.details === "string" ? record.details : "",
+      typeof record.hint === "string" ? record.hint : "",
+      typeof record.code === "string" ? `code=${record.code}` : "",
+    ].filter(Boolean);
+    if (parts.length) return parts.join(" | ");
+  }
+  return "Unknown webhook error";
+}
+
 function getEnv(name: string, fallback = ""): string {
   return String(process.env[name] || fallback).trim();
 }
@@ -488,7 +504,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   } catch (error) {
     console.error("Kiwify webhook error", error);
     res.status(500).json({
-      error: error instanceof Error ? error.message : "Unknown webhook error",
+      error: getUnknownErrorMessage(error),
     });
   }
 }
