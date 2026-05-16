@@ -10,12 +10,17 @@ import { toggleRecurrenceFields } from "./publicData";
 import { renderSupportBusinesses } from "../ui/render/supportPanel";
 import { openCustomerWhatsApp, openSupportWhatsApp, renderCustomers, toggleCustomerVipFilter } from "../ui/render/merchantDashboard";
 import * as support from "./supportUiActions";
+import * as onboarding from "./onboarding";
 
 export function registerWindowActions(): void {
   const w = window as unknown as Record<string, unknown>;
   Object.assign(w, {
     switchAuthMode,
     syncSignupPlanChoice,
+    nextOnboardingStep: onboarding.nextOnboardingStep,
+    previousOnboardingStep: onboarding.previousOnboardingStep,
+    skipOnboarding: onboarding.skipOnboarding,
+    startBusinessOnboarding: onboarding.reRunBusinessOnboarding,
     openAppEntry: auth.openAppEntry,
     sendPasswordRecovery: auth.sendPasswordRecovery,
     completePasswordRecovery: auth.completePasswordRecovery,

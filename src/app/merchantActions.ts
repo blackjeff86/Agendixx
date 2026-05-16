@@ -301,7 +301,7 @@ export async function saveBusinessProfile(): Promise<void> {
     whatsapp: (document.getElementById("businessWhatsapp") as HTMLInputElement).value.trim(),
     instagram: (document.getElementById("businessInstagram") as HTMLInputElement).value.trim(),
     address: (document.getElementById("businessAddress") as HTMLInputElement).value.trim(),
-    logo_emoji: (document.getElementById("businessLogoEmoji") as HTMLInputElement).value.trim() || "✂️",
+    logo_emoji: "✂️",
     logo_image_url: state.business.logo_image_url || "",
     cover_image_url: state.business.cover_image_url || "",
   };

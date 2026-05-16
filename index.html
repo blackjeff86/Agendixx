@@ -697,7 +697,7 @@
         </div>
       </div>
       <div class="scroll-area p-4">
-        <div class="flex justify-between items-center gap-3 mb-3">
+        <div class="flex justify-between items-center gap-3 mb-3" id="atendimentoServicosSection">
           <div>
             <div class="section-title" style="margin:0;">Serviços oferecidos</div>
             <div class="text-sm text-sub">Organize o que seu negócio entrega e quem executa cada atendimento.</div>
@@ -706,7 +706,7 @@
         </div>
         <div id="servicosList"></div>
 
-        <div class="flex justify-between items-center gap-3 mb-3 mt-4">
+        <div class="flex justify-between items-center gap-3 mb-3 mt-4" id="atendimentoEquipeSection">
           <div class="section-title" style="margin:0;">Equipe disponível</div>
           <button class="btn btn-sm btn-brand" id="btnAddProfessional" style="width:auto" type="button" onclick="openProfessionalModal()">+ Profissional</button>
         </div>
@@ -768,7 +768,7 @@
       </div>
       <div class="scroll-area p-4">
         <div class="biz-cover" id="bizCoverPreview"><div class="biz-avatar" id="bizAvatarPreview">✂️</div></div>
-        <details class="biz-accordion" open>
+        <details class="biz-accordion" id="negocioInfoAccordion" open>
           <summary class="biz-accordion-summary">
             <div>
               <div class="biz-accordion-kicker">Seção</div>
@@ -793,12 +793,10 @@
               <div class="input-group"><label for="businessInstagram">Instagram</label><input type="text" id="businessInstagram" /></div>
               <div class="input-group"><label for="businessAddress">Endereço</label><input type="text" id="businessAddress" /></div>
               <div class="input-group"><label for="businessLogoFile">Logo do salão</label><input type="file" id="businessLogoFile" accept="image/*" onchange="handleBusinessLogoUpload(event)" /></div>
-              <div class="input-group"><label for="businessCoverFile">Foto de capa</label><input type="file" id="businessCoverFile" accept="image/*" onchange="handleBusinessCoverUpload(event)" /></div>
-              <div class="input-group"><label for="businessLogoEmoji">Emoji/Logo</label><input type="text" id="businessLogoEmoji" maxlength="4" /></div>
             </div>
           </div>
         </details>
-        <details class="biz-accordion">
+        <details class="biz-accordion" id="negocioEquipeAccordion">
           <summary class="biz-accordion-summary">
             <div>
               <div class="biz-accordion-kicker">Seção</div>
@@ -811,7 +809,7 @@
             <div id="profissionaisNegocioList"></div>
           </div>
         </details>
-        <details class="biz-accordion">
+        <details class="biz-accordion" id="negocioHorariosAccordion">
           <summary class="biz-accordion-summary">
             <div>
               <div class="biz-accordion-kicker">Seção</div>
@@ -840,6 +838,7 @@
               <div class="support-footer-kicker">Suporte Agendixx</div>
               <div class="support-footer-title">Precisa de ajuda com seu painel?</div>
               <p class="support-footer-copy">Fale com nosso suporte pelo WhatsApp para tirar dúvidas, pedir ajuda na configuração ou resolver qualquer questão do seu salão.</p>
+              <button class="btn btn-ghost mt-2" type="button" onclick="startBusinessOnboarding()">Ver guia de configuração</button>
               <button class="support-footer-action" type="button" onclick="openSupportWhatsApp()">
                 <span>💬</span>
                 <span>Fale com um dos nossos especialistas</span>
@@ -1588,6 +1587,19 @@
       <div class="input-group"><label for="seriesEditNotes">Observações</label><textarea id="seriesEditNotes"></textarea></div>
       <button class="btn btn-brand" type="button" onclick="saveSeriesEdit()">Salvar recorrência</button>
       <button class="btn btn-ghost mt-2" type="button" onclick="closeModal('modalSeriesEdit')">Cancelar</button>
+    </div>
+  </div>
+
+  <div class="onboarding-overlay" id="onboardingOverlay">
+    <div class="onboarding-card" id="onboardingCard">
+      <div class="onboarding-progress" id="onboardingProgress">Passo 1 de 6</div>
+      <div class="onboarding-title" id="onboardingTitle">Guia rápido</div>
+      <div class="onboarding-description" id="onboardingDescription">Vamos te mostrar os campos mais importantes para personalizar seu app.</div>
+      <div class="onboarding-actions">
+        <button class="btn btn-ghost btn-sm" id="onboardingPrevBtn" type="button" onclick="previousOnboardingStep()">Anterior</button>
+        <button class="btn btn-ghost btn-sm" type="button" onclick="skipOnboarding()">Fechar</button>
+        <button class="btn btn-brand btn-sm" id="onboardingNextBtn" type="button" onclick="nextOnboardingStep()">Próximo</button>
+      </div>
     </div>
   </div>
 

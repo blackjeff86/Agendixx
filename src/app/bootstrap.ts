@@ -9,6 +9,7 @@ import { hasSupabaseBrowserConfig } from "../config/env";
 import { getErrorMessage } from "../utils/errors";
 import { slugify } from "../utils/strings";
 import { createBusinessAndSeed } from "./businessLifecycle";
+import { shouldAutoStartBusinessOnboarding, startBusinessOnboarding } from "./onboarding";
 import { refreshAllBusinessData } from "./refresh";
 import { syncEntryViewFromUrl } from "./authUi";
 import { loadCustomerPortalData, loadPublicData } from "./publicData";
@@ -141,7 +142,18 @@ export async function loadAdminExperience(): Promise<void> {
   }
   await loadSupportBusinesses();
   document.getElementById("supportNavItem")?.classList.toggle("hidden", !state.isPlatformAdmin);
-  navTo(state.isPlatformAdmin ? "pageSupport" : "pageDashboard");
+  if (state.isPlatformAdmin) {
+    navTo("pageSupport");
+    return;
+  }
+  if (shouldAutoStartBusinessOnboarding()) {
+    navTo("pageMeuNegocio");
+    window.setTimeout(() => {
+      void startBusinessOnboarding();
+    }, 120);
+    return;
+  }
+  navTo("pageDashboard");
 }
 
 export async function bootstrapApp(): Promise<void> {

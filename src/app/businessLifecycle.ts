@@ -2,6 +2,7 @@ import * as businessService from "../services/businessService";
 import * as billingAccessService from "../services/billingAccessService";
 import { state } from "../state/store";
 import type { PendingBusinessDraft } from "../types";
+import { markBusinessOnboardingPending } from "./onboarding";
 
 export async function createBusinessAndSeed(draft: PendingBusinessDraft): Promise<void> {
   const access = state.billingAccess || (await billingAccessService.fetchBillingAccessByEmail(state.user?.email));
@@ -17,6 +18,7 @@ export async function createBusinessAndSeed(draft: PendingBusinessDraft): Promis
   const payload = businessService.buildNewBusinessPayload(state.user!.id, state.user?.email, resolvedDraft);
   const business = await businessService.insertBusiness(payload);
   state.business = business;
+  markBusinessOnboardingPending(business.id);
   await businessService.seedBusinessDefaults(business.id);
   if (access) {
     state.billingAccess = await billingAccessService.fetchBillingAccessByEmail(state.user?.email);
