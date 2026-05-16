@@ -9,6 +9,26 @@ import { slugify } from "../utils/strings";
 import { loadAdminExperience } from "./bootstrap";
 import { createBusinessAndSeed } from "./businessLifecycle";
 
+const PASSWORD_RECOVERY_PENDING_KEY = "agendixx_password_recovery_pending";
+
+function setPasswordRecoveryPending(active: boolean): void {
+  try {
+    if (active) {
+      localStorage.setItem(PASSWORD_RECOVERY_PENDING_KEY, "1");
+    } else {
+      localStorage.removeItem(PASSWORD_RECOVERY_PENDING_KEY);
+    }
+  } catch {}
+}
+
+export function hasPasswordRecoveryPending(): boolean {
+  try {
+    return localStorage.getItem(PASSWORD_RECOVERY_PENDING_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
 function planNameFromTier(planTier: "starter" | "pro"): "Plano Starter" | "Plano Pro" {
   return planTier === "pro" ? "Plano Pro" : "Plano Starter";
 }
@@ -67,10 +87,12 @@ export async function sendPasswordRecovery(): Promise<void> {
 
   showLoading(true);
   try {
+    setPasswordRecoveryPending(true);
     const { error } = await authService.resetPasswordForEmail(email, `${getAppBaseUrl()}/?app=recovery`);
     if (error) throw error;
     showToast("E-mail de redefinição enviado. Verifique sua caixa de entrada.");
   } catch (error) {
+    setPasswordRecoveryPending(false);
     console.error(error);
     showToast(getErrorMessage(error));
   } finally {
@@ -79,6 +101,7 @@ export async function sendPasswordRecovery(): Promise<void> {
 }
 
 export function showPasswordRecoveryPage(): void {
+  setPasswordRecoveryPending(true);
   showScreen("passwordRecoveryPage");
 }
 
@@ -102,6 +125,7 @@ export async function completePasswordRecovery(): Promise<void> {
   try {
     const { error } = await authService.updatePassword(password);
     if (error) throw error;
+    setPasswordRecoveryPending(false);
     showToast("Senha atualizada com sucesso.");
     await loadAdminExperience();
   } catch (error) {
@@ -213,6 +237,7 @@ export async function completeInitialSetup(): Promise<void> {
 export async function logout(): Promise<void> {
   showLoading(true);
   try {
+    setPasswordRecoveryPending(false);
     await authService.signOut();
     state.session = null;
     state.user = null;

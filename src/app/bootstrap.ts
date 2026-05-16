@@ -18,7 +18,15 @@ import { navTo } from "./navigation";
 
 function isPasswordRecoveryCallback(): boolean {
   const params = new URLSearchParams(window.location.search);
-  return params.get("app") === "recovery" || window.location.hash.includes("type=recovery");
+  return params.get("app") === "recovery" || window.location.hash.includes("type=recovery") || hasPasswordRecoveryPending();
+}
+
+function hasPasswordRecoveryPending(): boolean {
+  try {
+    return localStorage.getItem("agendixx_password_recovery_pending") === "1";
+  } catch {
+    return false;
+  }
 }
 
 function getPendingSetup(): Record<string, string> | null {
