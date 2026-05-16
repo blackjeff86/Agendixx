@@ -8,7 +8,7 @@ export async function createBusinessAndSeed(draft: PendingBusinessDraft): Promis
   if (!billingAccessService.billingAccessAllowsSetup(access)) {
     throw new Error("Seu acesso é liberado após a compra pela Kiwify. Use o mesmo e-mail da compra para entrar.");
   }
-  const resolvedTier = draft.plan_tier || access?.plan_tier || "pro";
+  const resolvedTier = draft.plan_tier || access?.plan_tier || "starter";
   const resolvedDraft: PendingBusinessDraft = {
     ...draft,
     plan_tier: resolvedTier,

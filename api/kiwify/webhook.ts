@@ -113,7 +113,7 @@ function resolvePlanTier(productId: string | null): PlanTier {
   const proIds = parseCsvSet(getEnv("KIWIFY_PRO_PRODUCT_IDS"));
   if (productId && starterIds.has(productId)) return "starter";
   if (productId && proIds.has(productId)) return "pro";
-  return getEnv("KIWIFY_DEFAULT_PLAN_TIER", "pro") === "starter" ? "starter" : "pro";
+  return getEnv("KIWIFY_DEFAULT_PLAN_TIER", "starter") === "pro" ? "pro" : "starter";
 }
 
 function mapEventToBillingStatus(eventName: string): BillingStatus | null {
