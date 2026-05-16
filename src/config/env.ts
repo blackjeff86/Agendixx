@@ -36,8 +36,9 @@ export function getAppBaseUrl(): string {
 }
 
 export const SUPPORT_ACCOUNT_EMAIL = "agendafacil26@gmail.com";
-export const STANDARD_MONTHLY_PRICE = 49.9;
+export const STANDARD_MONTHLY_PRICE = 59.9;
 export const SUPPORT_PAGE_SIZE = 6;
+export const SUPPORT_WHATSAPP_FALLBACK = String(import.meta.env.VITE_SUPPORT_WHATSAPP_FALLBACK || "(21) 99808-1325").trim();
 
 /** Chave PIX da plataforma (ex.: CNPJ, e-mail ou telefone) — usada nas mensagens de renovação do suporte. */
 export const AGENDIXX_PIX_KEY = String(import.meta.env.VITE_AGENDIXX_PIX_KEY || "").trim();

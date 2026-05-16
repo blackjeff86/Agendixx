@@ -3,7 +3,7 @@ import { formatCurrency } from "../utils/formatters";
 import { AGENDIXX_PIX_KEY, RENEWAL_REMINDER_WINDOW_DAYS } from "./env";
 import { promotionalDaysRemaining, resolvePlanTier } from "./plans";
 
-export const PLAN_STARTER_MONTHLY_BRL = 39.9;
+export const PLAN_STARTER_MONTHLY_BRL = 59.9;
 export const PLAN_PRO_MONTHLY_BRL = 59.9;
 /** Contas sem plan_tier (legado). */
 export const PLAN_LEGACY_MONTHLY_BRL = 49.9;

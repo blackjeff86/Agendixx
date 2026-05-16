@@ -67,6 +67,19 @@ create table if not exists public.platform_admins (
 
 alter table public.platform_admins add column if not exists active boolean default true;
 
+create table if not exists public.platform_settings (
+  id smallint primary key default 1 check (id = 1),
+  support_whatsapp text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+insert into public.platform_settings (id)
+values (1)
+on conflict (id) do nothing;
+
+grant select, insert, update on public.platform_settings to authenticated;
+
 create table if not exists public.user_directory (
   user_id uuid primary key references auth.users(id) on delete cascade,
   email text,
@@ -326,6 +339,7 @@ create index if not exists idx_appointments_reminder_day
 
 alter table public.businesses       enable row level security;
 alter table public.platform_admins  enable row level security;
+alter table public.platform_settings enable row level security;
 alter table public.user_directory   enable row level security;
 alter table public.billing_access   enable row level security;
 alter table public.billing_webhook_events enable row level security;
@@ -446,6 +460,8 @@ update public.billing_access ba
    and ba.provider = 'kiwify';
 
 drop policy if exists "platform_admin_self_select" on public.platform_admins;
+drop policy if exists "platform_settings_authenticated_read" on public.platform_settings;
+drop policy if exists "platform_settings_platform_admin_write" on public.platform_settings;
 drop policy if exists "user_directory_self_or_platform_admin" on public.user_directory;
 drop policy if exists "billing_access_self_or_platform_admin" on public.billing_access;
 drop policy if exists "owner_manage_customers" on public.customers;
@@ -470,6 +486,13 @@ drop policy if exists "public_insert_appointment" on public.appointments;
 -- ── BUSINESSES policies ──────────────────────────────────────
 create policy "platform_admin_self_select" on public.platform_admins
   for select using (user_id = auth.uid());
+
+create policy "platform_settings_authenticated_read" on public.platform_settings
+  for select using (auth.role() = 'authenticated');
+
+create policy "platform_settings_platform_admin_write" on public.platform_settings
+  for all using (public.is_platform_admin())
+  with check (public.is_platform_admin());
 
 create policy "user_directory_self_or_platform_admin" on public.user_directory
   for select using (user_id = auth.uid() or public.is_platform_admin());

@@ -78,6 +78,7 @@ export async function ensureBusinessExists(): Promise<void> {
 }
 
 export async function loadSupportBusinesses(): Promise<void> {
+  state.platformSettings = await supportService.fetchPlatformSettings();
   if (!state.isPlatformAdmin) {
     state.supportBusinesses = [];
     state.supportEvents = [];
@@ -100,6 +101,7 @@ export async function loadPlatformAdminStatus(): Promise<void> {
 
 export async function loadAdminExperience(): Promise<void> {
   await loadPlatformAdminStatus();
+  state.platformSettings = await supportService.fetchPlatformSettings();
   await ensureBusinessExists();
 
   if (!state.isPlatformAdmin && state.billingAccess && !billingAccessService.billingAccessHasActiveUse(state.billingAccess)) {

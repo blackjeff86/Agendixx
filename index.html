@@ -550,7 +550,7 @@
     <div class="login-card">
       <div class="brand-name" style="font-size:22px;">Conta temporariamente bloqueada</div>
       <div class="brand-sub" id="blockedReasonText">Entre em contato com o suporte para regularizar sua conta.</div>
-      <button class="btn btn-brand" type="button" onclick="window.open('https://wa.me/5511999990000','_blank')">Falar com suporte</button>
+      <button class="btn btn-brand" type="button" onclick="openSupportWhatsApp()">Falar com suporte</button>
       <button class="btn btn-ghost mt-2" type="button" onclick="logout()">Sair</button>
     </div>
   </section>
@@ -921,8 +921,24 @@
             <p>Monitore a base ativa, localize clientes com rapidez e aja sem depender do painel do lojista.</p>
           </div>
           <div class="support-hero-side">
-            <div class="support-hero-pill">Cobrança via PIX · Starter R$ 39,90 · Pro R$ 59,90</div>
+            <div class="support-hero-pill" id="supportPricingPill">Cobrança via PIX · Starter R$ 59,90 · Pro R$ 59,90</div>
             <div class="support-hero-pill support-hero-pill-soft">Ambiente interno</div>
+          </div>
+        </div>
+
+        <div class="card support-config-card">
+          <div class="support-config-head">
+            <div>
+              <div class="font-semibold">WhatsApp oficial de suporte</div>
+              <div class="text-sm text-sub">Esse número será usado nos botões “Falar com suporte” e nas rotas internas de ajuda.</div>
+            </div>
+          </div>
+          <div class="support-config-row">
+            <div class="input-group" style="margin-bottom:0;">
+              <label for="supportGlobalWhatsapp">Número do suporte</label>
+              <input type="tel" id="supportGlobalWhatsapp" inputmode="numeric" maxlength="15" data-br-phone="true" placeholder="(21) 99999-0000" />
+            </div>
+            <button class="btn btn-brand" type="button" onclick="saveSupportPlatformSettings()">Salvar WhatsApp</button>
           </div>
         </div>
 
@@ -1482,7 +1498,7 @@
           <div class="support-mini-stats">
             <div class="support-mini-stat">
               <span>Valor mensal</span>
-              <strong id="supportBusinessMiniMrr">R$ 49,90</strong>
+              <strong id="supportBusinessMiniMrr">R$ 59,90</strong>
             </div>
             <div class="support-mini-stat">
               <span>Desde</span>

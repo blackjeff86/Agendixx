@@ -5,6 +5,8 @@ import {
   getPaymentDueDate,
   isInRenewalWindow,
   planDisplayLabel,
+  PLAN_PRO_MONTHLY_BRL,
+  PLAN_STARTER_MONTHLY_BRL,
   sumEstimatedMonthlyRevenue,
 } from "../../config/billing";
 import { AGENDIXX_PIX_KEY, RENEWAL_REMINDER_WINDOW_DAYS, SUPPORT_PAGE_SIZE } from "../../config/env";
@@ -121,6 +123,11 @@ export function renderSupportBusinesses(): void {
   setText("supportNoEmailBusinesses", String(state.supportBusinesses.filter((item) => !item.owner_email).length));
   setText("supportEstimatedMrr", formatCurrency(sumEstimatedMonthlyRevenue(state.supportBusinesses)));
   setText("supportResultsLabel", `${filtered.length} resultado(s) encontrado(s)`);
+  setText("supportPricingPill", `Cobrança via PIX · Starter ${formatCurrency(PLAN_STARTER_MONTHLY_BRL)} · Pro ${formatCurrency(PLAN_PRO_MONTHLY_BRL)}`);
+  const supportWhatsapp = document.getElementById("supportGlobalWhatsapp") as HTMLInputElement | null;
+  if (supportWhatsapp) {
+    supportWhatsapp.value = state.platformSettings?.support_whatsapp || "";
+  }
 
   const list = document.getElementById("supportBusinessList");
   if (list) {

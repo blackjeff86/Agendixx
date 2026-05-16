@@ -73,6 +73,13 @@ export interface CustomerRow {
   portal_token?: string | null;
 }
 
+export interface PlatformSettingsRow {
+  id: number;
+  support_whatsapp?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface AppointmentSeriesRow {
   id: string;
   business_id: string;

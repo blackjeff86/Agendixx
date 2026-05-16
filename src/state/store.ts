@@ -12,6 +12,7 @@ import type {
   PublicData,
   CustomerPortalData,
   BillingAccessRow,
+  PlatformSettingsRow,
   ServiceRow,
   SupportEventRow,
 } from "../types";
@@ -52,6 +53,7 @@ export interface AppState {
   supportContextBusinessId: string | null;
   supportFilter: string;
   supportPage: number;
+  platformSettings: PlatformSettingsRow | null;
   publicData: PublicData;
   publicCustomerPortal: CustomerPortalData | null;
   customerPortalSelectedDate: string | null;
@@ -86,6 +88,7 @@ export const state: AppState = {
   supportContextBusinessId: null,
   supportFilter: "todos",
   supportPage: 1,
+  platformSettings: null,
   publicData: {
     business: null,
     services: [],

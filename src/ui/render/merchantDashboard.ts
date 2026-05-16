@@ -1,5 +1,6 @@
 import { DEFAULT_HOURS } from "../../constants/defaults";
 import { countActiveProfessionals, getCustomerManagementLimit, isStarterPlan, STARTER_ACTIVE_PROFESSIONAL_LIMIT } from "../../config/plans";
+import { SUPPORT_WHATSAPP_FALLBACK } from "../../config/env";
 import { findProfessional, findService } from "../../state/selectors";
 import { state, STATUS_LABELS } from "../../state/store";
 import type { Business } from "../../types";
@@ -136,7 +137,8 @@ export function openCustomerWhatsApp(phone: string, name: string): void {
 }
 
 export function openSupportWhatsApp(): void {
-  const url = buildWhatsAppWebUrlWithText("(21) 99808-1325", buildSupportWhatsAppMessage());
+  const phone = state.platformSettings?.support_whatsapp || SUPPORT_WHATSAPP_FALLBACK;
+  const url = buildWhatsAppWebUrlWithText(phone, buildSupportWhatsAppMessage());
   if (!url) return;
   window.open(url, "_blank");
 }

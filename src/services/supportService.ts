@@ -1,5 +1,5 @@
 import { getSupabase } from "../lib/supabase";
-import type { Business, CustomerRow, SupportEventRow } from "../types";
+import type { Business, CustomerRow, PlatformSettingsRow, SupportEventRow } from "../types";
 
 export async function fetchAllBusinesses(): Promise<Business[]> {
   const { data, error } = await getSupabase().from("businesses").select("*").order("created_at", { ascending: false });
@@ -34,4 +34,23 @@ export async function fetchCustomersForBusinessLimited(businessId: string, limit
     .limit(limit);
   if (error) throw error;
   return (data ?? []) as CustomerRow[];
+}
+
+export async function fetchPlatformSettings(): Promise<PlatformSettingsRow | null> {
+  const { data, error } = await getSupabase().from("platform_settings").select("*").eq("id", 1).maybeSingle();
+  if (error) {
+    console.warn("Platform settings unavailable:", error.message);
+    return null;
+  }
+  return (data as PlatformSettingsRow | null) ?? null;
+}
+
+export async function savePlatformSettings(payload: Partial<PlatformSettingsRow>): Promise<PlatformSettingsRow> {
+  const { data, error } = await getSupabase()
+    .from("platform_settings")
+    .upsert({ id: 1, ...payload, updated_at: new Date().toISOString() }, { onConflict: "id" })
+    .select("*")
+    .single();
+  if (error) throw error;
+  return data as PlatformSettingsRow;
 }

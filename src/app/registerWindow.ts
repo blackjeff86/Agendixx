@@ -105,6 +105,7 @@ export function registerWindowActions(): void {
     openSupportWhatsApp,
     openSupportBusinessModal: support.openSupportBusinessModal,
     saveSupportBusiness: support.saveSupportBusiness,
+    saveSupportPlatformSettings: support.saveSupportPlatformSettings,
     sendSupportPasswordReset: support.sendSupportPasswordReset,
     toggleBusinessBlocked: support.toggleBusinessBlocked,
     supportCreateService: support.supportCreateService,

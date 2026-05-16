@@ -6,6 +6,8 @@ import {
   getMonthlyPriceForBusiness,
   isInRenewalWindow,
   planDisplayLabel,
+  PLAN_PRO_MONTHLY_BRL,
+  PLAN_STARTER_MONTHLY_BRL,
   type SupportPlanTierKey,
 } from "../config/billing";
 import { AGENDIXX_PIX_KEY, DEFAULT_BILLING_CYCLE_DAYS, getAppBaseUrl, SUPPORT_PAGE_SIZE } from "../config/env";
@@ -62,6 +64,26 @@ export function switchSupportTab(tab: "lojas" | "renovacoes"): void {
   document.getElementById("supportTabLojasBtn")?.setAttribute("aria-selected", tab === "lojas" ? "true" : "false");
   document.getElementById("supportTabRenovacoesBtn")?.setAttribute("aria-selected", tab === "renovacoes" ? "true" : "false");
   if (tab === "renovacoes") renderSupportRenewalList();
+}
+
+export async function saveSupportPlatformSettings(): Promise<void> {
+  const supportWhatsapp = (document.getElementById("supportGlobalWhatsapp") as HTMLInputElement | null)?.value.trim() || "";
+  showLoading(true);
+  try {
+    state.platformSettings = await supportService.savePlatformSettings({
+      support_whatsapp: supportWhatsapp || null,
+    });
+    const pill = document.getElementById("supportPricingPill");
+    if (pill) {
+      pill.textContent = `Cobrança via PIX · Starter ${formatCurrency(PLAN_STARTER_MONTHLY_BRL)} · Pro ${formatCurrency(PLAN_PRO_MONTHLY_BRL)}`;
+    }
+    showToast("Configurações de suporte salvas.");
+  } catch (error) {
+    console.error(error);
+    showToast(getErrorMessage(error));
+  } finally {
+    showLoading(false);
+  }
 }
 
 export async function openRenewalReminderWhatsApp(businessId: string): Promise<void> {

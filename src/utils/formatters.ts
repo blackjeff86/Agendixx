@@ -84,7 +84,7 @@ export function formatTimelineDate(value: string | undefined): string {
 
 export function normalizePlanName(planName: string | undefined | null): string {
   if (!planName || /29,90/.test(planName)) {
-    return "Plano Mensal 49,90";
+    return "Plano Starter";
   }
   return planName;
 }
