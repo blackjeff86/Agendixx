@@ -404,15 +404,15 @@
   .auth-tab.active{background:#fff;box-shadow:0 4px 16px rgba(124,58,237,.12);}
   .stack{display:flex;flex-direction:column;gap:0;}
   .helper-text{font-size:12px;color:var(--sub);margin-top:4px;}
-  .onboarding-overlay{position:fixed;inset:0;background:rgba(15,23,42,.56);backdrop-filter:blur(4px);z-index:350;display:none;}
+  .onboarding-overlay{position:fixed;inset:0;background:rgba(255,255,255,.14);z-index:350;display:none;pointer-events:none;}
   .onboarding-overlay.open{display:block;}
-  .onboarding-card{position:fixed;max-width:min(360px,calc(100vw - 32px));background:#fff;border-radius:24px;padding:18px 18px 16px;border:1px solid rgba(59,130,246,.16);box-shadow:0 24px 60px rgba(15,23,42,.28);z-index:352;}
+  .onboarding-card{position:fixed;max-width:min(360px,calc(100vw - 32px));background:#fff;border-radius:24px;padding:18px 18px 16px;border:1px solid rgba(59,130,246,.16);box-shadow:0 24px 60px rgba(15,23,42,.20);z-index:352;pointer-events:auto;}
   .onboarding-progress{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2563eb;margin-bottom:10px;}
   .onboarding-title{font-size:22px;font-weight:800;letter-spacing:-.03em;color:#0f172a;margin-bottom:8px;}
   .onboarding-description{font-size:14px;line-height:1.6;color:#475569;}
   .onboarding-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;}
   .onboarding-actions .btn{width:auto;min-width:0;flex:1;}
-  .onboarding-target{position:relative;z-index:351!important;box-shadow:0 0 0 4px rgba(96,165,250,.95),0 18px 40px rgba(15,23,42,.22)!important;border-radius:20px;transition:box-shadow .2s ease;}
+  .onboarding-target{position:relative;z-index:351!important;box-shadow:0 0 0 4px rgba(96,165,250,.95),0 10px 22px rgba(37,99,235,.18)!important;border-radius:20px;transition:box-shadow .2s ease;pointer-events:auto;}
   .connection-badge{display:inline-flex;align-items:center;justify-content:center;background:var(--brand-light);color:var(--brand);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;margin:0 auto 18px;max-width:max-content;}
   .loading-overlay{position:fixed;inset:0;background:rgba(30,27,75,.24);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1200;}
   .loading-card{background:#fff;border-radius:20px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.16);display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;max-width:280px;}
