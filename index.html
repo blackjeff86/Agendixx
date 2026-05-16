@@ -490,6 +490,7 @@
             <input type="password" id="loginPass" placeholder="Sua senha" required />
           </div>
           <button class="btn btn-brand mt-2" type="submit">Entrar</button>
+          <button class="btn btn-ghost mt-2" type="button" onclick="sendPasswordRecovery()">Esqueci minha senha</button>
         </form>
 
         <form id="signupForm" class="stack hidden" onsubmit="event.preventDefault(); doSignup();">
@@ -551,6 +552,24 @@
       <div class="brand-sub" id="blockedReasonText">Entre em contato com o suporte para regularizar sua conta.</div>
       <button class="btn btn-brand" type="button" onclick="window.open('https://wa.me/5511999990000','_blank')">Falar com suporte</button>
       <button class="btn btn-ghost mt-2" type="button" onclick="logout()">Sair</button>
+    </div>
+  </section>
+
+  <section id="passwordRecoveryPage" class="hidden auth-shell">
+    <div class="login-card">
+      <div class="brand-name" style="font-size:22px;">Criar nova senha</div>
+      <div class="brand-sub">Defina uma nova senha para acessar sua conta no Agendixx.</div>
+      <form class="stack" onsubmit="event.preventDefault(); completePasswordRecovery();">
+        <div class="input-group">
+          <label for="recoveryPass">Nova senha</label>
+          <input type="password" id="recoveryPass" placeholder="Digite sua nova senha" required />
+        </div>
+        <div class="input-group">
+          <label for="recoveryPassConfirm">Confirmar nova senha</label>
+          <input type="password" id="recoveryPassConfirm" placeholder="Repita sua nova senha" required />
+        </div>
+        <button class="btn btn-brand" type="submit">Salvar nova senha</button>
+      </form>
     </div>
   </section>
 

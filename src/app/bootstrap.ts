@@ -15,6 +15,10 @@ import { loadCustomerPortalData, loadPublicData } from "./publicData";
 import { pubGoRaw, showCustomerPortal } from "./publicFlow";
 import { navTo } from "./navigation";
 
+function isPasswordRecoveryCallback(): boolean {
+  return window.location.hash.includes("type=recovery");
+}
+
 function getPendingSetup(): Record<string, string> | null {
   try {
     const raw = localStorage.getItem("agendixx_pending_setup");
@@ -168,6 +172,12 @@ export async function bootstrapApp(): Promise<void> {
       state.user = nextSession?.user ?? null;
       if (handledAuthRedirect) return;
       if (slug || clientPortalToken) return;
+      if (_event === "PASSWORD_RECOVERY") {
+        handledAuthRedirect = true;
+        const { showPasswordRecoveryPage } = await import("./authActions");
+        showPasswordRecoveryPage();
+        return;
+      }
       if (!nextSession?.user) return;
       handledAuthRedirect = true;
       showLoading(true);
@@ -197,6 +207,11 @@ export async function bootstrapApp(): Promise<void> {
     }
 
     if (session?.user) {
+      if (isPasswordRecoveryCallback()) {
+        const { showPasswordRecoveryPage } = await import("./authActions");
+        showPasswordRecoveryPage();
+        return;
+      }
       await loadAdminExperience();
       return;
     }

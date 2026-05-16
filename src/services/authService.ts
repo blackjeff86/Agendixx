@@ -31,6 +31,10 @@ export async function resetPasswordForEmail(email: string, redirectTo: string) {
   return getSupabase().auth.resetPasswordForEmail(email, { redirectTo });
 }
 
+export async function updatePassword(password: string) {
+  return getSupabase().auth.updateUser({ password });
+}
+
 export async function isPlatformAdmin(): Promise<boolean> {
   const { data, error } = await getSupabase().rpc("is_platform_admin");
   if (error) return false;

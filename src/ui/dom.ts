@@ -2,12 +2,12 @@ import { getAppBaseUrl } from "../config/env";
 import { setToastTimer, toastTimer } from "../state/store";
 
 export function showScreen(id: string): void {
-  ["landingPage", "loginPage", "setupPage", "blockedPage", "adminShell", "publicShell"].forEach((screenId) => {
+  ["landingPage", "loginPage", "passwordRecoveryPage", "setupPage", "blockedPage", "adminShell", "publicShell"].forEach((screenId) => {
     document.getElementById(screenId)?.classList.toggle("hidden", screenId !== id);
   });
   if (id === "landingPage") {
     applyBodyMode("landing");
-  } else if (id === "loginPage" || id === "setupPage" || id === "blockedPage") {
+  } else if (id === "loginPage" || id === "passwordRecoveryPage" || id === "setupPage" || id === "blockedPage") {
     applyBodyMode("auth");
   } else if (id === "publicShell") {
     applyBodyMode("public");

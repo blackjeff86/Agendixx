@@ -58,6 +58,60 @@ export async function doLogin(): Promise<void> {
   }
 }
 
+export async function sendPasswordRecovery(): Promise<void> {
+  const email = (document.getElementById("loginEmail") as HTMLInputElement | null)?.value.trim() || "";
+  if (!email) {
+    showToast("Informe seu e-mail para receber o link de redefinição.");
+    return;
+  }
+
+  showLoading(true);
+  try {
+    const { error } = await authService.resetPasswordForEmail(email, `${getAppBaseUrl()}/?app=login`);
+    if (error) throw error;
+    showToast("E-mail de redefinição enviado. Verifique sua caixa de entrada.");
+  } catch (error) {
+    console.error(error);
+    showToast(getErrorMessage(error));
+  } finally {
+    showLoading(false);
+  }
+}
+
+export function showPasswordRecoveryPage(): void {
+  showScreen("passwordRecoveryPage");
+}
+
+export async function completePasswordRecovery(): Promise<void> {
+  const password = (document.getElementById("recoveryPass") as HTMLInputElement | null)?.value.trim() || "";
+  const confirmPassword = (document.getElementById("recoveryPassConfirm") as HTMLInputElement | null)?.value.trim() || "";
+  if (!password || !confirmPassword) {
+    showToast("Preencha e confirme a nova senha.");
+    return;
+  }
+  if (password.length < 6) {
+    showToast("A nova senha deve ter pelo menos 6 caracteres.");
+    return;
+  }
+  if (password !== confirmPassword) {
+    showToast("As senhas não coincidem.");
+    return;
+  }
+
+  showLoading(true);
+  try {
+    const { error } = await authService.updatePassword(password);
+    if (error) throw error;
+    showToast("Senha atualizada com sucesso.");
+    await loadAdminExperience();
+  } catch (error) {
+    console.error(error);
+    showToast(getErrorMessage(error));
+  } finally {
+    showLoading(false);
+  }
+}
+
 export async function doSignup(): Promise<void> {
   const isSupportSignup = isSupportAccountEmail((document.getElementById("signupEmail") as HTMLInputElement).value.trim());
   if (!isSupportSignup) {
