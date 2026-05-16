@@ -24,7 +24,36 @@ import { createSupportEvent } from "./supportEvents";
 export { toggleCardMenu };
 
 let pendingHourFreezeDay: number | null = null;
-const PROFESSIONAL_AVATAR_OPTIONS = ["👩", "👨", "💇‍♀️", "💇‍♂️", "💅", "🧔", "👱‍♀️", "👩‍🦱", "👨‍🦲", "👤"];
+const PROFESSIONAL_AVATAR_OPTIONS = [
+  "👩🏻",
+  "👩🏽",
+  "👩🏿",
+  "👨🏻",
+  "👨🏽",
+  "👨🏿",
+  "💇🏻‍♀️",
+  "💇🏽‍♀️",
+  "💇🏿‍♀️",
+  "💇🏻‍♂️",
+  "💇🏽‍♂️",
+  "💇🏿‍♂️",
+  "💅🏻",
+  "💅🏽",
+  "💅🏿",
+  "🧔🏻",
+  "🧔🏽",
+  "🧔🏿",
+  "👱🏻‍♀️",
+  "👱🏽‍♀️",
+  "👱🏿‍♀️",
+  "👩🏻‍🦱",
+  "👩🏽‍🦱",
+  "👩🏿‍🦱",
+  "👨🏻‍🦲",
+  "👨🏽‍🦲",
+  "👨🏿‍🦲",
+  "👤",
+];
 const WEEKDAY_OPTIONS = [
   { value: 0, label: "Dom" },
   { value: 1, label: "Seg" },
