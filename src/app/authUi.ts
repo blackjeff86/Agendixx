@@ -100,6 +100,10 @@ export function syncEntryViewFromUrl(): void {
     syncSignupPlanChoice(getSelectedSignupPlan(), false);
   }
   if (appMode) {
+    if (appMode === "recovery") {
+      showScreen("passwordRecoveryPage");
+      return;
+    }
     showScreen("loginPage");
     switchAuthMode(appMode === "signup" ? "signup" : "login");
     return;

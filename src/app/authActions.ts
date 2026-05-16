@@ -67,7 +67,7 @@ export async function sendPasswordRecovery(): Promise<void> {
 
   showLoading(true);
   try {
-    const { error } = await authService.resetPasswordForEmail(email, `${getAppBaseUrl()}/?app=login`);
+    const { error } = await authService.resetPasswordForEmail(email, `${getAppBaseUrl()}/?app=recovery`);
     if (error) throw error;
     showToast("E-mail de redefinição enviado. Verifique sua caixa de entrada.");
   } catch (error) {

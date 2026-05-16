@@ -17,7 +17,8 @@ import { pubGoRaw, showCustomerPortal } from "./publicFlow";
 import { navTo } from "./navigation";
 
 function isPasswordRecoveryCallback(): boolean {
-  return window.location.hash.includes("type=recovery");
+  const params = new URLSearchParams(window.location.search);
+  return params.get("app") === "recovery" || window.location.hash.includes("type=recovery");
 }
 
 function getPendingSetup(): Record<string, string> | null {
@@ -186,7 +187,7 @@ export async function bootstrapApp(): Promise<void> {
       state.user = nextSession?.user ?? null;
       if (handledAuthRedirect) return;
       if (slug || clientPortalToken) return;
-      if (_event === "PASSWORD_RECOVERY") {
+      if (_event === "PASSWORD_RECOVERY" || isPasswordRecoveryCallback()) {
         handledAuthRedirect = true;
         const { showPasswordRecoveryPage } = await import("./authActions");
         showPasswordRecoveryPage();
