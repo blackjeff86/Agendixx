@@ -129,6 +129,28 @@ export interface SupportEventRow {
   created_at?: string;
 }
 
+export interface BillingAccessRow {
+  id: string;
+  email: string;
+  provider: string;
+  plan_tier?: "starter" | "pro" | null;
+  billing_status: string;
+  current_period_end?: string | null;
+  auth_user_id?: string | null;
+  business_id?: string | null;
+  provider_product_id?: string | null;
+  provider_product_name?: string | null;
+  provider_order_id?: string | null;
+  provider_subscription_id?: string | null;
+  provider_customer_id?: string | null;
+  invite_sent_at?: string | null;
+  last_event?: string | null;
+  last_event_at?: string | null;
+  raw_payload?: unknown;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface ServiceDraft {
   name: string;
   description: string;

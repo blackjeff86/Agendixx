@@ -11,6 +11,7 @@ import type {
   ProfessionalServiceRow,
   PublicData,
   CustomerPortalData,
+  BillingAccessRow,
   ServiceRow,
   SupportEventRow,
 } from "../types";
@@ -28,6 +29,7 @@ export interface AppState {
   session: Session | null;
   user: User | null;
   isPlatformAdmin: boolean;
+  billingAccess: BillingAccessRow | null;
   business: Business | null;
   services: ServiceRow[];
   professionals: ProfessionalRow[];
@@ -61,6 +63,7 @@ export const state: AppState = {
   session: null,
   user: null,
   isPlatformAdmin: false,
+  billingAccess: null,
   business: null,
   services: [],
   professionals: [],

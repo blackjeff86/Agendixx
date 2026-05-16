@@ -81,7 +81,7 @@ export function syncSignupFormMode(): void {
   supportNote.classList.toggle("hidden", !isSupportSignup);
   businessName.required = !isSupportSignup;
   slug.required = !isSupportSignup;
-  submitButton.textContent = isSupportSignup ? "Criar conta de suporte" : "Criar conta e negócio";
+  submitButton.textContent = isSupportSignup ? "Criar conta de suporte" : "Acesso liberado pela Kiwify";
   document.getElementById("signupPlanWrap")?.classList.toggle("hidden", isSupportSignup);
   if (!isSupportSignup) {
     syncSignupPlanChoice(getSelectedSignupPlan(), false);

@@ -52,6 +52,11 @@ export async function doLogin(): Promise<void> {
 
 export async function doSignup(): Promise<void> {
   const isSupportSignup = isSupportAccountEmail((document.getElementById("signupEmail") as HTMLInputElement).value.trim());
+  if (!isSupportSignup) {
+    showToast("Novos acessos são liberados após a compra na Kiwify. Faça a compra e depois entre com o mesmo e-mail usado no pagamento.");
+    switchAuthMode("login");
+    return;
+  }
   const draft = {
     name: (document.getElementById("signupBusinessName") as HTMLInputElement).value.trim(),
     slug: slugify((document.getElementById("signupSlug") as HTMLInputElement).value.trim()),

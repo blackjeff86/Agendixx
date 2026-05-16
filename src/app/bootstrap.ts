@@ -1,4 +1,5 @@
 import * as authService from "../services/authService";
+import * as billingAccessService from "../services/billingAccessService";
 import * as businessService from "../services/businessService";
 import * as supportService from "../services/supportService";
 import { state } from "../state/store";
@@ -50,6 +51,8 @@ export async function ensureBusinessExists(): Promise<void> {
     return;
   }
 
+  state.billingAccess = await billingAccessService.fetchBillingAccessByEmail(state.user?.email);
+
   const data = await businessService.fetchBusinessByOwner(state.user!.id);
 
   if (data) {
@@ -93,7 +96,24 @@ export async function loadAdminExperience(): Promise<void> {
   await loadPlatformAdminStatus();
   await ensureBusinessExists();
 
+  if (!state.isPlatformAdmin && state.billingAccess && !billingAccessService.billingAccessHasActiveUse(state.billingAccess)) {
+    const el = document.getElementById("blockedReasonText");
+    if (el) {
+      el.textContent = billingAccessService.getBillingAccessBlockedReason(state.billingAccess);
+    }
+    showScreen("blockedPage");
+    return;
+  }
+
   if (!state.business && !state.isPlatformAdmin) {
+    if (!billingAccessService.billingAccessAllowsSetup(state.billingAccess)) {
+      const el = document.getElementById("blockedReasonText");
+      if (el) {
+        el.textContent = billingAccessService.getBillingAccessBlockedReason(state.billingAccess);
+      }
+      showScreen("blockedPage");
+      return;
+    }
     const { showSetupPage } = await import("./setupFlow");
     showSetupPage();
     return;
