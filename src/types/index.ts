@@ -49,6 +49,7 @@ export interface ProfessionalRow {
   emoji?: string | null;
   active: boolean;
   day_off_weekday?: number | null;
+  day_off_weekdays?: number[] | null;
   vacation_start?: string | null;
   vacation_end?: string | null;
   lunch_start?: string | null;
@@ -175,6 +176,7 @@ export interface ProfessionalDraft {
   active: boolean;
   serviceNames: string[];
   day_off_weekday?: number | null;
+  day_off_weekdays?: number[] | null;
   vacation_start?: string | null;
   vacation_end?: string | null;
   lunch_start?: string | null;

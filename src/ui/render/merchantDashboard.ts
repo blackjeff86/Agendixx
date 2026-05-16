@@ -69,8 +69,13 @@ function formatAvailabilitySummary(professionalId: string): string {
   const professional = state.professionals.find((item) => item.id === professionalId);
   if (!professional) return "";
   const chunks: string[] = [];
-  if (professional.day_off_weekday !== null && professional.day_off_weekday !== undefined) {
-    chunks.push(`Folga: ${WEEKDAY_LABELS[professional.day_off_weekday] || "Dia"}`);
+  const dayOffs = professional.day_off_weekdays?.length
+    ? professional.day_off_weekdays
+    : professional.day_off_weekday !== null && professional.day_off_weekday !== undefined
+      ? [professional.day_off_weekday]
+      : [];
+  if (dayOffs.length) {
+    chunks.push(`Folga: ${dayOffs.map((day) => WEEKDAY_LABELS[day] || "Dia").join(", ")}`);
   }
   if (professional.vacation_start && professional.vacation_end) {
     chunks.push(`Férias: ${new Date(`${professional.vacation_start}T12:00:00`).toLocaleDateString("pt-BR")} a ${new Date(`${professional.vacation_end}T12:00:00`).toLocaleDateString("pt-BR")}`);

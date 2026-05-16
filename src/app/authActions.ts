@@ -21,6 +21,15 @@ function setPasswordRecoveryPending(active: boolean): void {
   } catch {}
 }
 
+function clearPasswordRecoveryUrlState(): void {
+  try {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("app");
+    url.hash = "";
+    window.history.replaceState(window.history.state || {}, "", url);
+  } catch {}
+}
+
 export function hasPasswordRecoveryPending(): boolean {
   try {
     return localStorage.getItem(PASSWORD_RECOVERY_PENDING_KEY) === "1";
@@ -102,6 +111,7 @@ export async function sendPasswordRecovery(): Promise<void> {
 
 export function showPasswordRecoveryPage(): void {
   setPasswordRecoveryPending(true);
+  clearPasswordRecoveryUrlState();
   showScreen("passwordRecoveryPage");
 }
 
@@ -126,6 +136,7 @@ export async function completePasswordRecovery(): Promise<void> {
     const { error } = await authService.updatePassword(password);
     if (error) throw error;
     setPasswordRecoveryPending(false);
+    clearPasswordRecoveryUrlState();
     showToast("Senha atualizada com sucesso.");
     await loadAdminExperience();
   } catch (error) {

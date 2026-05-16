@@ -234,6 +234,7 @@ create table if not exists public.professionals (
   emoji       text default '👤',
   active      boolean default true,
   day_off_weekday int check (day_off_weekday between 0 and 6),
+  day_off_weekdays int[],
   vacation_start date,
   vacation_end   date,
   lunch_start    time,
@@ -245,6 +246,7 @@ alter table public.professionals add column if not exists role text;
 alter table public.professionals add column if not exists emoji text default '👤';
 alter table public.professionals add column if not exists active boolean default true;
 alter table public.professionals add column if not exists day_off_weekday int;
+alter table public.professionals add column if not exists day_off_weekdays int[];
 alter table public.professionals add column if not exists vacation_start date;
 alter table public.professionals add column if not exists vacation_end date;
 alter table public.professionals add column if not exists lunch_start time;
@@ -646,6 +648,7 @@ as $$
   with professional_data as (
     select
       p.day_off_weekday,
+      p.day_off_weekdays,
       p.vacation_start,
       p.vacation_end,
       p.lunch_start,
@@ -657,7 +660,10 @@ as $$
     select 1
     from professional_data pd
     where
-      (pd.day_off_weekday is not null and pd.day_off_weekday = extract(dow from p_date)::int)
+      (
+        (pd.day_off_weekdays is not null and extract(dow from p_date)::int = any(pd.day_off_weekdays))
+        or (pd.day_off_weekday is not null and pd.day_off_weekday = extract(dow from p_date)::int)
+      )
       or (
         pd.vacation_start is not null
         and pd.vacation_end is not null
@@ -1395,3 +1401,7 @@ execute function public.validate_appointment_integrity();
 -- update public.businesses
 -- set plan_tier = 'pro', plan_name = 'Plano Pro'
 -- where name ilike '%deh%unhas%';
+update public.professionals
+set day_off_weekdays = array[day_off_weekday]
+where day_off_weekday is not null
+  and (day_off_weekdays is null or array_length(day_off_weekdays, 1) is null);

@@ -1370,22 +1370,23 @@
       <div class="font-bold text-lg mb-4" id="professionalModalTitle">Novo Profissional</div>
       <div class="input-group"><label for="newProfName">Nome</label><input type="text" id="newProfName" placeholder="Nome completo" /></div>
       <div class="input-group"><label for="newProfRole">Especialidade / Cargo</label><input type="text" id="newProfRole" placeholder="Ex: Nail designer" /></div>
-      <div class="input-group"><label for="newProfEmoji">Emoji</label><input type="text" id="newProfEmoji" placeholder="👤" maxlength="4" /></div>
-      <div class="input-group"><label for="newProfServices">Serviços realizados</label><select id="newProfServices" multiple style="height:120px;"></select></div>
+      <div class="input-group">
+        <label for="newProfEmoji">Avatar</label>
+        <input type="hidden" id="newProfEmoji" value="👤" />
+        <div class="professional-avatar-picker" id="newProfAvatarGrid"></div>
+      </div>
+      <div class="input-group">
+        <label for="newProfServices">Serviços realizados</label>
+        <select id="newProfServices" multiple class="hidden"></select>
+        <div class="professional-service-picker" id="newProfServicesPicker"></div>
+      </div>
       <div class="card card-sm" style="margin-bottom:16px;">
-        <div class="font-semibold mb-3">Disponibilidade da profissional</div>
+        <div class="font-semibold mb-3">Disponibilidade do profissional</div>
         <div class="input-group">
-          <label for="newProfDayOffWeekday">Dia fixo de folga</label>
-          <select id="newProfDayOffWeekday">
-            <option value="">Sem folga fixa</option>
-            <option value="0">Domingo</option>
-            <option value="1">Segunda</option>
-            <option value="2">Terça</option>
-            <option value="3">Quarta</option>
-            <option value="4">Quinta</option>
-            <option value="5">Sexta</option>
-            <option value="6">Sábado</option>
-          </select>
+          <label for="newProfDayOffWeekdays">Dias fixos de folga</label>
+          <input type="hidden" id="newProfDayOffWeekdays" value="" />
+          <div class="professional-dayoff-picker" id="newProfDayOffPicker"></div>
+          <div class="helper-text">Clique para adicionar ou remover quantos dias de folga fixa forem necessários.</div>
         </div>
         <div class="flex gap-3">
           <div class="input-group" style="flex:1;">

@@ -24,6 +24,82 @@ import { createSupportEvent } from "./supportEvents";
 export { toggleCardMenu };
 
 let pendingHourFreezeDay: number | null = null;
+const PROFESSIONAL_AVATAR_OPTIONS = ["👩", "👨", "💇‍♀️", "💇‍♂️", "💅", "🧔", "👱‍♀️", "👩‍🦱", "👨‍🦲", "👤"];
+const WEEKDAY_OPTIONS = [
+  { value: 0, label: "Dom" },
+  { value: 1, label: "Seg" },
+  { value: 2, label: "Ter" },
+  { value: 3, label: "Qua" },
+  { value: 4, label: "Qui" },
+  { value: 5, label: "Sex" },
+  { value: 6, label: "Sáb" },
+];
+
+function getSelectedProfessionalServiceIds(): string[] {
+  const select = document.getElementById("newProfServices") as HTMLSelectElement | null;
+  if (!select) return [];
+  return Array.from(select.options)
+    .filter((option) => option.selected)
+    .map((option) => option.value);
+}
+
+function setSelectedProfessionalDayOffWeekdays(days: number[]): void {
+  const input = document.getElementById("newProfDayOffWeekdays") as HTMLInputElement | null;
+  if (!input) return;
+  input.value = [...new Set(days)].sort((a, b) => a - b).join(",");
+}
+
+function getSelectedProfessionalDayOffWeekdays(): number[] {
+  const raw = (document.getElementById("newProfDayOffWeekdays") as HTMLInputElement | null)?.value || "";
+  return raw
+    .split(",")
+    .map((value) => Number(value))
+    .filter((value) => Number.isInteger(value) && value >= 0 && value <= 6);
+}
+
+function renderProfessionalAvatarPicker(selectedAvatar = "👤"): void {
+  const input = document.getElementById("newProfEmoji") as HTMLInputElement | null;
+  const grid = document.getElementById("newProfAvatarGrid");
+  if (!input || !grid) return;
+  input.value = selectedAvatar;
+  grid.innerHTML = PROFESSIONAL_AVATAR_OPTIONS.map((avatar) => `
+    <button
+      type="button"
+      class="professional-avatar-option ${avatar === selectedAvatar ? "is-selected" : ""}"
+      onclick="selectProfessionalAvatar('${avatar}')"
+      aria-label="Selecionar avatar ${avatar}"
+      title="Selecionar avatar"
+    >${avatar}</button>
+  `).join("");
+}
+
+function renderProfessionalServicePicker(): void {
+  const select = document.getElementById("newProfServices") as HTMLSelectElement | null;
+  const container = document.getElementById("newProfServicesPicker");
+  if (!select || !container) return;
+  container.innerHTML = Array.from(select.options)
+    .map((option) => `
+      <button
+        type="button"
+        class="professional-service-option ${option.selected ? "is-selected" : ""}"
+        onclick="toggleProfessionalService('${option.value}')"
+      >${option.textContent || "Serviço"}</button>
+    `)
+    .join("");
+}
+
+function renderProfessionalDayOffPicker(): void {
+  const container = document.getElementById("newProfDayOffPicker");
+  if (!container) return;
+  const selected = new Set(getSelectedProfessionalDayOffWeekdays());
+  container.innerHTML = WEEKDAY_OPTIONS.map((day) => `
+    <button
+      type="button"
+      class="professional-dayoff-option ${selected.has(day.value) ? "is-selected" : ""}"
+      onclick="toggleProfessionalDayOff(${day.value})"
+    >${day.label}</button>
+  `).join("");
+}
 
 function getEditingAppointmentSnapshot() {
   if (!state.editingAppointmentId) return null;
@@ -288,6 +364,31 @@ export async function populateProfessionalServicesForBusiness(businessId: string
   const data = await serviceCatalogService.listServiceIdNameForBusiness(businessId);
   const el = document.getElementById("newProfServices");
   if (el) el.innerHTML = data.map((service) => `<option value="${service.id}">${service.name}</option>`).join("");
+  renderProfessionalServicePicker();
+}
+
+export function selectProfessionalAvatar(avatar: string): void {
+  renderProfessionalAvatarPicker(avatar);
+}
+
+export function toggleProfessionalService(serviceId: string): void {
+  const select = document.getElementById("newProfServices") as HTMLSelectElement | null;
+  if (!select) return;
+  const option = Array.from(select.options).find((item) => item.value === serviceId);
+  if (!option) return;
+  option.selected = !option.selected;
+  renderProfessionalServicePicker();
+}
+
+export function toggleProfessionalDayOff(dayOfWeek: number): void {
+  const selected = new Set(getSelectedProfessionalDayOffWeekdays());
+  if (selected.has(dayOfWeek)) {
+    selected.delete(dayOfWeek);
+  } else {
+    selected.add(dayOfWeek);
+  }
+  setSelectedProfessionalDayOffWeekdays([...selected]);
+  renderProfessionalDayOffPicker();
 }
 
 export async function saveBusinessProfile(): Promise<void> {
@@ -542,12 +643,15 @@ export function resetProfessionalModal(): void {
   if (saveBtn) saveBtn.textContent = "Salvar";
   (document.getElementById("newProfName") as HTMLInputElement).value = "";
   (document.getElementById("newProfRole") as HTMLInputElement).value = "";
-  (document.getElementById("newProfEmoji") as HTMLInputElement).value = "";
+  (document.getElementById("newProfEmoji") as HTMLInputElement).value = "👤";
+  renderProfessionalAvatarPicker("👤");
   Array.from((document.getElementById("newProfServices") as HTMLSelectElement).options).forEach((option) => {
     option.selected = false;
   });
+  renderProfessionalServicePicker();
   (document.getElementById("newProfActive") as HTMLInputElement).checked = true;
-  (document.getElementById("newProfDayOffWeekday") as HTMLSelectElement).value = "";
+  setSelectedProfessionalDayOffWeekdays([]);
+  renderProfessionalDayOffPicker();
   (document.getElementById("newProfVacationStart") as HTMLInputElement).value = "";
   (document.getElementById("newProfVacationEnd") as HTMLInputElement).value = "";
   (document.getElementById("newProfLunchStart") as HTMLInputElement).value = "";
@@ -720,9 +824,15 @@ export function editProfessional(professionalId: string): void {
   if (saveBtn) saveBtn.textContent = "Salvar Alterações";
   (document.getElementById("newProfName") as HTMLInputElement).value = professional.name || "";
   (document.getElementById("newProfRole") as HTMLInputElement).value = professional.role || "";
-  (document.getElementById("newProfEmoji") as HTMLInputElement).value = professional.emoji || "";
+  renderProfessionalAvatarPicker(professional.emoji || "👤");
   (document.getElementById("newProfActive") as HTMLInputElement).checked = Boolean(professional.active);
-  (document.getElementById("newProfDayOffWeekday") as HTMLSelectElement).value = professional.day_off_weekday === null || professional.day_off_weekday === undefined ? "" : String(professional.day_off_weekday);
+  const savedDays = professional.day_off_weekdays?.length
+    ? professional.day_off_weekdays
+    : professional.day_off_weekday === null || professional.day_off_weekday === undefined
+      ? []
+      : [professional.day_off_weekday];
+  setSelectedProfessionalDayOffWeekdays(savedDays);
+  renderProfessionalDayOffPicker();
   (document.getElementById("newProfVacationStart") as HTMLInputElement).value = professional.vacation_start || "";
   (document.getElementById("newProfVacationEnd") as HTMLInputElement).value = professional.vacation_end || "";
   (document.getElementById("newProfLunchStart") as HTMLInputElement).value = professional.lunch_start?.slice(0, 5) || "";
@@ -733,6 +843,7 @@ export function editProfessional(professionalId: string): void {
   Array.from((document.getElementById("newProfServices") as HTMLSelectElement).options).forEach((option) => {
     option.selected = assignedServiceIds.has(option.value);
   });
+  renderProfessionalServicePicker();
   openModal("modalNovoProf");
   document.dispatchEvent(new CustomEvent("agendixx:professional-modal-opened"));
 }
@@ -815,16 +926,16 @@ export async function saveProfessional(): Promise<void> {
   const targetBusinessId = state.supportContextBusinessId || state.business!.id;
   const fromSupport = Boolean(state.supportContextBusinessId);
 
-  const selectedServiceIds = Array.from((document.getElementById("newProfServices") as HTMLSelectElement).selectedOptions).map(
-    (option) => option.value
-  );
+  const selectedServiceIds = getSelectedProfessionalServiceIds();
+  const selectedDayOffWeekdays = getSelectedProfessionalDayOffWeekdays();
   const payload = {
     business_id: targetBusinessId,
     name: (document.getElementById("newProfName") as HTMLInputElement).value.trim(),
     role: (document.getElementById("newProfRole") as HTMLInputElement).value.trim(),
     emoji: (document.getElementById("newProfEmoji") as HTMLInputElement).value.trim() || "👤",
     active: (document.getElementById("newProfActive") as HTMLInputElement).checked,
-    day_off_weekday: readNullableValue("newProfDayOffWeekday") ? Number(readNullableValue("newProfDayOffWeekday")) : null,
+    day_off_weekday: selectedDayOffWeekdays[0] ?? null,
+    day_off_weekdays: selectedDayOffWeekdays.length ? selectedDayOffWeekdays : null,
     vacation_start: readNullableValue("newProfVacationStart"),
     vacation_end: readNullableValue("newProfVacationEnd"),
     lunch_start: readNullableValue("newProfLunchStart"),

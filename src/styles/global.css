@@ -550,6 +550,13 @@
   .support-config-card{display:flex;flex-direction:column;gap:14px;margin-bottom:18px;}
   .support-config-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;}
   .support-config-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end;}
+  .professional-avatar-picker{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;}
+  .professional-avatar-option,.professional-service-option,.professional-dayoff-option{border:1px solid rgba(124,58,237,.14);background:#fff;border-radius:16px;cursor:pointer;transition:.18s ease;box-shadow:0 8px 20px rgba(30,27,75,.04);}
+  .professional-avatar-option{display:flex;align-items:center;justify-content:center;min-height:56px;font-size:26px;}
+  .professional-avatar-option.is-selected,.professional-service-option.is-selected,.professional-dayoff-option.is-selected{border-color:#7c3aed;background:linear-gradient(135deg,#f4ebff 0%,#eef4ff 100%);box-shadow:0 12px 24px rgba(124,58,237,.12);}
+  .professional-service-picker,.professional-dayoff-picker{display:flex;flex-wrap:wrap;gap:10px;}
+  .professional-service-option,.professional-dayoff-option{padding:10px 14px;font-size:14px;font-weight:700;color:#1f2956;}
+  .professional-service-option.is-selected,.professional-dayoff-option.is-selected{color:#6d28d9;}
   .support-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;margin-bottom:18px;}
   .support-filter-row{display:flex;gap:10px;flex-wrap:wrap;}
   .support-filter-btn{min-width:110px;}
@@ -718,6 +725,7 @@
     .support-hero h3{font-size:28px;}
     .support-toolbar{grid-template-columns:1fr;}
     .support-config-row{grid-template-columns:1fr;}
+    .professional-avatar-picker{grid-template-columns:repeat(4,minmax(0,1fr));}
     .support-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
     .body-support #supportBusinessList{grid-template-columns:1fr;}
     .support-business-grid{grid-template-columns:1fr;}
