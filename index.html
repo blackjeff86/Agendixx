@@ -560,6 +560,11 @@
       <div class="brand-sub">Precisamos de algumas informações antes de liberar o painel.</div>
       <form class="stack" onsubmit="event.preventDefault(); completeInitialSetup();">
         <div class="input-group">
+          <label for="setupEmail">E-mail da compra</label>
+          <input type="email" id="setupEmail" readonly />
+          <div class="helper-text">Esse e-mail vem da sua compra na Kiwify e não pode ser alterado aqui.</div>
+        </div>
+        <div class="input-group">
           <label for="setupBusinessName">Nome do negócio</label>
           <input type="text" id="setupBusinessName" placeholder="Ex: Studio Bella" required />
         </div>
