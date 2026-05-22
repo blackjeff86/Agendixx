@@ -36,6 +36,18 @@ export function getAppBaseUrl(): string {
 }
 
 export const SUPPORT_ACCOUNT_EMAIL = "agendafacil26@gmail.com";
+const DEFAULT_MANUAL_ACCESS_ALLOWED_EMAILS = [SUPPORT_ACCOUNT_EMAIL, "leofialhooficial@gmail.com"];
+export const MANUAL_ACCESS_ALLOWED_EMAILS = Array.from(
+  new Set(
+    [
+      ...DEFAULT_MANUAL_ACCESS_ALLOWED_EMAILS,
+      ...String(import.meta.env.VITE_MANUAL_ACCESS_ALLOWED_EMAILS || "")
+        .split(",")
+        .map((value) => value.trim().toLowerCase())
+        .filter(Boolean),
+    ].map((value) => value.trim().toLowerCase())
+  )
+);
 export const STANDARD_MONTHLY_PRICE = 59.9;
 export const SUPPORT_PAGE_SIZE = 6;
 export const SUPPORT_WHATSAPP_FALLBACK = String(import.meta.env.VITE_SUPPORT_WHATSAPP_FALLBACK || "(21) 99808-1325").trim();

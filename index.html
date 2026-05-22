@@ -442,6 +442,31 @@
         <button class="btn btn-brand" type="button" onclick="openStarterCheckout()">Quero pagar R$ 29,90</button>
       </div>
     </div>
+
+    <div class="landing-section">
+      <div class="landing-lead-card">
+        <div class="landing-section-heading landing-section-heading-left">
+          <span class="landing-section-kicker">Falar com vendas</span>
+          <h2>Quer entender antes de comprar?</h2>
+          <p class="landing-section-copy">Deixe seu contato e a gente registra seu lead direto no funil comercial da Agendixx para seguir com a abordagem certa.</p>
+        </div>
+        <form class="landing-lead-form" onsubmit="event.preventDefault(); submitLandingLeadForm();">
+          <div class="landing-lead-grid">
+            <div class="input-group"><label for="landingLeadName">Nome *</label><input type="text" id="landingLeadName" placeholder="Seu nome" /></div>
+            <div class="input-group"><label for="landingLeadPhone">WhatsApp *</label><input type="tel" id="landingLeadPhone" inputmode="numeric" maxlength="15" data-br-phone="true" placeholder="(11) 99999-0000" /></div>
+            <div class="input-group"><label for="landingLeadEmail">E-mail</label><input type="email" id="landingLeadEmail" placeholder="voce@email.com" /></div>
+            <div class="input-group"><label for="landingLeadBusinessType">Seu negócio</label><input type="text" id="landingLeadBusinessType" placeholder="Salão, barbearia, clínica..." /></div>
+          </div>
+          <div class="input-group"><label for="landingLeadMessage">Como podemos te ajudar? *</label><textarea id="landingLeadMessage" placeholder="Ex.: quero entender como funciona, preço e se serve para meu salão pequeno."></textarea></div>
+          <input type="text" id="landingLeadHp" class="landing-hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="landing-lead-actions">
+            <button class="btn btn-brand" type="submit">Quero falar com vendas</button>
+            <button class="btn btn-ghost" type="button" onclick="openStarterCheckout()">Prefiro ir direto para o checkout</button>
+          </div>
+          <div class="landing-lead-feedback hidden" id="landingLeadFeedback"></div>
+        </form>
+      </div>
+    </div>
   </section>
 
   <div class="loading-overlay hidden" id="loadingOverlay">
@@ -527,7 +552,7 @@
             </div>
           </div>
           <div class="support-signup-note hidden" id="supportSignupNote">
-            Você está usando o e-mail interno de suporte da Agendixx. Essa conta será criada sem abrir uma loja nova.
+            Esse e-mail foi autorizado manualmente pela Agendixx. A conta será criada sem abrir uma loja nova.
           </div>
           <div class="input-group">
             <label for="signupEmail">E-mail</label>
@@ -945,6 +970,8 @@
         <div class="support-tabs" role="tablist">
           <button type="button" class="support-tab is-active" id="supportTabLojasBtn" role="tab" aria-selected="true" onclick="switchSupportTab('lojas')">Lojas</button>
           <button type="button" class="support-tab" id="supportTabRenovacoesBtn" role="tab" aria-selected="false" onclick="switchSupportTab('renovacoes')">Renovações PIX</button>
+          <button type="button" class="support-tab" id="supportTabLeadsBtn" role="tab" aria-selected="false" onclick="switchSupportTab('leads')">Leads & agentes</button>
+          <button type="button" class="support-tab" id="supportTabAcessosBtn" role="tab" aria-selected="false" onclick="switchSupportTab('acessos')">Acessos manuais</button>
         </div>
 
         <div id="supportPanelLojas">
@@ -1010,6 +1037,156 @@
             <div class="support-renewal-summary" id="supportRenewalSummary"></div>
           </div>
           <div id="supportRenewalList"></div>
+        </div>
+
+        <div id="supportPanelLeads" class="hidden">
+          <div class="card support-renewal-intro">
+            <div class="font-semibold mb-2">Leads comerciais e atuação dos agentes</div>
+            <p class="text-sm text-sub">Veja onde cada lead está no funil, qual agente atuou por último e qual foi a resposta sugerida para continuar a venda do seu SaaS.</p>
+          </div>
+
+          <div class="support-sales-ops-grid">
+            <div class="card support-sales-form-card">
+              <div class="font-semibold mb-2">Cadastrar lead e rodar agente</div>
+              <div class="text-sm text-sub mb-3">Use esse bloco para simular a chegada de um lead real e ver a resposta sugerida no próprio painel.</div>
+              <div class="support-sales-form-grid">
+                <div class="input-group"><label for="supportLeadName">Nome</label><input type="text" id="supportLeadName" placeholder="Mariana" /></div>
+                <div class="input-group"><label for="supportLeadPhone">WhatsApp *</label><input type="tel" id="supportLeadPhone" inputmode="numeric" maxlength="15" data-br-phone="true" placeholder="(11) 99999-0000" /></div>
+                <div class="input-group"><label for="supportLeadEmail">E-mail</label><input type="email" id="supportLeadEmail" placeholder="mariana@email.com" /></div>
+                <div class="input-group"><label for="supportLeadBusinessType">Nicho</label><input type="text" id="supportLeadBusinessType" placeholder="Salão de beleza" /></div>
+                <div class="input-group"><label for="supportLeadSource">Origem</label><input type="text" id="supportLeadSource" placeholder="Instagram, anúncio, indicação..." /></div>
+                <div class="input-group"><label for="supportLeadOwnerName">Responsável</label><input type="text" id="supportLeadOwnerName" placeholder="Dona do negócio / gestor" /></div>
+              </div>
+              <div class="input-group"><label for="supportLeadNotes">Observação interna</label><textarea id="supportLeadNotes" placeholder="Ex.: atende com duas manicures e vive se perdendo no WhatsApp."></textarea></div>
+              <div class="input-group"><label for="supportLeadMessage">Mensagem inicial do lead *</label><textarea id="supportLeadMessage" placeholder="Oi, queria entender como funciona e quanto custa para meu salão."></textarea></div>
+              <label class="support-sales-checkbox"><input type="checkbox" id="supportLeadAutoSend" /> Enviar automaticamente no WhatsApp se o backend estiver configurado</label>
+              <div class="card-actions">
+                <button class="btn btn-brand" type="button" onclick="submitSupportSalesLead()">Criar lead e rodar agente</button>
+              </div>
+            </div>
+
+            <div class="card support-sales-form-card">
+              <div class="font-semibold mb-2">Importar leads em lote</div>
+              <div class="text-sm text-sub mb-3">Uma linha por lead no formato: <strong>nome;telefone;nicho;origem;mensagem;observacao</strong></div>
+              <div class="input-group">
+                <label for="supportLeadImportTextarea">Linhas para importar</label>
+                <textarea id="supportLeadImportTextarea" placeholder="Mariana;(11) 99999-0000;Salão de beleza;Instagram;Oi, queria entender como funciona;Tem equipe de 3 pessoas&#10;Carlos;(21) 98888-0000;Barbearia;Indicação;Quanto custa para barbearia pequena?;Atende sozinho"></textarea>
+              </div>
+              <label class="support-sales-checkbox"><input type="checkbox" id="supportLeadImportAutoSend" /> Enviar automaticamente no WhatsApp durante a importação</label>
+              <div class="card-actions">
+                <button class="btn btn-link" type="button" onclick="importSupportSalesLeads()">Importar e processar lote</button>
+              </div>
+            </div>
+            <div class="card support-sales-form-card">
+              <div class="font-semibold mb-2">Automação interna de follow-up</div>
+              <div class="text-sm text-sub mb-3">Processa leads com próximo contato vencido e gera a próxima resposta comercial direto no histórico do lead.</div>
+              <div class="support-sales-mini-metrics">
+                <div><span>Vencidos agora</span><strong id="supportSalesDueFollowUps">0</strong></div>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-brand" type="button" onclick="processSupportDueFollowUps()">Processar follow-ups vencidos</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="support-toolbar">
+            <div class="card">
+              <div class="input-group" style="margin-bottom:0;">
+                <label for="supportSalesSearch">Buscar lead</label>
+                <input type="text" id="supportSalesSearch" placeholder="Nome, nicho, origem, telefone ou observação" oninput="renderSupportSalesLeads()" />
+              </div>
+            </div>
+            <div class="support-filter-row">
+              <button class="btn btn-link btn-sm support-sales-filter-btn is-active" data-filter="todos" type="button" onclick="setSupportSalesFilter('todos', event)">Todos</button>
+              <button class="btn btn-link btn-sm support-sales-filter-btn" data-filter="novos" type="button" onclick="setSupportSalesFilter('novos', event)">Novos</button>
+              <button class="btn btn-link btn-sm support-sales-filter-btn" data-filter="quentes" type="button" onclick="setSupportSalesFilter('quentes', event)">Quentes</button>
+              <button class="btn btn-link btn-sm support-sales-filter-btn" data-filter="proposta" type="button" onclick="setSupportSalesFilter('proposta', event)">Em proposta</button>
+              <button class="btn btn-link btn-sm support-sales-filter-btn" data-filter="clientes" type="button" onclick="setSupportSalesFilter('clientes', event)">Clientes</button>
+              <button class="btn btn-link btn-sm support-sales-filter-btn" data-filter="followups" type="button" onclick="setSupportSalesFilter('followups', event)">Follow-ups</button>
+            </div>
+          </div>
+
+          <div class="support-stat-grid support-sales-stat-grid">
+            <div class="support-stat-card">
+              <div class="support-stat-label">Leads no radar</div>
+              <div class="support-stat-value" id="supportSalesTotalLeads">0</div>
+            </div>
+            <div class="support-stat-card">
+              <div class="support-stat-label">Leads quentes</div>
+              <div class="support-stat-value" id="supportSalesHotLeads">0</div>
+            </div>
+            <div class="support-stat-card">
+              <div class="support-stat-label">Em proposta</div>
+              <div class="support-stat-value" id="supportSalesProposalLeads">0</div>
+            </div>
+            <div class="support-stat-card">
+              <div class="support-stat-label">Viraram clientes</div>
+              <div class="support-stat-value" id="supportSalesWonLeads">0</div>
+            </div>
+          </div>
+
+          <div class="support-section-head">
+            <div>
+              <h3>Fila comercial</h3>
+              <p id="supportSalesResultsLabel">0 lead(s) encontrado(s)</p>
+            </div>
+          </div>
+
+          <div id="supportSalesLeadList"></div>
+        </div>
+
+        <div id="supportPanelAcessos" class="hidden">
+          <div class="card support-renewal-intro">
+            <div class="font-semibold mb-2">Allowlist de acessos manuais</div>
+            <p class="text-sm text-sub">Libere e-mails específicos para criar conta fora da Kiwify e entrar no painel interno da plataforma.</p>
+          </div>
+
+          <div class="support-access-grid">
+            <div class="card support-sales-form-card">
+              <div class="font-semibold mb-2">Liberar novo e-mail</div>
+              <div class="text-sm text-sub mb-3">Esse acesso cria ou reativa o e-mail na allowlist com perfil de administrador da plataforma.</div>
+              <div class="input-group">
+                <label for="supportManualAccessEmail">E-mail autorizado</label>
+                <input type="email" id="supportManualAccessEmail" placeholder="leofialhooficial@gmail.com" />
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-brand" type="button" onclick="saveSupportManualAccess()">Salvar acesso manual</button>
+              </div>
+            </div>
+
+            <div class="card support-sales-form-card">
+              <div class="font-semibold mb-2">Resumo da allowlist</div>
+              <div class="text-sm text-sub mb-3">Use a busca e os filtros para revisar quem ainda pode criar conta fora da Kiwify.</div>
+              <div class="support-sales-mini-metrics support-access-mini-metrics">
+                <div><span>Total</span><strong id="supportManualAccessTotal">0</strong></div>
+                <div><span>Ativos</span><strong id="supportManualAccessActive">0</strong></div>
+                <div><span>Inativos</span><strong id="supportManualAccessInactive">0</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="support-toolbar">
+            <div class="card">
+              <div class="input-group" style="margin-bottom:0;">
+                <label for="supportManualAccessSearch">Buscar e-mail</label>
+                <input type="text" id="supportManualAccessSearch" placeholder="Digite parte do e-mail" oninput="renderSupportManualAccessList()" />
+              </div>
+            </div>
+            <div class="support-filter-row">
+              <button class="btn btn-link btn-sm support-access-filter-btn is-active" data-filter="ativos" type="button" onclick="setSupportManualAccessFilter('ativos', event)">Ativos</button>
+              <button class="btn btn-link btn-sm support-access-filter-btn" data-filter="inativos" type="button" onclick="setSupportManualAccessFilter('inativos', event)">Inativos</button>
+              <button class="btn btn-link btn-sm support-access-filter-btn" data-filter="todos" type="button" onclick="setSupportManualAccessFilter('todos', event)">Todos</button>
+            </div>
+          </div>
+
+          <div class="support-section-head">
+            <div>
+              <h3>E-mails autorizados</h3>
+              <p id="supportManualAccessResultsLabel">0 acesso(s) encontrado(s)</p>
+            </div>
+          </div>
+
+          <div id="supportManualAccessList"></div>
         </div>
       </div>
     </div>
@@ -1612,6 +1789,41 @@
       <div class="input-group"><label for="seriesEditNotes">Observações</label><textarea id="seriesEditNotes"></textarea></div>
       <button class="btn btn-brand" type="button" onclick="saveSeriesEdit()">Salvar recorrência</button>
       <button class="btn btn-ghost mt-2" type="button" onclick="closeModal('modalSeriesEdit')">Cancelar</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalSupportSalesLead">
+    <div class="modal-sheet">
+      <div class="font-bold text-lg" id="supportSalesReplayTitle">Rodar agente</div>
+      <p class="text-sm text-sub mb-3" id="supportSalesReplayMeta">Lead selecionado</p>
+      <div class="input-group">
+        <label for="supportSalesReplayMessage">Nova mensagem do lead</label>
+        <textarea id="supportSalesReplayMessage" placeholder="Ex.: gostei, mas queria entender o valor e como funciona o teste."></textarea>
+      </div>
+      <label class="support-sales-checkbox"><input type="checkbox" id="supportSalesReplayAutoSend" /> Enviar automaticamente no WhatsApp se o backend estiver configurado</label>
+      <div class="modal-actions">
+        <button class="btn btn-link" type="button" onclick="closeSupportSalesLeadModal()">Cancelar</button>
+        <button class="btn btn-brand" type="button" onclick="runSupportSalesAgentForExistingLead()">Rodar agente</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalSupportSalesFollowUp">
+    <div class="modal-sheet">
+      <div class="font-bold text-lg" id="supportSalesFollowUpTitle">Agendar follow-up</div>
+      <p class="text-sm text-sub mb-3" id="supportSalesFollowUpMeta">Lead selecionado</p>
+      <div class="input-group">
+        <label for="supportSalesFollowUpDate">Próximo contato</label>
+        <input type="datetime-local" id="supportSalesFollowUpDate" />
+      </div>
+      <div class="input-group">
+        <label for="supportSalesFollowUpNote">Orientação para o próximo contato</label>
+        <textarea id="supportSalesFollowUpNote" placeholder="Ex.: retomar com foco em preço, teste ou prova social."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-link" type="button" onclick="closeSupportSalesFollowUpModal()">Cancelar</button>
+        <button class="btn btn-brand" type="button" onclick="saveSupportSalesFollowUp()">Salvar follow-up</button>
+      </div>
     </div>
   </div>
 

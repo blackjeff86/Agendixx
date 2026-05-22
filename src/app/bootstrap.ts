@@ -91,12 +91,24 @@ export async function loadSupportBusinesses(): Promise<void> {
   if (!state.isPlatformAdmin) {
     state.supportBusinesses = [];
     state.supportEvents = [];
+    state.supportSalesLeads = [];
+    state.supportSalesConversations = [];
+    state.supportSalesRuns = [];
+    state.supportManualAccessEntries = [];
     return;
   }
-  const data = await supportService.fetchAllBusinesses();
-  state.supportBusinesses = data.filter((business) => !isSupportInternalBusiness(business));
+  const [businessesData, salesData, manualAccessData] = await Promise.all([
+    supportService.fetchAllBusinesses(),
+    supportService.fetchSalesDashboardData(),
+    supportService.fetchManualAccessAllowlist(),
+  ]);
+  state.supportBusinesses = businessesData.filter((business) => !isSupportInternalBusiness(business));
   const businessIds = state.supportBusinesses.map((business) => business.id);
   state.supportEvents = await supportService.fetchSupportEventsForBusinessIds(businessIds);
+  state.supportSalesLeads = salesData.leads;
+  state.supportSalesConversations = salesData.conversations;
+  state.supportSalesRuns = salesData.runs;
+  state.supportManualAccessEntries = manualAccessData;
   renderSupportBusinesses();
 }
 

@@ -1,6 +1,6 @@
 import { getAppBaseUrl, KIWIFY_STARTER_CHECKOUT_URL } from "../config/env";
 import * as authService from "../services/authService";
-import { isSupportAccountEmail } from "../ui/render/supportPanel";
+import { isManualAccessAllowedEmail } from "../ui/render/supportPanel";
 import { normalizeSignupPlan, syncEntryViewFromUrl, switchAuthMode } from "./authUi";
 import { state } from "../state/store";
 import { applyBodyMode, showLoading, showScreen, showToast } from "../ui/dom";
@@ -148,8 +148,9 @@ export async function completePasswordRecovery(): Promise<void> {
 }
 
 export async function doSignup(): Promise<void> {
-  const isSupportSignup = isSupportAccountEmail((document.getElementById("signupEmail") as HTMLInputElement).value.trim());
-  if (!isSupportSignup) {
+  const signupEmail = (document.getElementById("signupEmail") as HTMLInputElement).value.trim();
+  const isManualAccessSignup = isManualAccessAllowedEmail(signupEmail);
+  if (!isManualAccessSignup) {
     showToast("Novos acessos são liberados após a compra na Kiwify. Faça a compra e depois entre com o mesmo e-mail usado no pagamento.");
     switchAuthMode("login");
     return;
@@ -167,20 +168,20 @@ export async function doSignup(): Promise<void> {
     plan_name: planNameFromTier(draft.plan_tier),
   };
 
-  if ((!isSupportSignup && (!draft.name || !draft.slug)) || !draft.email || !draft.password) {
+  if ((!isManualAccessSignup && (!draft.name || !draft.slug)) || !draft.email || !draft.password) {
     showToast("Preencha todos os campos para criar a conta.");
     return;
   }
 
   showLoading(true);
   try {
-    if (isSupportSignup) {
+    if (isManualAccessSignup) {
       localStorage.removeItem("agendixx_pending_setup");
     } else {
       localStorage.setItem("agendixx_pending_setup", JSON.stringify(businessDraft));
     }
     const { data, error } = await authService.signUp(draft.email, draft.password, {
-      data: isSupportSignup
+      data: isManualAccessSignup
         ? {}
         : {
             pending_business: {
@@ -197,7 +198,7 @@ export async function doSignup(): Promise<void> {
     if (data.session?.user) {
       state.session = data.session;
       state.user = data.user;
-      if (!isSupportSignup) {
+      if (!isManualAccessSignup) {
         await createBusinessAndSeed(businessDraft);
       }
       await loadAdminExperience();
@@ -205,8 +206,8 @@ export async function doSignup(): Promise<void> {
     }
 
     showToast(
-      isSupportSignup
-        ? "Conta interna criada. Confirme seu e-mail e depois faça login no painel de suporte."
+      isManualAccessSignup
+        ? "Conta autorizada criada. Confirme seu e-mail e depois faça login."
         : "Conta criada. Confirme seu e-mail no Supabase e depois faça login."
     );
     switchAuthMode("login");

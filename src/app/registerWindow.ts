@@ -1,13 +1,14 @@
 import { openModal as openModalOverlay } from "../ui/dom";
 import * as appointment from "./appointmentActions";
 import * as auth from "./authActions";
+import * as landing from "./landingActions";
 import { switchAuthMode, syncSignupPlanChoice } from "./authUi";
 import * as merchant from "./merchantActions";
 import { clearDashboardDateFilter, filterAppt, filterApptHistory, navTo, selectDashboardDate } from "./navigation";
 import { confirmPlanUpgradeToPro, openPlanUpgradeModal } from "./planActions";
 import * as pub from "./publicFlow";
 import { toggleRecurrenceFields } from "./publicData";
-import { renderSupportBusinesses } from "../ui/render/supportPanel";
+import { renderSupportBusinesses, renderSupportManualAccessList, renderSupportSalesLeads } from "../ui/render/supportPanel";
 import { openCustomerWhatsApp, openSupportWhatsApp, renderCustomers, toggleCustomerVipFilter } from "../ui/render/merchantDashboard";
 import * as support from "./supportUiActions";
 import * as onboarding from "./onboarding";
@@ -25,6 +26,7 @@ export function registerWindowActions(): void {
     sendPasswordRecovery: auth.sendPasswordRecovery,
     completePasswordRecovery: auth.completePasswordRecovery,
     openStarterCheckout: auth.openStarterCheckout,
+    submitLandingLeadForm: landing.submitLandingLeadForm,
     showPublicBooking: pub.showPublicBooking,
     completeInitialSetup: auth.completeInitialSetup,
     logout: auth.logout,
@@ -103,6 +105,8 @@ export function registerWindowActions(): void {
     toggleCardMenu: merchant.toggleCardMenu,
     closeConfirmActionModal: appointment.closeConfirmActionModal,
     renderSupportBusinesses,
+    renderSupportManualAccessList,
+    renderSupportSalesLeads,
     filterCustomers: renderCustomers,
     toggleCustomerVipFilter,
     openCustomerWhatsApp,
@@ -122,6 +126,21 @@ export function registerWindowActions(): void {
     supportBatchRenewalWhatsapp: support.supportBatchRenewalWhatsapp,
     openRenewalReminderWhatsApp: support.openRenewalReminderWhatsApp,
     setSupportFilter: support.setSupportFilter,
+    setSupportSalesFilter: support.setSupportSalesFilter,
+    setSupportManualAccessFilter: support.setSupportManualAccessFilter,
+    saveSupportManualAccess: support.saveSupportManualAccess,
+    disableSupportManualAccess: support.disableSupportManualAccess,
+    enableSupportManualAccess: support.enableSupportManualAccess,
+    submitSupportSalesLead: support.submitSupportSalesLead,
+    importSupportSalesLeads: support.importSupportSalesLeads,
+    openSupportSalesLeadModal: support.openSupportSalesLeadModal,
+    closeSupportSalesLeadModal: support.closeSupportSalesLeadModal,
+    runSupportSalesAgentForExistingLead: support.runSupportSalesAgentForExistingLead,
+    openSupportSalesFollowUpModal: support.openSupportSalesFollowUpModal,
+    closeSupportSalesFollowUpModal: support.closeSupportSalesFollowUpModal,
+    saveSupportSalesFollowUp: support.saveSupportSalesFollowUp,
+    markSupportSalesFollowUpDone: support.markSupportSalesFollowUpDone,
+    processSupportDueFollowUps: support.processSupportDueFollowUps,
     openSupportPublicLink: support.openSupportPublicLink,
     openModal: openModalOverlay,
     closeModal: appointment.closeModal,

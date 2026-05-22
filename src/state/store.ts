@@ -12,7 +12,11 @@ import type {
   PublicData,
   CustomerPortalData,
   BillingAccessRow,
+  ManualAccessAllowlistRow,
   PlatformSettingsRow,
+  SalesAgentRunRow,
+  SalesConversationRow,
+  SalesLeadRow,
   ServiceRow,
   SupportEventRow,
 } from "../types";
@@ -49,9 +53,16 @@ export interface AppState {
   pendingConfirmAction: (() => Promise<void>) | null;
   supportBusinesses: Business[];
   supportEvents: SupportEventRow[];
+  supportSalesLeads: SalesLeadRow[];
+  supportSalesConversations: SalesConversationRow[];
+  supportSalesRuns: SalesAgentRunRow[];
+  supportManualAccessEntries: ManualAccessAllowlistRow[];
   supportSelectedBusinessId: string | null;
+  supportSelectedSalesLeadId: string | null;
   supportContextBusinessId: string | null;
   supportFilter: string;
+  supportSalesFilter: string;
+  supportManualAccessFilter: string;
   supportPage: number;
   platformSettings: PlatformSettingsRow | null;
   publicData: PublicData;
@@ -84,9 +95,16 @@ export const state: AppState = {
   pendingConfirmAction: null,
   supportBusinesses: [],
   supportEvents: [],
+  supportSalesLeads: [],
+  supportSalesConversations: [],
+  supportSalesRuns: [],
+  supportManualAccessEntries: [],
   supportSelectedBusinessId: null,
+  supportSelectedSalesLeadId: null,
   supportContextBusinessId: null,
   supportFilter: "todos",
+  supportSalesFilter: "todos",
+  supportManualAccessFilter: "ativos",
   supportPage: 1,
   platformSettings: null,
   publicData: {

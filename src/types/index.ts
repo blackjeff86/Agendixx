@@ -81,6 +81,13 @@ export interface PlatformSettingsRow {
   updated_at?: string;
 }
 
+export interface ManualAccessAllowlistRow {
+  email: string;
+  role: "platform_admin";
+  active: boolean;
+  created_at?: string;
+}
+
 export interface AppointmentSeriesRow {
   id: string;
   business_id: string;
@@ -157,6 +164,69 @@ export interface BillingAccessRow {
   raw_payload?: unknown;
   created_at?: string;
   updated_at?: string;
+}
+
+export type SalesStage = "new" | "qualifying" | "qualified" | "proposal" | "won" | "lost" | "nurture";
+
+export type SalesTemperature = "cold" | "warm" | "hot";
+
+export type SalesAgentKey = "sdr" | "qualifier" | "closer" | "followup" | "onboarding";
+
+export interface SalesLeadRow {
+  id: string;
+  name?: string | null;
+  phone: string;
+  normalized_phone: string;
+  email?: string | null;
+  business_type?: string | null;
+  source?: string | null;
+  owner_name?: string | null;
+  stage: SalesStage;
+  temperature: SalesTemperature;
+  notes?: string | null;
+  next_follow_up_at?: string | null;
+  follow_up_status?: "none" | "scheduled" | "due" | "done";
+  follow_up_note?: string | null;
+  follow_up_attempts?: number;
+  last_human_action_at?: string | null;
+  last_agent_key?: SalesAgentKey | null;
+  last_inbound_at?: string | null;
+  last_outbound_at?: string | null;
+  metadata?: Record<string, unknown> | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface SalesConversationRow {
+  id: string;
+  lead_id: string;
+  channel: "whatsapp" | "site" | "instagram" | "email";
+  direction: "inbound" | "outbound" | "internal";
+  agent_key?: SalesAgentKey | null;
+  message_text: string;
+  metadata?: Record<string, unknown> | null;
+  created_at?: string;
+}
+
+export interface SalesAgentRunRow {
+  id: string;
+  lead_id: string;
+  agent_key: SalesAgentKey;
+  stage_before: SalesStage;
+  stage_after: SalesStage;
+  temperature: SalesTemperature;
+  response_text: string;
+  handoff_human: boolean;
+  next_step?: string | null;
+  reasoning_summary?: string | null;
+  auto_sent: boolean;
+  created_at?: string;
+}
+
+export interface SalesDashboardData {
+  leads: SalesLeadRow[];
+  conversations: SalesConversationRow[];
+  runs: SalesAgentRunRow[];
 }
 
 export interface ServiceDraft {

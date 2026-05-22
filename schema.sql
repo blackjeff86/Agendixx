@@ -67,6 +67,22 @@ create table if not exists public.platform_admins (
 
 alter table public.platform_admins add column if not exists active boolean default true;
 
+create table if not exists public.manual_access_allowlist (
+  email text primary key,
+  role text not null default 'platform_admin',
+  active boolean not null default true,
+  created_at timestamptz default now(),
+  check (role in ('platform_admin'))
+);
+
+insert into public.manual_access_allowlist (email, role, active)
+values
+  ('agendafacil26@gmail.com', 'platform_admin', true),
+  ('leofialhooficial@gmail.com', 'platform_admin', true)
+on conflict (email) do update
+  set role = excluded.role,
+      active = excluded.active;
+
 create table if not exists public.platform_settings (
   id smallint primary key default 1 check (id = 1),
   support_whatsapp text,
@@ -345,6 +361,7 @@ alter table public.platform_settings enable row level security;
 alter table public.user_directory   enable row level security;
 alter table public.billing_access   enable row level security;
 alter table public.billing_webhook_events enable row level security;
+alter table public.manual_access_allowlist enable row level security;
 alter table public.customers        enable row level security;
 alter table public.appointment_series enable row level security;
 alter table public.support_events   enable row level security;
@@ -397,6 +414,27 @@ begin
      and provider = 'kiwify'
      and coalesce(auth_user_id, '00000000-0000-0000-0000-000000000000'::uuid) <> new.id;
 
+  if exists (
+    select 1
+    from public.manual_access_allowlist
+    where lower(email) = lower(coalesce(new.email, ''))
+      and active = true
+  ) then
+    update public.platform_admins
+       set email = lower(coalesce(new.email, email)),
+           active = true
+     where user_id = new.id;
+
+    insert into public.platform_admins (user_id, email, active, created_at)
+    select new.id, lower(new.email), true, coalesce(new.created_at, now())
+    where not exists (
+      select 1
+      from public.platform_admins
+      where user_id = new.id
+         or lower(email) = lower(coalesce(new.email, ''))
+    );
+  end if;
+
   return new;
 end;
 $$;
@@ -439,6 +477,28 @@ on conflict (user_id) do update
       phone = excluded.phone,
       updated_at = now();
 
+update public.platform_admins
+   set email = lower(u.email),
+       active = true
+  from public.user_directory u
+  join public.manual_access_allowlist allowlist
+    on lower(allowlist.email) = lower(coalesce(u.email, ''))
+ where public.platform_admins.user_id = u.user_id
+   and allowlist.active = true;
+
+insert into public.platform_admins (user_id, email, active, created_at)
+select u.user_id, lower(u.email), true, coalesce(u.created_at, now())
+from public.user_directory u
+join public.manual_access_allowlist allowlist
+  on lower(allowlist.email) = lower(coalesce(u.email, ''))
+where allowlist.active = true
+  and not exists (
+    select 1
+    from public.platform_admins pa
+    where pa.user_id = u.user_id
+       or lower(pa.email) = lower(coalesce(u.email, ''))
+  );
+
 update public.businesses b
    set owner_email = u.email
   from public.user_directory u
@@ -469,6 +529,7 @@ drop policy if exists "billing_access_self_or_platform_admin" on public.billing_
 drop policy if exists "owner_manage_customers" on public.customers;
 drop policy if exists "owner_manage_series" on public.appointment_series;
 drop policy if exists "platform_admin_manage_support_events" on public.support_events;
+drop policy if exists "manual_access_allowlist_platform_admin_manage" on public.manual_access_allowlist;
 drop policy if exists "owner_select_business" on public.businesses;
 drop policy if exists "owner_insert_business" on public.businesses;
 drop policy if exists "owner_update_business" on public.businesses;
@@ -522,6 +583,12 @@ create policy "owner_manage_series" on public.appointment_series
   );
 
 create policy "platform_admin_manage_support_events" on public.support_events
+  for all using (public.is_platform_admin())
+  with check (public.is_platform_admin());
+
+grant select, insert, update on public.manual_access_allowlist to authenticated;
+
+create policy "manual_access_allowlist_platform_admin_manage" on public.manual_access_allowlist
   for all using (public.is_platform_admin())
   with check (public.is_platform_admin());
 
