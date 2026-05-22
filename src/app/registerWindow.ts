@@ -131,6 +131,7 @@ export function registerWindowActions(): void {
     saveSupportManualAccess: support.saveSupportManualAccess,
     disableSupportManualAccess: support.disableSupportManualAccess,
     enableSupportManualAccess: support.enableSupportManualAccess,
+    changeSupportManualAccessRole: support.changeSupportManualAccessRole,
     submitSupportSalesLead: support.submitSupportSalesLead,
     importSupportSalesLeads: support.importSupportSalesLeads,
     openSupportSalesLeadModal: support.openSupportSalesLeadModal,

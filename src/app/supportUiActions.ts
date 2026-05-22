@@ -289,6 +289,24 @@ export async function enableSupportManualAccess(email: string): Promise<void> {
   }
 }
 
+export async function changeSupportManualAccessRole(
+  email: string,
+  role: "platform_admin" | "store_owner"
+): Promise<void> {
+  showLoading(true);
+  try {
+    await supportService.updateManualAccessEntry(email, { role });
+    await loadSupportBusinesses();
+    switchSupportTab("acessos");
+    showToast(role === "platform_admin" ? "Acesso alterado para admin da plataforma." : "Acesso alterado para dono de loja.");
+  } catch (error) {
+    console.error(error);
+    showToast(getErrorMessage(error));
+  } finally {
+    showLoading(false);
+  }
+}
+
 export async function submitSupportSalesLead(): Promise<void> {
   const phone = readValue("supportLeadPhone");
   const message = readValue("supportLeadMessage");

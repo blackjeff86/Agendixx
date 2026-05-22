@@ -244,6 +244,12 @@ export function renderSupportManualAccessList(): void {
       ? "Quando esse e-mail cria conta, o sistema libera acesso interno sem abrir uma loja nova."
       : "Quando esse e-mail cria conta, o sistema libera cadastro fora da Kiwify e permite criar a própria loja.";
 
+  const renderRoleActionLabel = (entry: ManualAccessAllowlistRow) =>
+    entry.role === "platform_admin" ? "Tornar dono de loja" : "Tornar admin da plataforma";
+
+  const renderRoleActionTarget = (entry: ManualAccessAllowlistRow) =>
+    entry.role === "platform_admin" ? "store_owner" : "platform_admin";
+
   list.innerHTML = filtered.length
     ? filtered
         .map(
@@ -262,6 +268,13 @@ export function renderSupportManualAccessList(): void {
                 ${renderRoleNote(entry)}
               </div>
               <div class="card-actions">
+                <button
+                  class="btn btn-ghost btn-sm"
+                  type="button"
+                  onclick="changeSupportManualAccessRole('${entry.email}','${renderRoleActionTarget(entry)}')"
+                >
+                  ${renderRoleActionLabel(entry)}
+                </button>
                 <button
                   class="btn ${entry.active ? "btn-warning" : "btn-success"} btn-sm"
                   type="button"
