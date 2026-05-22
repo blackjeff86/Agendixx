@@ -3,6 +3,7 @@ import type {
   Business,
   CustomerRow,
   ManualAccessAllowlistRow,
+  ManualAccessRole,
   PlatformSettingsRow,
   SalesAgentRunRow,
   SalesConversationRow,
@@ -75,11 +76,11 @@ export async function fetchManualAccessAllowlist(): Promise<ManualAccessAllowlis
   return (data ?? []) as ManualAccessAllowlistRow[];
 }
 
-export async function saveManualAccessEntry(email: string): Promise<ManualAccessAllowlistRow> {
+export async function saveManualAccessEntry(email: string, role: ManualAccessRole): Promise<ManualAccessAllowlistRow> {
   const normalizedEmail = String(email || "").trim().toLowerCase();
   const { data, error } = await getSupabase()
     .from("manual_access_allowlist")
-    .upsert({ email: normalizedEmail, role: "platform_admin", active: true }, { onConflict: "email" })
+    .upsert({ email: normalizedEmail, role, active: true }, { onConflict: "email" })
     .select("*")
     .single();
   if (error) throw error;

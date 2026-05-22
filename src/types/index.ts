@@ -81,9 +81,11 @@ export interface PlatformSettingsRow {
   updated_at?: string;
 }
 
+export type ManualAccessRole = "platform_admin" | "store_owner";
+
 export interface ManualAccessAllowlistRow {
   email: string;
-  role: "platform_admin";
+  role: ManualAccessRole;
   active: boolean;
   created_at?: string;
 }

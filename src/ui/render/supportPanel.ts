@@ -22,7 +22,7 @@ import { state } from "../../state/store";
 import { buildWhatsAppWebUrlWithText } from "../../utils/phone";
 import type { Business, ManualAccessAllowlistRow } from "../../types";
 import { emptyStateHtml } from "../components/emptyState";
-import { MANUAL_ACCESS_ALLOWED_EMAILS, SUPPORT_ACCOUNT_EMAIL } from "../../config/env";
+import { SUPPORT_ACCOUNT_EMAIL } from "../../config/env";
 
 type RenewalVisualState = {
   label: string;
@@ -61,16 +61,6 @@ function getRenewalVisualState(business: Business, due?: Date | null): RenewalVi
 
 export function isSupportAccountEmail(email?: string | null): boolean {
   return String(email || "").trim().toLowerCase() === SUPPORT_ACCOUNT_EMAIL;
-}
-
-export function isManualAccessAllowedEmail(email?: string | null): boolean {
-  return MANUAL_ACCESS_ALLOWED_EMAILS.includes(String(email || "").trim().toLowerCase());
-}
-
-export function getManualAccessSignupMessage(email?: string | null): string {
-  return isSupportAccountEmail(email)
-    ? "Você está usando o e-mail interno de suporte da Agendixx. Essa conta será criada sem abrir uma loja nova."
-    : "Esse e-mail foi autorizado manualmente pela Agendixx. A conta será criada sem passar pela Kiwify e sem abrir uma loja nova.";
 }
 
 export function isSupportInternalBusiness(business: Business | undefined | null): boolean {
@@ -247,7 +237,12 @@ export function renderSupportManualAccessList(): void {
   if (!list) return;
 
   const renderRoleLabel = (entry: ManualAccessAllowlistRow) =>
-    entry.role === "platform_admin" ? "Admin da plataforma" : entry.role;
+    entry.role === "platform_admin" ? "Admin da plataforma" : "Dono de loja";
+
+  const renderRoleNote = (entry: ManualAccessAllowlistRow) =>
+    entry.role === "platform_admin"
+      ? "Quando esse e-mail cria conta, o sistema libera acesso interno sem abrir uma loja nova."
+      : "Quando esse e-mail cria conta, o sistema libera cadastro fora da Kiwify e permite criar a própria loja.";
 
   list.innerHTML = filtered.length
     ? filtered
@@ -264,7 +259,7 @@ export function renderSupportManualAccessList(): void {
                 <span class="badge ${entry.active ? "badge-success" : "badge-danger"}">${entry.active ? "Ativo" : "Inativo"}</span>
               </div>
               <div class="support-access-note">
-                Quando esse e-mail cria conta, o sistema libera cadastro fora da Kiwify e concede acesso interno automaticamente.
+                ${renderRoleNote(entry)}
               </div>
               <div class="card-actions">
                 <button

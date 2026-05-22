@@ -237,6 +237,7 @@ export function setSupportManualAccessFilter(filter: string, event?: Event): voi
 
 export async function saveSupportManualAccess(): Promise<void> {
   const email = readValue("supportManualAccessEmail").toLowerCase();
+  const role = readValue("supportManualAccessRole") === "platform_admin" ? "platform_admin" : "store_owner";
   if (!email || !email.includes("@")) {
     showToast("Informe um e-mail válido para liberar o acesso manual.");
     return;
@@ -244,7 +245,7 @@ export async function saveSupportManualAccess(): Promise<void> {
 
   showLoading(true);
   try {
-    await supportService.saveManualAccessEntry(email);
+    await supportService.saveManualAccessEntry(email, role);
     const input = document.getElementById("supportManualAccessEmail") as HTMLInputElement | null;
     if (input) input.value = "";
     await loadSupportBusinesses();

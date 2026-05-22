@@ -1,18 +1,15 @@
-create table if not exists public.manual_access_allowlist (
-  email text primary key,
-  role text not null default 'store_owner',
-  active boolean not null default true,
-  created_at timestamptz default now(),
-  check (role in ('platform_admin','store_owner'))
-);
+alter table public.manual_access_allowlist drop constraint if exists manual_access_allowlist_role_check;
+alter table public.manual_access_allowlist
+  add constraint manual_access_allowlist_role_check
+  check (role in ('platform_admin','store_owner'));
 
-insert into public.manual_access_allowlist (email, role, active)
-values
-  ('agendafacil26@gmail.com', 'platform_admin', true),
-  ('leofialhooficial@gmail.com', 'store_owner', true)
-on conflict (email) do update
-  set role = excluded.role,
-      active = excluded.active;
+alter table public.manual_access_allowlist
+  alter column role set default 'store_owner';
+
+update public.manual_access_allowlist
+   set role = 'store_owner',
+       active = true
+ where lower(email) = 'leofialhooficial@gmail.com';
 
 create or replace function public.get_manual_access_role(p_email text)
 returns text

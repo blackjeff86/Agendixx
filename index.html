@@ -1144,10 +1144,17 @@
           <div class="support-access-grid">
             <div class="card support-sales-form-card">
               <div class="font-semibold mb-2">Liberar novo e-mail</div>
-              <div class="text-sm text-sub mb-3">Esse acesso cria ou reativa o e-mail na allowlist com perfil de administrador da plataforma.</div>
+              <div class="text-sm text-sub mb-3">Escolha se esse e-mail vai entrar como admin interno ou como dono de loja liberado fora da Kiwify.</div>
               <div class="input-group">
                 <label for="supportManualAccessEmail">E-mail autorizado</label>
                 <input type="email" id="supportManualAccessEmail" placeholder="leofialhooficial@gmail.com" />
+              </div>
+              <div class="input-group">
+                <label for="supportManualAccessRole">Tipo de acesso</label>
+                <select id="supportManualAccessRole">
+                  <option value="store_owner">Dono de loja</option>
+                  <option value="platform_admin">Admin da plataforma</option>
+                </select>
               </div>
               <div class="card-actions">
                 <button class="btn btn-brand" type="button" onclick="saveSupportManualAccess()">Salvar acesso manual</button>

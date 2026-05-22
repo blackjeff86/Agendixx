@@ -1,6 +1,6 @@
 import { state } from "../state/store";
 import { showScreen } from "../ui/dom";
-import { getManualAccessSignupMessage, isManualAccessAllowedEmail, isSupportAccountEmail } from "../ui/render/supportPanel";
+import { isSupportAccountEmail } from "../ui/render/supportPanel";
 
 const SIGNUP_PLAN_STORAGE_KEY = "agendixx_signup_plan";
 const PUBLIC_PRO_SIGNUPS_ENABLED = false;
@@ -68,7 +68,6 @@ export function syncSignupFormMode(): void {
   const emailEl = document.getElementById("signupEmail") as HTMLInputElement | null;
   const email = emailEl?.value || "";
   const isSupportSignup = isSupportAccountEmail(email);
-  const isManualAccessSignup = isManualAccessAllowedEmail(email);
   const businessFields = document.getElementById("signupBusinessFields");
   const supportNote = document.getElementById("supportSignupNote");
   const submitButton = document.getElementById("signupSubmitButton");
@@ -79,18 +78,14 @@ export function syncSignupFormMode(): void {
     return;
   }
 
-  businessFields.classList.toggle("hidden", isManualAccessSignup);
-  supportNote.classList.toggle("hidden", !isManualAccessSignup);
-  supportNote.textContent = getManualAccessSignupMessage(email);
-  businessName.required = !isManualAccessSignup;
-  slug.required = !isManualAccessSignup;
-  submitButton.textContent = isSupportSignup
-    ? "Criar conta de suporte"
-    : isManualAccessSignup
-      ? "Criar conta autorizada"
-      : "Acesso liberado pela Kiwify";
-  document.getElementById("signupPlanWrap")?.classList.toggle("hidden", isManualAccessSignup);
-  if (!isManualAccessSignup) {
+  businessFields.classList.toggle("hidden", isSupportSignup);
+  supportNote.classList.toggle("hidden", !isSupportSignup);
+  supportNote.textContent = "Você está usando o e-mail interno de suporte da Agendixx. Essa conta será criada sem abrir uma loja nova.";
+  businessName.required = !isSupportSignup;
+  slug.required = !isSupportSignup;
+  submitButton.textContent = isSupportSignup ? "Criar conta de suporte" : "Criar conta e negócio";
+  document.getElementById("signupPlanWrap")?.classList.toggle("hidden", isSupportSignup);
+  if (!isSupportSignup) {
     syncSignupPlanChoice(getSelectedSignupPlan(), false);
   }
 }

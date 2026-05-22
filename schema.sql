@@ -69,19 +69,35 @@ alter table public.platform_admins add column if not exists active boolean defau
 
 create table if not exists public.manual_access_allowlist (
   email text primary key,
-  role text not null default 'platform_admin',
+  role text not null default 'store_owner',
   active boolean not null default true,
   created_at timestamptz default now(),
-  check (role in ('platform_admin'))
+  check (role in ('platform_admin','store_owner'))
 );
 
 insert into public.manual_access_allowlist (email, role, active)
 values
   ('agendafacil26@gmail.com', 'platform_admin', true),
-  ('leofialhooficial@gmail.com', 'platform_admin', true)
+  ('leofialhooficial@gmail.com', 'store_owner', true)
 on conflict (email) do update
   set role = excluded.role,
       active = excluded.active;
+
+create or replace function public.get_manual_access_role(p_email text)
+returns text
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select role
+    from public.manual_access_allowlist
+   where lower(email) = lower(coalesce(p_email, ''))
+     and active = true
+   limit 1;
+$$;
+
+grant execute on function public.get_manual_access_role(text) to anon, authenticated;
 
 create table if not exists public.platform_settings (
   id smallint primary key default 1 check (id = 1),
@@ -418,6 +434,7 @@ begin
     select 1
     from public.manual_access_allowlist
     where lower(email) = lower(coalesce(new.email, ''))
+      and role = 'platform_admin'
       and active = true
   ) then
     update public.platform_admins
@@ -484,6 +501,7 @@ update public.platform_admins
   join public.manual_access_allowlist allowlist
     on lower(allowlist.email) = lower(coalesce(u.email, ''))
  where public.platform_admins.user_id = u.user_id
+   and allowlist.role = 'platform_admin'
    and allowlist.active = true;
 
 insert into public.platform_admins (user_id, email, active, created_at)
@@ -491,13 +509,17 @@ select u.user_id, lower(u.email), true, coalesce(u.created_at, now())
 from public.user_directory u
 join public.manual_access_allowlist allowlist
   on lower(allowlist.email) = lower(coalesce(u.email, ''))
-where allowlist.active = true
+where allowlist.role = 'platform_admin'
+  and allowlist.active = true
   and not exists (
     select 1
     from public.platform_admins pa
     where pa.user_id = u.user_id
        or lower(pa.email) = lower(coalesce(u.email, ''))
   );
+
+delete from public.platform_admins
+ where lower(email) = 'leofialhooficial@gmail.com';
 
 update public.businesses b
    set owner_email = u.email
